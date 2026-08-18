@@ -1,0 +1,96 @@
+/* Design tokens. Definitions only — this file must never produce visual output.
+   Deliberately unlayered: custom properties resolve by inheritance, so cascade
+   layers add nothing here. */
+
+:root {
+  --glass-blur: 12px;
+  --transition: all 200ms cubic-bezier(0.4, 0, 0.2, 1);
+
+  --primary-color: hsl(143 64% 24%);
+  --primary-color-alpha-12: hsl(143 64% 24% / 0.12);
+  --on-primary-color: hsl(0 0% 100%);
+  --accent-color: hsl(23 98% 46%);
+  --on-accent-color: hsl(0 0% 0%);
+
+  --dark-color: hsl(214 45% 7%);
+  --dark-color-alpha-05: hsl(214 45% 7% / 0.05);
+  --dark-color-alpha-10: hsl(214 45% 7% / 0.1);
+  --dark-color-alpha-20: hsl(214 45% 7% / 0.2);
+  --dark-color-lighten-30: hsl(214 45% 30%);
+
+  --gray-color: hsl(0 0% 80%);
+  --dark-gray-color: hsl(0 0% 46%);
+
+  --white-color: hsl(0 0% 100%);
+  --white-color-alpha-05: hsl(0 0% 100% / 0.05);
+  --white-color-alpha-15: hsl(0 0% 100% / 0.15);
+  --white-color-alpha-20: hsl(0 0% 100% / 0.2);
+  --white-color-darken-30: hsl(0 0% 70%);
+
+  --font-sans:
+    'IBM Plex Sans', -apple-system, BlinkMacSystemFont, 'Segoe UI', 'Helvetica Neue', Arial,
+    sans-serif, 'Apple Color Emoji', 'Segoe UI Emoji', 'Segoe UI Symbol';
+  --font-serif: 'IBM Plex Serif', Georgia, Cambria, 'Times New Roman', Times, serif;
+  --font-arabic-sans: 'Thmanyah Sans', sans-serif;
+  --font-arabic-display: 'Thmanyah Serif Display', serif;
+
+  --text-size-1: 0.875rem;
+  --text-size-2: 1rem;
+
+  --spacing-0: 0rem; /* 0px */
+  --spacing-1: 0.125rem; /* 2px */
+  --spacing-2: 0.25rem; /* 4px */
+  --spacing-3: 0.375rem; /* 6px */
+  --spacing-4: 0.5rem; /* 8px */
+  --spacing-5: 0.625rem; /* 10px */
+  --spacing-6: 0.75rem; /* 12px */
+  --spacing-7: 0.875rem; /* 14px */
+  --spacing-8: 1rem; /* 16px */
+  --spacing-10: 1.25rem; /* 20px */
+  --spacing-11: 1.5rem; /* 24px */
+  --spacing-13: 2rem; /* 32px */
+  --spacing-15: 2.5rem; /* 40px */
+  --spacing-18: 3.25rem; /* 52px */
+  --spacing-20: 3.75rem; /* 60px */
+
+  /* Radius: consolidates the 14 distinct values found in the audit.
+     4px, 8px, 10px, .65rem -> sm | 12px, 15px, 0.75rem -> md
+     1rem, 1.25rem, 1.5rem  -> lg | 20px, 999px -> pill | 50% -> circle */
+  --radius-sm: 0.5rem;
+  --radius-md: 0.75rem;
+  --radius-lg: 1rem;
+  --radius-pill: 999px;
+  --radius-circle: 50%;
+
+  /* Elevation: promoted from values already hardcoded across components. */
+  --shadow-sm: 0 1px 3px var(--glass-shadow);
+  --shadow-md: 0 8px 25px rgb(0 0 0 / 0.1);
+
+  /* Motion: normalizes the -1px / -2px / -4px hover lifts to one distance. */
+  --lift: -2px;
+}
+
+html,
+html.light {
+  --theme-bg-color: hsl(0 0% 100%);
+  --theme-text-color: hsl(0 0% 0%);
+  --text-color: hsl(0 0% 0%);
+  --primary-text-color: hsl(143 64% 24%);
+  --text-color-light: hsl(0 0% 60%);
+  --code-bg: hsl(0 0% 90%);
+  --border-color: hsl(0 0% 80%);
+  --glass-bg: hsl(0 0% 100% / 0.2);
+  --glass-shadow: hsl(0 0 0 / 0.1);
+}
+
+html.dark {
+  --theme-bg-color: hsl(0 0% 0%);
+  --theme-text-color: hsl(0 0% 100%);
+  --text-color: hsl(0 0% 100%);
+  --primary-text-color: hsl(142 69% 58%);
+  --text-color-light: hsl(0 0% 60%);
+  --code-bg: hsl(0 0% 10%);
+  --border-color: hsl(0 0% 20%);
+  --glass-bg: hsl(0 0% 0% / 0.2);
+  --glass-shadow: hsl(0 0% 0% / 0.1);
+}
