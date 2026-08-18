@@ -29,7 +29,7 @@
     "storybook": "storybook dev -p 6006",
     "build-storybook": "storybook build",
     "check": "npm run format:check && npm run lint && npm run typecheck && npm run build && npm run build-storybook",
-    "prepack": "npm run build"
+    "prepare": "npm run build"
   },
   "keywords": [
     "vue",

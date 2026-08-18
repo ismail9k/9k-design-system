@@ -66,6 +66,10 @@ withDefaults(
     flex-direction: column;
     align-items: center;
   }
+  .page-header--with-avatar .page-header__body :deep(.cluster) {
+    justify-content: center;
+  }
+
   .page-header-title {
     max-width: 15ch;
   }
