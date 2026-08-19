@@ -36,3 +36,9 @@ body,
 .i9k-arabic-display {
   font-family: var(--font-arabic-display);
 }
+
+:lang(ar) .page-header-title,
+.i9k-arabic .page-header-title {
+  line-height: 1.2;
+  letter-spacing: 0;
+}
