@@ -6,6 +6,7 @@ export { default as I9kBlurredCircles } from './components/I9kBlurredCircles.vue
 export { default as I9kBrandWordmark } from './components/I9kBrandWordmark.vue';
 export { default as I9kFaqList } from './components/I9kFaqList.vue';
 export { default as I9kFooter } from './components/I9kFooter.vue';
+export { default as I9kGithubEmbed } from './components/I9kGithubEmbed.vue';
 export { default as I9kIcon } from './components/I9kIcon.vue';
 export { default as I9kLanguageSwitcher } from './components/I9kLanguageSwitcher.vue';
 export { default as I9kNavigation } from './components/I9kNavigation.vue';
