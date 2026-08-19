@@ -5,7 +5,6 @@ const meta = {
   title: 'Components/I9kSectionHeading',
   component: I9kSectionHeading,
   args: {
-    number: '03',
     title: 'Speaking',
     description: 'Practical sessions grounded in building, shipping, and leading with AI.',
   },
@@ -15,4 +14,3 @@ export default meta;
 type Story = StoryObj<typeof meta>;
 
 export const Default: Story = {};
-export const WithoutNumber: Story = { args: { number: null } };

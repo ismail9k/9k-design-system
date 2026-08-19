@@ -1,20 +1,18 @@
 <script setup lang="ts">
 withDefaults(
   defineProps<{
-    kicker?: string | null;
     title: string;
     description?: string | null;
     id?: string | null;
     level?: 1 | 2 | 3 | 4 | 5 | 6;
   }>(),
-  { kicker: null, description: null, id: null, level: 1 },
+  { description: null, id: null, level: 1 },
 );
 </script>
 
 <template>
   <header class="page-header" :class="{ 'page-header--with-avatar': $slots.avatar }">
     <div class="page-header__body">
-      <p v-if="kicker" class="eyebrow">{{ kicker }}</p>
       <component :is="`h${level}`" :id="id ?? undefined" class="main-title page-header-title">{{
         title
       }}</component>
@@ -45,7 +43,7 @@ withDefaults(
 }
 .page-header-title {
   max-width: 16ch;
-  margin-top: var(--spacing-3);
+  margin-top: 0;
   margin-bottom: var(--spacing-8);
   font-size: clamp(2.35rem, 1.8rem + 2.75vw, 4rem);
   line-height: 0.98;

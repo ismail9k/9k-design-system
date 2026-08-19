@@ -5,7 +5,6 @@ const meta = {
   title: 'Components/I9kPageHeader',
   component: I9kPageHeader,
   args: {
-    kicker: 'Speaker and media kit',
     title: 'Practical AI from someone who ships.',
     description:
       'Practical talks for builders and technology teams, grounded in real product work.',

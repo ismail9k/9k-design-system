@@ -51,25 +51,6 @@
     }
   }
 
-  /* ---------------------------------------------------------------- eyebrow */
-
-  .eyebrow {
-    margin: 0 0 var(--spacing-4);
-    color: var(--primary-text-color);
-    font-size: 0.8rem;
-    font-weight: 800;
-    letter-spacing: 0.12em;
-    text-transform: uppercase;
-  }
-
-  .eyebrow--muted {
-    color: var(--text-color-light);
-  }
-
-  .eyebrow--number {
-    font-variant-numeric: tabular-nums;
-  }
-
   /* ------------------------------------------------------------------ badge */
 
   .badge {
