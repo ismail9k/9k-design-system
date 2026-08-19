@@ -13,7 +13,7 @@ withDefaults(
 
 <template>
   <aside class="surface profile-card">
-    <div class="profile-card__avatar">
+    <div v-if="$slots.avatar || avatarSrc" class="profile-card__avatar">
       <slot name="avatar">
         <img
           v-if="avatarSrc"
@@ -30,7 +30,7 @@ withDefaults(
         <template v-if="namePrefix">{{ namePrefix }} </template>{{ name
         }}<span v-if="alias" class="profile-card__alias"> · {{ alias }}</span>
       </p>
-      <p class="profile-card__bio"><slot /></p>
+      <div v-if="$slots.default" class="profile-card__bio"><slot /></div>
       <div v-if="$slots.actions" class="cluster cluster--tight profile-card__actions">
         <slot name="actions" />
       </div>

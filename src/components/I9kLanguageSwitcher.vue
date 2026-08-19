@@ -1,11 +1,25 @@
 <script setup lang="ts">
-withDefaults(defineProps<{ label: string; href: string; hreflang?: string | null }>(), {
-  hreflang: null,
-});
+import { computed } from 'vue';
+
+const props = withDefaults(
+  defineProps<{
+    label: string;
+    href: string;
+    hreflang?: string | null;
+    linkComponent?: string | object | null;
+  }>(),
+  { hreflang: null, linkComponent: null },
+);
+const tag = computed(() => props.linkComponent ?? 'a');
 </script>
 <template>
-  <a class="language-switcher" :href="href" :hreflang="hreflang ?? undefined"
-    ><slot>{{ label }}</slot></a
+  <component
+    :is="tag"
+    class="language-switcher"
+    :to="linkComponent ? href : undefined"
+    :href="!linkComponent ? href : undefined"
+    :hreflang="hreflang ?? undefined"
+    ><slot>{{ label }}</slot></component
   >
 </template>
 <style scoped>

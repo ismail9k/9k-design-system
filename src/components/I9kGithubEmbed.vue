@@ -31,6 +31,7 @@ const href = computed(() => `https://github.com/${props.repo}`);
 }
 .github-embed__link:hover .github-embed__repo {
   color: var(--primary-text-color);
+  text-decoration: underline;
 }
 .github-embed__repo {
   font-size: 1.1rem;
