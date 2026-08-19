@@ -10,6 +10,7 @@ export { default as I9kGithubEmbed } from './components/I9kGithubEmbed.vue';
 export { default as I9kIcon } from './components/I9kIcon.vue';
 export { default as I9kLanguageSwitcher } from './components/I9kLanguageSwitcher.vue';
 export { default as I9kNavigation } from './components/I9kNavigation.vue';
+export { default as I9kProfileCard } from './components/I9kProfileCard.vue';
 export { default as I9kSocialLinks } from './components/I9kSocialLinks.vue';
 export { default as I9kThemeSwitcher } from './components/I9kThemeSwitcher.vue';
 
