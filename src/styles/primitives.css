@@ -507,4 +507,86 @@
       display: none;
     }
   }
+
+  /* ------------------------------------------------------------------ field */
+
+  .field {
+    display: flex;
+    flex-direction: column;
+    gap: var(--spacing-2);
+    margin-block-end: var(--spacing-8);
+  }
+
+  .field__label {
+    font-size: var(--text-size-1);
+    font-weight: 600;
+    color: var(--text-color);
+  }
+
+  .field__input {
+    padding: var(--spacing-5) var(--spacing-6);
+    border: 1px solid var(--border-color);
+    border-radius: var(--radius-sm);
+    background: var(--glass-bg);
+    color: var(--text-color);
+    font-size: var(--text-size-2);
+    font-family: inherit;
+    transition: var(--transition);
+  }
+
+  .field__input:focus-visible {
+    outline: 2px solid var(--accent-color);
+    outline-offset: 1px;
+    border-color: var(--accent-color);
+  }
+
+  .field__input[aria-invalid='true'] {
+    border-color: var(--accent-color);
+  }
+
+  .field__hint {
+    font-size: var(--text-size-1);
+    color: var(--text-color-light);
+  }
+
+  .field__error {
+    font-size: var(--text-size-1);
+    color: var(--accent-color);
+    font-weight: 600;
+  }
+
+  /* ------------------------------------------------------------------ toast */
+
+  .toast {
+    display: flex;
+    align-items: flex-start;
+    gap: var(--spacing-5);
+    padding: var(--spacing-6) var(--spacing-8);
+    border: 1px solid var(--border-color);
+    border-radius: var(--radius-md);
+    background: var(--glass-bg);
+    backdrop-filter: blur(var(--glass-blur));
+    font-size: var(--text-size-1);
+  }
+
+  .toast--info {
+    border-color: var(--border-color);
+    color: var(--text-color);
+  }
+
+  .toast--success {
+    border-color: var(--primary-color);
+    color: var(--primary-text-color);
+  }
+
+  .toast--error {
+    border-color: var(--accent-color);
+    color: var(--accent-color);
+  }
+
+  @media (prefers-reduced-motion: reduce) {
+    .field__input {
+      transition: none;
+    }
+  }
 }
