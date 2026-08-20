@@ -4,6 +4,8 @@ import { useAttrs, useId } from 'vue';
 
 type InputType = 'text' | 'email' | 'password';
 
+defineOptions({ inheritAttrs: false });
+
 withDefaults(
   defineProps<{
     modelValue: string;
