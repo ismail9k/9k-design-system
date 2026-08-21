@@ -1,3 +1,5 @@
+/// <reference types="vitest/config" />
+
 import { defineConfig } from 'vite';
 import vue from '@vitejs/plugin-vue';
 import { dirname, resolve } from 'node:path';
@@ -7,6 +9,10 @@ const rootDir = dirname(fileURLToPath(import.meta.url));
 
 export default defineConfig({
   plugins: [vue()],
+  test: {
+    environment: 'jsdom',
+    include: ['tests/**/*.test.ts'],
+  },
   build: {
     assetsInlineLimit: 0,
     lib: {

@@ -64,6 +64,8 @@ Arabic text automatically uses Thmanyah Sans through `:lang(ar)`. Arabic heading
 ```bash
 npm install
 npm run storybook
+npm test
+npm run test:watch
 npm run format:check
 npm run lint
 npm run typecheck
@@ -72,6 +74,6 @@ npm run build-storybook
 npm pack --dry-run
 ```
 
-`npm run check` runs the formatter, linter, TypeScript checks, library build, and static Storybook build in one command.
+`npm test` runs Vitest once; `npm run test:watch` reruns affected unit tests while developing. `npm run check` runs tests, formatting, linting, TypeScript checks, the library build, and the static Storybook build in one command.
 
 Storybook provides isolated component documentation, light and dark theme previews, and accessibility checks. It is development tooling only and is excluded from the published npm tarball.
