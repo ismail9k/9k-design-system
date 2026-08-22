@@ -1,0 +1,16 @@
+/* Apply the active theme tokens to page and design-system surfaces. */
+
+html,
+html.light {
+  color-scheme: light;
+}
+
+html.dark {
+  color-scheme: dark;
+}
+
+body,
+.i9k-root {
+  background-color: var(--theme-bg-color);
+  color: var(--theme-text-color);
+}
