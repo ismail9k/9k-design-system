@@ -19,9 +19,11 @@
 .surface--feature {
   border-radius: var(--radius-lg);
   border-color: color-mix(in srgb, var(--accent-color) 46%, var(--border-color));
-  background: linear-gradient(135deg,
-      color-mix(in srgb, var(--primary-color) 12%, transparent),
-      var(--glass-bg));
+  background: linear-gradient(
+    135deg,
+    color-mix(in srgb, var(--primary-color) 12%, transparent),
+    var(--glass-bg)
+  );
 }
 
 .surface--flat {
@@ -115,7 +117,6 @@
 }
 
 @media (max-width: 768px) {
-
   .grid--2,
   .grid--3,
   .grid--auto {
@@ -217,6 +218,8 @@
 }
 
 /* -------------------------------------------------------------------- btn */
+/* Temporary website compatibility. I9kButton owns its current appearance in scoped SFC styles;
+   remove this block only after the migration ledger reports zero .btn usage. */
 
 .btn {
   display: inline-flex;
@@ -498,6 +501,8 @@
   }
 }
 
+/* Temporary website compatibility. I9kInput owns its current appearance in scoped SFC styles;
+   remove this block only after the migration ledger reports zero .field usage. */
 /* ------------------------------------------------------------------ field */
 
 .field {
@@ -547,6 +552,8 @@
 
 /* ------------------------------------------------------------------ toast */
 
+/* Temporary website compatibility. I9kToast owns its current appearance in scoped SFC styles;
+   remove this block only after the migration ledger reports zero .toast usage. */
 .toast {
   display: flex;
   align-items: flex-start;

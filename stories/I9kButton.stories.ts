@@ -10,6 +10,7 @@ const meta = {
       control: 'select',
       options: ['default', 'primary', 'link', 'filter', 'pagination', 'page'],
     },
+    size: { control: 'select', options: ['sm', 'md', 'lg'] },
   },
 } satisfies Meta<typeof I9kButton>;
 
@@ -36,5 +37,13 @@ export const States: Story = {
     components: { I9kButton },
     template:
       '<div class="cluster"><I9kButton>Default</I9kButton><I9kButton variant="primary">Primary</I9kButton><I9kButton variant="link">Link</I9kButton><I9kButton variant="filter" active>Selected</I9kButton><I9kButton disabled>Disabled</I9kButton></div>',
+  }),
+};
+
+export const Sizes: Story = {
+  render: () => ({
+    components: { I9kButton },
+    template:
+      '<div class="cluster"><I9kButton size="sm">Small</I9kButton><I9kButton size="md">Medium</I9kButton><I9kButton size="lg">Large</I9kButton></div>',
   }),
 };

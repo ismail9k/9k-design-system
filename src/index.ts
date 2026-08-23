@@ -1,5 +1,7 @@
 import './styles/index.css';
 
+export type { I9kComponentSize, I9kTone } from './types/components';
+
 export { default as I9kArticleHeader } from './components/I9kArticleHeader.vue';
 export { default as I9kAsciiEmoji } from './components/I9kAsciiEmoji.vue';
 export { default as I9kBlurredCircles } from './components/I9kBlurredCircles.vue';

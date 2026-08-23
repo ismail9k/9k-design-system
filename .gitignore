@@ -1,5 +1,6 @@
 node_modules/
 dist/
 storybook-static/
+.worktrees/
 *.tgz
 .DS_Store
