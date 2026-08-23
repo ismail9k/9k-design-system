@@ -551,6 +551,8 @@
 
 /* ------------------------------------------------------------------ toast */
 
+/* Temporary website compatibility. I9kToast owns its current appearance in scoped SFC styles;
+   remove this block only after the migration ledger reports zero .toast usage. */
 .toast {
   display: flex;
   align-items: flex-start;
