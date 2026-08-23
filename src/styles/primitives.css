@@ -163,6 +163,8 @@
 
 /* ---------------------------------------------------------------- cluster */
 
+/* Temporary website compatibility. Scoped components own action layout;
+   remove this block only after the migration ledger reports zero direct .cluster usage. */
 .cluster {
   display: flex;
   flex-wrap: wrap;
