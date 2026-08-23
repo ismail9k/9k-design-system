@@ -1,5 +1,9 @@
-@import 'normalize.css';
-@import './fonts.css';
-@import './tokens.css';
-@import './theme.css';
-@import './primitives.css';
+@layer normalize, fonts, tokens, theme, base, primitives, utilities;
+
+@import 'normalize.css' layer(normalize);
+@import './fonts.css' layer(fonts);
+@import './tokens.css' layer(tokens);
+@import './theme.css' layer(theme);
+@import './base.css' layer(base);
+@import './primitives.css' layer(primitives);
+@import './utilities.css' layer(utilities);

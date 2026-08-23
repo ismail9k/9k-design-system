@@ -13,7 +13,7 @@ withDefaults(
 <template>
   <header class="page-header" :class="{ 'page-header--with-avatar': $slots.avatar }">
     <div class="page-header__body">
-      <component :is="`h${level}`" :id="id ?? undefined" class="main-title page-header-title">{{
+      <component :is="`h${level}`" :id="id ?? undefined" class="page-header-title">{{
         title
       }}</component>
       <slot name="subtitle" />
@@ -46,6 +46,7 @@ withDefaults(
   margin-top: 0;
   margin-bottom: var(--spacing-8);
   font-size: clamp(2.35rem, 1.8rem + 2.75vw, 4rem);
+  font-weight: 700;
   line-height: 0.98;
   letter-spacing: -0.045em;
   text-wrap: balance;

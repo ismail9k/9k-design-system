@@ -1,0 +1,28 @@
+/* Shared branded element defaults. Keep this layer below class primitives so
+   components such as anchor-backed buttons can override generic elements. */
+
+* {
+  box-sizing: border-box;
+}
+
+html {
+  font-size: 1rem;
+  line-height: 1.5;
+}
+
+a {
+  color: inherit;
+  font-weight: 700;
+  text-decoration-thickness: 0.1em;
+  text-underline-position: under;
+  transition: var(--transition);
+}
+
+a:hover {
+  text-decoration-color: var(--accent-color);
+}
+
+:where(a, button, input, select, textarea):focus-visible {
+  outline: 3px solid var(--accent-color);
+  outline-offset: 3px;
+}

@@ -1,6 +1,6 @@
 /* Design tokens. Definitions only — this file must never produce visual output.
-   Deliberately unlayered: custom properties resolve by inheritance, so cascade
-   layers add nothing here. */
+   Imported into the tokens layer so consumer overrides have a predictable place
+   in the shared cascade. */
 
 :root {
   --glass-blur: 12px;

@@ -9,6 +9,7 @@ html.dark {
   color-scheme: dark;
 }
 
+html,
 body,
 .i9k-root {
   background-color: var(--theme-bg-color);

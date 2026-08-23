@@ -36,6 +36,14 @@ describe('theme styles', () => {
     expect(rootStyles.getPropertyValue('--theme-text-color')).toBe('hsl(0 0% 100%)');
   });
 
+  it('applies the active theme background to the document root', () => {
+    document.documentElement.classList.add('dark');
+
+    expect(getComputedStyle(document.documentElement).backgroundColor).toBe(
+      'var(--theme-bg-color)',
+    );
+  });
+
   it('uses the dark color scheme for native controls', () => {
     document.documentElement.classList.add('dark');
 

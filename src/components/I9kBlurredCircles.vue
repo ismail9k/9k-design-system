@@ -13,7 +13,6 @@
 .i9k-blurred-circles {
   position: fixed;
   inset: 0;
-  z-index: -1;
   overflow: hidden;
   pointer-events: none;
 }
@@ -21,7 +20,7 @@
   position: absolute;
   border-radius: var(--radius-circle);
   filter: blur(80px);
-  opacity: 0.2;
+  opacity: 0.1;
   animation: i9k-float 20s ease-in-out infinite;
 }
 .i9k-blurred-circle--1 {

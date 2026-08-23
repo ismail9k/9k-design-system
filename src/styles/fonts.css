@@ -32,9 +32,10 @@ body,
   font-family: var(--font-sans);
 }
 
-:lang(ar) :is(h1, h2, h3, h4, h5, h6, .title, .main-title, .page-header-title),
+:lang(ar) :is(h1, h2, h3, h4, h5, h6, .page-header-title, .section-heading-title),
 .i9k-arabic-display {
   font-family: var(--font-arabic-display);
+  font-feature-settings: 'ss01';
 }
 
 :lang(ar) .page-header-title.page-header-title,
