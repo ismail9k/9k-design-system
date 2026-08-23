@@ -5,7 +5,10 @@ const meta = {
   title: 'Components/I9kToast',
   component: I9kToast,
   args: { variant: 'info' },
-  argTypes: { variant: { control: 'select', options: ['info', 'success', 'error'] } },
+  argTypes: {
+    variant: { control: 'select', options: ['info', 'success', 'error'] },
+    size: { control: 'select', options: ['sm', 'md', 'lg'] },
+  },
 } satisfies Meta<typeof I9kToast>;
 
 export default meta;
@@ -33,5 +36,13 @@ export const Rtl: Story = {
     components: { I9kToast },
     setup: () => ({ args }),
     template: '<div lang="ar" dir="rtl"><I9kToast v-bind="args">تم الحفظ بنجاح</I9kToast></div>',
+  }),
+};
+
+export const Sizes: Story = {
+  render: () => ({
+    components: { I9kToast },
+    template:
+      '<div class="grid"><I9kToast size="sm">Small notification</I9kToast><I9kToast size="md">Medium notification</I9kToast><I9kToast size="lg">Large notification</I9kToast></div>',
   }),
 };

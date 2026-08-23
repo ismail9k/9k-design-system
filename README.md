@@ -27,6 +27,7 @@ The package is framework-agnostic within Vue 3. `I9kButton` uses a normal anchor
 ## Exports
 
 - `I9kButton`
+- `I9kInput`
 - `I9kLinkCard`
 - `I9kPageHeader`
 - `I9kSectionHeading`
@@ -42,7 +43,22 @@ The package is framework-agnostic within Vue 3. `I9kButton` uses a normal anchor
 - `I9kNavigation`
 - `I9kSocialLinks`
 - `I9kThemeSwitcher`
+- `I9kToast`
 - design tokens and primitive CSS via `@ismail9k/9k-design-system/style.css`
+
+## Component sizes and styles
+
+Visual components use the shared `sm`, `md`, and `lg` size scale and default to `md`:
+
+```vue
+<I9kButton size="sm">Compact action</I9kButton>
+<I9kInput v-model="email" label="Email" size="md" />
+<I9kToast size="lg" variant="success">Saved successfully</I9kToast>
+```
+
+Component appearance is scoped to each Vue SFC. The global stylesheet supplies fonts, brand
+tokens, themes, element defaults, accessibility utilities, and temporary compatibility styles
+for the current `ismail9k.com` migration.
 
 ## Typography
 
