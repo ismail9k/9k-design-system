@@ -1,3 +1,5 @@
+/* Temporary website compatibility. Scoped card components own their appearance;
+   remove this block only after the website migration ledger reports zero direct .surface usage. */
 .surface {
   border: 1px solid var(--border-color);
   border-radius: var(--radius-md);
@@ -43,6 +45,9 @@
 }
 
 /* ------------------------------------------------------------------ badge */
+
+/* Temporary website compatibility. Scoped card components own their appearance;
+   remove this block only after the website migration ledger reports zero direct .badge usage. */
 
 .badge {
   display: inline-flex;
