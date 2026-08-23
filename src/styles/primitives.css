@@ -500,6 +500,8 @@
   }
 }
 
+/* Temporary website compatibility. I9kInput owns its current appearance in scoped SFC styles;
+   remove this block only after the migration ledger reports zero .field usage. */
 /* ------------------------------------------------------------------ field */
 
 .field {
