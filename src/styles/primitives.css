@@ -217,6 +217,8 @@
 }
 
 /* -------------------------------------------------------------------- btn */
+/* Temporary website compatibility. I9kButton owns its current appearance in scoped SFC styles;
+   remove this block only after the migration ledger reports zero .btn usage. */
 
 .btn {
   display: inline-flex;

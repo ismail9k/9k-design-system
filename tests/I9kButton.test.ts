@@ -26,4 +26,38 @@ describe('I9kButton', () => {
     expect(link.attributes('type')).toBeUndefined();
     expect(link.classes()).toContain('btn--primary');
   });
+
+  it('uses the medium size by default', () => {
+    const wrapper = mount(I9kButton, { slots: { default: 'Save' } });
+
+    expect(wrapper.get('button').classes()).toEqual(
+      expect.arrayContaining([
+        'btn',
+        'btn--default',
+        'i9k-button',
+        'i9k-button--default',
+        'i9k-button--md',
+      ]),
+    );
+  });
+
+  it.each(['sm', 'md', 'lg'] as const)('renders the %s size', (size) => {
+    const wrapper = mount(I9kButton, {
+      props: { size },
+      slots: { default: size },
+    });
+
+    expect(wrapper.get('button').classes()).toContain(`i9k-button--${size}`);
+  });
+
+  it('keeps the active compatibility class', () => {
+    const wrapper = mount(I9kButton, {
+      props: { variant: 'filter', active: true },
+      slots: { default: 'Selected' },
+    });
+
+    expect(wrapper.get('button').classes()).toEqual(
+      expect.arrayContaining(['btn--filter', 'i9k-button--filter', 'is-active']),
+    );
+  });
 });
