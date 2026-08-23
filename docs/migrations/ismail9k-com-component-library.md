@@ -110,6 +110,15 @@ migration. Replacing router integration is outside this migration's scope.
 | `pages/links.vue`               | `I9kBrandWordmark`, `I9kButton`                                                                                          | Verify compact viewport behavior and external link semantics.                              |
 | `pages/media.vue`               | `I9kPageHeader`, `I9kButton`, `I9kSectionHeading`                                                                        | Replace surfaces, grids, clusters, and the private `.btn` deep override.                   |
 
+## Package Migration Status
+
+| Package component | Scoped replacement ready                      | Website compatibility still required                                  |
+| ----------------- | --------------------------------------------- | --------------------------------------------------------------------- |
+| `I9kAsciiEmoji`   | Yes: scoped size and color styles             | `.emoticon*` remains during migration                                 |
+| `I9kLinkCard`     | Yes: scoped surface, badge, and sizes         | `.surface*` and `.badge*` remain for direct website usage             |
+| `I9kProfileCard`  | Yes: scoped surface, actions, and sizes       | `.surface*` and `.cluster*` remain for direct website usage           |
+| `I9kTimelineCard` | Yes: scoped layout, sizes, and semantic slots | `.timeline*` remains until BlogCard, TalkCard, and the canary migrate |
+
 ## Direct Primitive Usage Batches
 
 ### Batch 0: Baseline and canary

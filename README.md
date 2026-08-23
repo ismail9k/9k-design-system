@@ -54,11 +54,21 @@ Visual components use the shared `sm`, `md`, and `lg` size scale and default to 
 <I9kButton size="sm">Compact action</I9kButton>
 <I9kInput v-model="email" label="Email" ui-size="md" />
 <I9kToast size="lg" variant="success">Saved successfully</I9kToast>
+<I9kAsciiEmoji name="^_^" size="sm" />
+<I9kLinkCard size="md" name="Project" url="https://example.com" description="Description" />
+<I9kProfileCard size="lg" name="Abdelrahman Ismail" />
+<I9kTimelineCard size="md" date="2026-01-25">
+  <template #title><a href="/article">Article title</a></template>
+  Article summary
+</I9kTimelineCard>
 ```
 
 Component appearance is scoped to each Vue SFC. The global stylesheet supplies fonts, brand
 tokens, themes, element defaults, accessibility utilities, and temporary compatibility styles
 for the current `ismail9k.com` migration.
+
+Legacy classes remain emitted during the website compatibility window. New consumers should treat
+`i9k-` classes and component props/slots as the supported contract.
 
 `I9kInput` uses `uiSize` for its visual scale so the native HTML `size` attribute remains available
 for character-based input widths.
