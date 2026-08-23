@@ -184,6 +184,8 @@
 /* Text-native faces keep their deliberate ASCII/pixel character instead of
      being substituted with platform emoji artwork. Use AsciiEmoji for the
      supported expression set and its accessible label. */
+/* Temporary website compatibility. I9kAsciiEmoji owns its appearance in scoped SFC styles;
+   remove this block only after the migration ledger reports zero .emoticon usage. */
 .emoticon {
   display: inline-block;
   color: var(--primary-text-color);
