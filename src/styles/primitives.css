@@ -347,11 +347,9 @@
 }
 
 /* --------------------------------------------------------------- timeline */
-/* Shared chrome for AppTimelineCard, the date-ordered row layout used by
-     BlogCard and TalkCard: a right-aligned date column, a connecting rail,
-     and a card with an optional thumbnail. Consumers render their own
-     title link, body, and thumbnail into AppTimelineCard's slots and apply
-     these classes directly, so the visual language stays in one place. */
+/* Temporary website compatibility. BlogCard.vue, TalkCard.vue, and the website design-system
+   page still render timeline* classes directly; keep this global block until those consumers
+   adopt I9kTimelineCard's semantic title, default, and thumbnail slots. */
 
 .timeline {
   position: relative;
