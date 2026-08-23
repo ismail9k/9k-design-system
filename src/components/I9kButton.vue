@@ -184,7 +184,9 @@ const tag = computed(() => props.linkComponent ?? (isLink.value ? 'a' : 'button'
   opacity: 0.5;
 }
 
-:global(.dark) :is(.i9k-button--filter, .i9k-button--pagination, .i9k-button--page) {
+:global(.dark .i9k-button--filter),
+:global(.dark .i9k-button--pagination),
+:global(.dark .i9k-button--page) {
   border-color: var(--white-color-alpha-20);
 }
 
