@@ -6,7 +6,7 @@ const meta = {
   component: I9kInput,
   args: { modelValue: '', label: 'البريد الإلكتروني', type: 'email' },
   argTypes: {
-    size: { control: 'select', options: ['sm', 'md', 'lg'] },
+    uiSize: { control: 'select', options: ['sm', 'md', 'lg'] },
   },
 } satisfies Meta<typeof I9kInput>;
 
@@ -43,6 +43,6 @@ export const Sizes: Story = {
   render: () => ({
     components: { I9kInput },
     template:
-      '<div><I9kInput model-value="" label="Small" size="sm" /><I9kInput model-value="" label="Medium" size="md" /><I9kInput model-value="" label="Large" size="lg" /></div>',
+      '<div><I9kInput model-value="" label="Small" ui-size="sm" /><I9kInput model-value="" label="Medium" ui-size="md" /><I9kInput model-value="" label="Large" ui-size="lg" /></div>',
   }),
 };

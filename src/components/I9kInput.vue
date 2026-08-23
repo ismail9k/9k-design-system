@@ -16,9 +16,9 @@ withDefaults(
     error?: string | null;
     hint?: string;
     required?: boolean;
-    size?: I9kComponentSize;
+    uiSize?: I9kComponentSize;
   }>(),
-  { type: 'text', error: null, hint: undefined, required: false, size: 'md' },
+  { type: 'text', error: null, hint: undefined, required: false, uiSize: 'md' },
 );
 
 defineEmits<{ 'update:modelValue': [value: string] }>();
@@ -30,13 +30,13 @@ const hintId = `${fieldId}-hint`;
 </script>
 
 <template>
-  <div :class="['field', 'i9k-field', `i9k-field--${size}`]">
+  <div :class="['field', 'i9k-field', `i9k-field--${uiSize}`]">
     <label class="field__label i9k-field__label" :for="fieldId">
       {{ label }}<span v-if="required" aria-hidden="true"> *</span>
     </label>
     <input
       :id="fieldId"
-      :class="['field__input', 'i9k-input', `i9k-input--${size}`]"
+      :class="['field__input', 'i9k-input', `i9k-input--${uiSize}`]"
       :type="type"
       :value="modelValue"
       :required="required"

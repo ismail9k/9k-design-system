@@ -62,6 +62,8 @@ describe('I9kButton compiled styles', () => {
         expect.stringContaining('.dark .i9k-button--page'),
       ]),
     );
-    expect(darkBorderRules.map((rule) => rule.selector)).not.toContain('.dark');
+    expect(darkBorderRules.map((rule) => rule.selector).join('\n')).not.toMatch(
+      /\.dark\[data-v-[^\]]+\]/,
+    );
   });
 });

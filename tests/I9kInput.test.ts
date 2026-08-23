@@ -19,6 +19,15 @@ describe('I9kInput', () => {
     expect(wrapper.emitted('update:modelValue')).toEqual([['person@example.com']]);
   });
 
+  it('forwards the native size attribute to the input', () => {
+    const wrapper = mount(I9kInput, {
+      props: { modelValue: '', label: 'Search' },
+      attrs: { size: 32 },
+    });
+
+    expect(wrapper.get('input').attributes('size')).toBe('32');
+  });
+
   it('associates an error and suppresses the hint', () => {
     const wrapper = mount(I9kInput, {
       props: {
@@ -38,7 +47,7 @@ describe('I9kInput', () => {
 
   it.each(['sm', 'md', 'lg'] as const)('renders the %s size', (size) => {
     const wrapper = mount(I9kInput, {
-      props: { modelValue: '', label: 'Name', size },
+      props: { modelValue: '', label: 'Name', uiSize: size },
     });
 
     expect(wrapper.get('.i9k-field').classes()).toContain(`i9k-field--${size}`);

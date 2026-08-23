@@ -77,6 +77,9 @@ their visual layout contracts remain scoped and documented.
 | `I9kInput` standalone label/error API      | `I9kField` composition with `I9kInput`  | Migrate form fields as one batch so IDs and validation associations remain intact.          |
 | Existing branded components without `size` | Same component with default `size="md"` | Verify the default is visually identical before adding optional explicit sizes.             |
 
+For `I9kInput`, use `uiSize` for visual sizing so the native HTML `size` attribute continues to
+forward to the underlying control.
+
 The existing `to` plus `linkComponent` button integration remains supported during this website
 migration. Replacing router integration is outside this migration's scope.
 

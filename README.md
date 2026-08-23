@@ -52,13 +52,16 @@ Visual components use the shared `sm`, `md`, and `lg` size scale and default to 
 
 ```vue
 <I9kButton size="sm">Compact action</I9kButton>
-<I9kInput v-model="email" label="Email" size="md" />
+<I9kInput v-model="email" label="Email" ui-size="md" />
 <I9kToast size="lg" variant="success">Saved successfully</I9kToast>
 ```
 
 Component appearance is scoped to each Vue SFC. The global stylesheet supplies fonts, brand
 tokens, themes, element defaults, accessibility utilities, and temporary compatibility styles
 for the current `ismail9k.com` migration.
+
+`I9kInput` uses `uiSize` for its visual scale so the native HTML `size` attribute remains available
+for character-based input widths.
 
 ## Typography
 
