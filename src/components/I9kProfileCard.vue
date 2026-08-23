@@ -115,4 +115,10 @@ withDefaults(
   align-items: center;
   gap: var(--component-gap-sm);
 }
+
+@media (prefers-reduced-motion: reduce) {
+  .i9k-profile-card {
+    transition: none;
+  }
+}
 </style>

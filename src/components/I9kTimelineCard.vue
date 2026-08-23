@@ -94,7 +94,7 @@ const formattedDate = computed(() =>
   transform: translateX(-5px);
 }
 
-:global([dir='rtl'] .i9k-timeline-card__rail) {
+.i9k-timeline-card__rail:where([dir='rtl'] *) {
   transform: translateX(5px);
 }
 
@@ -123,11 +123,11 @@ const formattedDate = computed(() =>
   transform: translateY(15px);
 }
 
-:global(.dark .i9k-timeline-card__rail::before) {
+.i9k-timeline-card__rail:where(.dark *)::before {
   border-color: var(--white-color-alpha-20);
 }
 
-:global(.dark .i9k-timeline-card__rail::after) {
+.i9k-timeline-card__rail:where(.dark *)::after {
   background-color: var(--white-color-alpha-20);
 }
 
@@ -180,6 +180,7 @@ const formattedDate = computed(() =>
 }
 
 .i9k-timeline-card__thumbnail :slotted(img) {
+  display: block;
   width: var(--i9k-timeline-thumb-width);
   height: var(--i9k-timeline-thumb-height);
   border: 1px solid var(--border-color);
@@ -207,7 +208,7 @@ const formattedDate = computed(() =>
     backdrop-filter: blur(var(--glass-blur));
   }
 
-  :global([dir='rtl'] .i9k-timeline-card__time) {
+  .i9k-timeline-card__time:where([dir='rtl'] *) {
     transform-origin: right;
   }
 

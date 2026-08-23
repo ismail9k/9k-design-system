@@ -94,7 +94,7 @@ defineEmits<{ click: [event: MouseEvent] }>();
   opacity: 1;
   transform: translate(1px, -1px);
 }
-[dir='rtl'] .link-card:hover .link-card-arrow {
+.link-card:hover .link-card-arrow:where([dir='rtl'] *) {
   transform: translate(-1px, -1px);
 }
 .link-card-badge {
