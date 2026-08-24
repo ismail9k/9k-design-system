@@ -1,53 +1,124 @@
 <!-- src/components/I9kInput.vue -->
 <script setup lang="ts">
-import { useAttrs, useId } from 'vue';
+import { computed, onScopeDispose, useAttrs, useId } from 'vue';
 
+import {
+  hasI9kBooleanAttr,
+  i9kStringAttr,
+  mergeI9kIds,
+  omitI9kAttrs,
+  useI9kField,
+} from '../composables/i9kField';
 import type { I9kComponentSize } from '../types/components';
 
 type InputType = 'text' | 'email' | 'password';
 
 defineOptions({ inheritAttrs: false });
 
-withDefaults(
+const props = withDefaults(
   defineProps<{
     modelValue: string;
-    label: string;
+    label?: string;
     type?: InputType;
     error?: string | null;
     hint?: string;
     required?: boolean;
     uiSize?: I9kComponentSize;
   }>(),
-  { type: 'text', error: null, hint: undefined, required: false, uiSize: 'md' },
+  { type: 'text', error: null, hint: undefined, required: false },
 );
 
 defineEmits<{ 'update:modelValue': [value: string] }>();
 
 const attrs = useAttrs();
-const fieldId = useId();
-const errorId = `${fieldId}-error`;
-const hintId = `${fieldId}-hint`;
+const field = useI9kField();
+const localId = useId();
+const unregister = field?.registerControl();
+
+if (unregister) {
+  onScopeDispose(unregister);
+}
+
+const resolvedId = computed(() => field?.controlId.value ?? i9kStringAttr(attrs.id) ?? localId);
+const resolvedSize = computed(() => props.uiSize ?? field?.size.value ?? 'md');
+const standaloneHintId = computed(() => `${resolvedId.value}-hint`);
+const standaloneErrorId = computed(() => `${resolvedId.value}-error`);
+const localDescription = computed(() =>
+  props.error ? standaloneErrorId.value : props.hint ? standaloneHintId.value : undefined,
+);
+const describedBy = computed(() =>
+  mergeI9kIds(
+    i9kStringAttr(attrs['aria-describedby']),
+    field?.describedBy.value ?? localDescription.value,
+  ),
+);
+const invalid = computed(
+  () => field?.invalid.value || Boolean(props.error) || attrs['aria-invalid'] === 'true',
+);
+const required = computed(
+  () => props.required || Boolean(field?.required.value) || hasI9kBooleanAttr(attrs.required),
+);
+const nativeAttrs = computed(() =>
+  omitI9kAttrs(attrs, ['id', 'required', 'aria-invalid', 'aria-describedby']),
+);
+const isDevelopment = Boolean((import.meta as ImportMeta & { env?: { DEV?: boolean } }).env?.DEV);
+
+if (isDevelopment) {
+  const suppliedId = i9kStringAttr(attrs.id);
+
+  if (field && suppliedId && suppliedId !== field.controlId.value) {
+    console.warn('I9kInput id conflicts with the enclosing I9kField controlId.');
+  }
+
+  if (
+    !field &&
+    !props.label &&
+    !i9kStringAttr(attrs['aria-label']) &&
+    !i9kStringAttr(attrs['aria-labelledby'])
+  ) {
+    console.warn('I9kInput requires an accessible name via label, aria-label, or aria-labelledby.');
+  }
+}
 </script>
 
 <template>
-  <div :class="['field', 'i9k-field', `i9k-field--${uiSize}`]">
-    <label class="field__label i9k-field__label" :for="fieldId">
-      {{ label }}<span v-if="required" aria-hidden="true"> *</span>
+  <input
+    v-if="field"
+    v-bind="nativeAttrs"
+    :id="resolvedId"
+    :class="['field__input', 'i9k-input', `i9k-input--${resolvedSize}`]"
+    :type="props.type"
+    :value="props.modelValue"
+    :required="required"
+    :aria-invalid="invalid ? 'true' : undefined"
+    :aria-describedby="describedBy"
+    @input="$emit('update:modelValue', ($event.target as HTMLInputElement).value)"
+  />
+  <div v-else :class="['field', 'i9k-field', `i9k-field--${resolvedSize}`]">
+    <label class="field__label i9k-field__label" :for="resolvedId">
+      {{ props.label }}<span v-if="required" aria-hidden="true"> *</span>
     </label>
     <input
-      :id="fieldId"
-      :class="['field__input', 'i9k-input', `i9k-input--${uiSize}`]"
-      :type="type"
-      :value="modelValue"
+      v-bind="nativeAttrs"
+      :id="resolvedId"
+      :class="['field__input', 'i9k-input', `i9k-input--${resolvedSize}`]"
+      :type="props.type"
+      :value="props.modelValue"
       :required="required"
-      :aria-invalid="error ? 'true' : undefined"
-      :aria-describedby="error ? errorId : hint ? hintId : undefined"
-      v-bind="attrs"
+      :aria-invalid="invalid ? 'true' : undefined"
+      :aria-describedby="describedBy"
       @input="$emit('update:modelValue', ($event.target as HTMLInputElement).value)"
     />
-    <p v-if="hint && !error" :id="hintId" class="field__hint i9k-field__hint">{{ hint }}</p>
-    <p v-if="error" :id="errorId" class="field__error i9k-field__error" role="alert">
-      {{ error }}
+    <p v-if="props.hint && !props.error" :id="standaloneHintId" class="field__hint i9k-field__hint">
+      {{ props.hint }}
+    </p>
+    <p
+      v-if="props.error"
+      :id="standaloneErrorId"
+      class="field__error i9k-field__error"
+      role="alert"
+    >
+      {{ props.error }}
     </p>
   </div>
 </template>

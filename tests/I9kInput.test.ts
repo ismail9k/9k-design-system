@@ -1,6 +1,8 @@
 import { mount } from '@vue/test-utils';
-import { describe, expect, it } from 'vitest';
+import { defineComponent, h } from 'vue';
+import { describe, expect, it, vi } from 'vitest';
 
+import I9kField from '../src/components/I9kField.vue';
 import I9kInput from '../src/components/I9kInput.vue';
 
 describe('I9kInput', () => {
@@ -52,5 +54,60 @@ describe('I9kInput', () => {
 
     expect(wrapper.get('.i9k-field').classes()).toContain(`i9k-field--${size}`);
     expect(wrapper.get('input').classes()).toContain(`i9k-input--${size}`);
+  });
+
+  it('uses enclosing field semantics without duplicate field chrome', () => {
+    const wrapper = mount(
+      defineComponent({
+        components: { I9kField, I9kInput },
+        template:
+          '<I9kField label="Email" hint="Work address" control-id="email" size="lg" required><I9kInput model-value="" aria-describedby="consumer-note" /></I9kField>',
+      }),
+    );
+    const input = wrapper.get('input');
+
+    expect(wrapper.findAll('.i9k-field')).toHaveLength(1);
+    expect(input.attributes('id')).toBe('email');
+    expect(input.attributes('aria-describedby')?.split(' ')).toEqual([
+      'consumer-note',
+      wrapper.get('.i9k-field__hint').attributes('id'),
+    ]);
+    expect(input.classes()).toContain('i9k-input--lg');
+    expect(input.attributes('required')).toBeDefined();
+  });
+
+  it('lets an explicit input UI size override the field size', () => {
+    const wrapper = mount(I9kField, {
+      props: { label: 'Name', size: 'lg' },
+      slots: { default: () => h(I9kInput, { modelValue: '', uiSize: 'sm' }) },
+    });
+
+    expect(wrapper.get('input').classes()).toContain('i9k-input--sm');
+  });
+
+  it('warns when a field contains multiple library controls', () => {
+    const warn = vi.spyOn(console, 'warn').mockImplementation(() => {});
+    mount(I9kField, {
+      props: { label: 'Names' },
+      slots: {
+        default: () => [h(I9kInput, { modelValue: '' }), h(I9kInput, { modelValue: '' })],
+      },
+    });
+
+    expect(warn).toHaveBeenCalledWith(expect.stringContaining('exactly one registered control'));
+    warn.mockRestore();
+  });
+
+  it('warns for an unnamed standalone input and a conflicting nested ID', () => {
+    const warn = vi.spyOn(console, 'warn').mockImplementation(() => {});
+    mount(I9kInput, { props: { modelValue: '' } });
+    mount(I9kField, {
+      props: { label: 'Email', controlId: 'email' },
+      slots: { default: () => h(I9kInput, { modelValue: '', id: 'different-email' }) },
+    });
+
+    expect(warn).toHaveBeenCalledWith(expect.stringContaining('accessible name'));
+    expect(warn).toHaveBeenCalledWith(expect.stringContaining('controlId'));
+    warn.mockRestore();
   });
 });

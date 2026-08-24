@@ -1,4 +1,6 @@
 import type { Meta, StoryObj } from '@storybook/vue3-vite';
+
+import I9kField from '../src/components/I9kField.vue';
 import I9kInput from '../src/components/I9kInput.vue';
 
 const meta = {
@@ -41,8 +43,32 @@ export const Rtl: Story = {
 
 export const Sizes: Story = {
   render: () => ({
-    components: { I9kInput },
+    components: { I9kField, I9kInput },
     template:
-      '<div><I9kInput model-value="" label="Small" ui-size="sm" /><I9kInput model-value="" label="Medium" ui-size="md" /><I9kInput model-value="" label="Large" ui-size="lg" /></div>',
+      '<div><I9kInput model-value="" label="Standalone small" ui-size="sm" /><I9kInput model-value="" label="Standalone medium" ui-size="md" /><I9kInput model-value="" label="Standalone large" ui-size="lg" /><I9kField label="Field small" size="sm"><I9kInput model-value="" /></I9kField><I9kField label="Field medium" size="md"><I9kInput model-value="" /></I9kField><I9kField label="Field large" size="lg"><I9kInput model-value="" /></I9kField></div>',
+  }),
+};
+
+export const InField: Story = {
+  render: () => ({
+    components: { I9kField, I9kInput },
+    template:
+      '<I9kField label="البريد الإلكتروني" hint="استخدم بريد العمل"><I9kInput model-value="" type="email" /></I9kField>',
+  }),
+};
+
+export const InFieldWithError: Story = {
+  render: () => ({
+    components: { I9kField, I9kInput },
+    template:
+      '<I9kField label="البريد الإلكتروني" error="أدخل بريدًا إلكترونيًا صالحًا"><I9kInput model-value="" type="email" /></I9kField>',
+  }),
+};
+
+export const FieldSizeInheritance: Story = {
+  render: () => ({
+    components: { I9kField, I9kInput },
+    template:
+      '<div><I9kField label="Inherited large" size="lg"><I9kInput model-value="" /></I9kField><I9kField label="Overridden small" size="lg"><I9kInput model-value="" ui-size="sm" /></I9kField></div>',
   }),
 };
