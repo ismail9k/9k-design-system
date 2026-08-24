@@ -138,7 +138,7 @@ const formattedDate = computed(() =>
   align-items: flex-start;
   gap: var(--component-gap-lg);
   padding: var(--i9k-timeline-card-padding);
-  border-radius: var(--radius-md);
+  border-radius: 15px;
 }
 
 .i9k-timeline-card__card--linked:hover {
@@ -168,7 +168,7 @@ const formattedDate = computed(() =>
   transition: var(--transition);
 }
 
-.i9k-timeline-card__title :slotted(a)::after {
+.i9k-timeline-card__card--linked .i9k-timeline-card__title :slotted(a)::after {
   position: absolute;
   inset: 0;
   content: '';

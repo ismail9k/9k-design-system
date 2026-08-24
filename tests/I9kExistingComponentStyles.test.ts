@@ -157,4 +157,20 @@ describe('scoped existing component compiled styles', () => {
     );
     expect(thumbnailRule && hasDeclaration(thumbnailRule, 'display', 'block')).toBe(true);
   });
+
+  it('limits the TimelineCard stretched title link to linked cards', async () => {
+    const stylesheet = await buildComponentStylesheet('I9kTimelineCard');
+    const stretchedLinkRule = findRule(stylesheet, 'inset', '0', '.i9k-timeline-card__title');
+
+    expect(stretchedLinkRule?.selector).toMatch(
+      /^\.i9k-timeline-card__card--linked \.i9k-timeline-card__title a\[data-v-[^\]]+-s\]:after$/,
+    );
+  });
+
+  it('preserves the TimelineCard legacy radius at the default size', async () => {
+    const stylesheet = await buildComponentStylesheet('I9kTimelineCard');
+    const cardRule = findRule(stylesheet, 'border-radius', '15px', '.i9k-timeline-card__card');
+
+    expect(cardRule?.selector).toMatch(/^\.i9k-timeline-card__card\[data-v-[^\]]+\]$/);
+  });
 });
