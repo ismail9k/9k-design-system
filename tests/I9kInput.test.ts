@@ -76,6 +76,47 @@ describe('I9kInput', () => {
     expect(input.attributes('required')).toBeDefined();
   });
 
+  it('deduplicates a consumer description ID that repeats the field description', () => {
+    const wrapper = mount(
+      defineComponent({
+        components: { I9kField, I9kInput },
+        template:
+          '<I9kField label="Email" hint="Work address" control-id="email"><I9kInput model-value="" aria-describedby="email-hint" /></I9kField>',
+      }),
+    );
+
+    expect(wrapper.get('input').attributes('aria-describedby')).toBe('email-hint');
+  });
+
+  it('ignores nested local hint and error chrome while preserving explicit ARIA attributes', () => {
+    const withoutExplicitAria = mount(I9kField, {
+      props: { label: 'Email' },
+      slots: {
+        default: () => h(I9kInput, { modelValue: '', hint: 'Local hint', error: 'Local error' }),
+      },
+    });
+    const withExplicitAria = mount(I9kField, {
+      props: { label: 'Email' },
+      slots: {
+        default: () =>
+          h(I9kInput, {
+            modelValue: '',
+            hint: 'Local hint',
+            error: 'Local error',
+            'aria-describedby': 'consumer-note',
+            'aria-invalid': 'true',
+          }),
+      },
+    });
+
+    expect(withoutExplicitAria.get('input').attributes('aria-describedby')).toBeUndefined();
+    expect(withoutExplicitAria.get('input').attributes('aria-invalid')).toBeUndefined();
+    expect(withoutExplicitAria.find('.i9k-field__hint').exists()).toBe(false);
+    expect(withoutExplicitAria.find('[role="alert"]').exists()).toBe(false);
+    expect(withExplicitAria.get('input').attributes('aria-describedby')).toBe('consumer-note');
+    expect(withExplicitAria.get('input').attributes('aria-invalid')).toBe('true');
+  });
+
   it('lets an explicit input UI size override the field size', () => {
     const wrapper = mount(I9kField, {
       props: { label: 'Name', size: 'lg' },

@@ -44,7 +44,13 @@ const resolvedSize = computed(() => props.uiSize ?? field?.size.value ?? 'md');
 const standaloneHintId = computed(() => `${resolvedId.value}-hint`);
 const standaloneErrorId = computed(() => `${resolvedId.value}-error`);
 const localDescription = computed(() =>
-  props.error ? standaloneErrorId.value : props.hint ? standaloneHintId.value : undefined,
+  !field
+    ? props.error
+      ? standaloneErrorId.value
+      : props.hint
+        ? standaloneHintId.value
+        : undefined
+    : undefined,
 );
 const describedBy = computed(() =>
   mergeI9kIds(
@@ -53,7 +59,10 @@ const describedBy = computed(() =>
   ),
 );
 const invalid = computed(
-  () => field?.invalid.value || Boolean(props.error) || attrs['aria-invalid'] === 'true',
+  () =>
+    Boolean(field?.invalid.value) ||
+    (!field && Boolean(props.error)) ||
+    attrs['aria-invalid'] === 'true',
 );
 const required = computed(
   () => props.required || Boolean(field?.required.value) || hasI9kBooleanAttr(attrs.required),
