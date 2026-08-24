@@ -1,6 +1,7 @@
 import './styles/index.css';
 
 export type { I9kComponentSize, I9kIconButtonVariant, I9kTone } from './types/components';
+export type { I9kRadioOption } from './types/forms';
 export type { I9kIconName } from './types/icons';
 
 export { default as I9kArticleHeader } from './components/I9kArticleHeader.vue';
@@ -24,6 +25,7 @@ export { default as I9kField } from './components/I9kField.vue';
 export { default as I9kInput } from './components/I9kInput.vue';
 export { default as I9kLinkCard } from './components/I9kLinkCard.vue';
 export { default as I9kPageHeader } from './components/I9kPageHeader.vue';
+export { default as I9kRadioGroup } from './components/I9kRadioGroup.vue';
 export { default as I9kSectionHeading } from './components/I9kSectionHeading.vue';
 export { default as I9kSelect } from './components/I9kSelect.vue';
 export { default as I9kTextarea } from './components/I9kTextarea.vue';

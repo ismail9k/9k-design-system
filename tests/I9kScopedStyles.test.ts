@@ -8,6 +8,7 @@ const migratedComponents = [
   ['I9kIconButton.vue', 'i9k-icon-button'],
   ['I9kField.vue', 'i9k-field'],
   ['I9kInput.vue', 'i9k-input'],
+  ['I9kRadioGroup.vue', 'i9k-radio-group'],
   ['I9kSelect.vue', 'i9k-select'],
   ['I9kTextarea.vue', 'i9k-textarea'],
   ['I9kToast.vue', 'i9k-toast'],
