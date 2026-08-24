@@ -4,6 +4,7 @@ import { computed, onScopeDispose, useAttrs, useId } from 'vue';
 
 import {
   hasI9kBooleanAttr,
+  i9kAriaInvalidAttr,
   i9kStringAttr,
   mergeI9kIds,
   omitI9kAttrs,
@@ -58,11 +59,10 @@ const describedBy = computed(() =>
     field?.describedBy.value ?? localDescription.value,
   ),
 );
-const invalid = computed(
-  () =>
-    Boolean(field?.invalid.value) ||
-    (!field && Boolean(props.error)) ||
-    attrs['aria-invalid'] === 'true',
+const invalid = computed(() =>
+  field?.invalid.value || (!field && props.error)
+    ? 'true'
+    : i9kAriaInvalidAttr(attrs['aria-invalid']),
 );
 const required = computed(
   () => props.required || Boolean(field?.required.value) || hasI9kBooleanAttr(attrs.required),
@@ -99,7 +99,7 @@ if (isDevelopment) {
     :type="props.type"
     :value="props.modelValue"
     :required="required"
-    :aria-invalid="invalid ? 'true' : undefined"
+    :aria-invalid="invalid"
     :aria-describedby="describedBy"
     @input="$emit('update:modelValue', ($event.target as HTMLInputElement).value)"
   />
@@ -114,7 +114,7 @@ if (isDevelopment) {
       :type="props.type"
       :value="props.modelValue"
       :required="required"
-      :aria-invalid="invalid ? 'true' : undefined"
+      :aria-invalid="invalid"
       :aria-describedby="describedBy"
       @input="$emit('update:modelValue', ($event.target as HTMLInputElement).value)"
     />

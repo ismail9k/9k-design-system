@@ -1,12 +1,19 @@
 <script setup lang="ts">
-import { computed, useId } from 'vue';
+import { computed, useAttrs, useId } from 'vue';
 
-import { mergeI9kIds } from '../composables/i9kField';
+import {
+  i9kAriaInvalidAttr,
+  i9kStringAttr,
+  mergeI9kIds,
+  omitI9kAttrs,
+} from '../composables/i9kField';
 import type { I9kComponentSize } from '../types/components';
 import type { I9kRadioOption } from '../types/forms';
 
-type I9kRadioGroupVariant = 'native' | 'card';
+type I9kRadioGroupVariant = 'default' | 'card';
 type I9kRadioGroupOrientation = 'horizontal' | 'vertical';
+
+defineOptions({ inheritAttrs: false });
 
 const props = withDefaults(
   defineProps<{
@@ -29,13 +36,14 @@ const props = withDefaults(
     required: false,
     disabled: false,
     size: 'md',
-    variant: 'native',
+    variant: 'default',
     orientation: 'vertical',
   },
 );
 
 defineEmits<{ 'update:modelValue': [value: string] }>();
 
+const attrs = useAttrs();
 const groupId = useId();
 const resolvedName = computed(() => props.name ?? `${groupId}-group`);
 const hintId = computed(() => `${groupId}-hint`);
@@ -43,19 +51,28 @@ const errorId = computed(() => `${groupId}-error`);
 const groupDescriptionId = computed(() =>
   props.error ? errorId.value : props.hint ? hintId.value : undefined,
 );
+const describedBy = computed(() =>
+  mergeI9kIds(i9kStringAttr(attrs['aria-describedby']), groupDescriptionId.value),
+);
+const invalid = computed(() => (props.error ? 'true' : i9kAriaInvalidAttr(attrs['aria-invalid'])));
+const fieldsetAttrs = computed(() =>
+  omitI9kAttrs(attrs, ['aria-describedby', 'aria-invalid', 'class']),
+);
 </script>
 
 <template>
   <fieldset
+    v-bind="fieldsetAttrs"
     :class="[
+      attrs.class,
       'i9k-radio-group',
       `i9k-radio-group--${props.size}`,
       `i9k-radio-group--${props.variant}`,
       `i9k-radio-group--${props.orientation}`,
     ]"
     :disabled="props.disabled"
-    :aria-invalid="props.error ? 'true' : undefined"
-    :aria-describedby="groupDescriptionId"
+    :aria-invalid="invalid"
+    :aria-describedby="describedBy"
   >
     <legend class="i9k-radio-group__legend">{{ props.legend }}</legend>
     <div class="i9k-radio-group__options">
@@ -175,6 +192,20 @@ const groupDescriptionId = computed(() =>
   background: var(--glass-bg);
   cursor: pointer;
   transition: var(--transition);
+}
+
+.i9k-radio-group--card:disabled {
+  cursor: not-allowed;
+  opacity: 0.5;
+}
+
+.i9k-radio-group--card:disabled .i9k-radio-group__option {
+  cursor: not-allowed;
+}
+
+.i9k-radio-group--card:not(:disabled) .i9k-radio-group__option:has(input:disabled) {
+  cursor: not-allowed;
+  opacity: 0.5;
 }
 
 .i9k-radio-group--card .i9k-radio-group__option:has(input:checked) {

@@ -31,6 +31,12 @@ export function i9kStringAttr(value: unknown) {
   return typeof value === 'string' || typeof value === 'number' ? String(value) : undefined;
 }
 
+type I9kAriaInvalid = boolean | 'true' | 'false' | 'grammar' | 'spelling' | undefined;
+
+export function i9kAriaInvalidAttr(value: unknown) {
+  return value as I9kAriaInvalid;
+}
+
 export function hasI9kBooleanAttr(value: unknown) {
   return value !== undefined && value !== null && value !== false && value !== 'false';
 }

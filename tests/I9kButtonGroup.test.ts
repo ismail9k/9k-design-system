@@ -37,4 +37,25 @@ describe('I9kButtonGroup', () => {
     expect(wrapper.classes()).toContain('i9k-button-group--vertical');
     expect(wrapper.get('button').attributes('data-child')).toBe('kept');
   });
+
+  it('owns group semantics while forwarding consumer classes and other attributes', () => {
+    const wrapper = mount(I9kButtonGroup, {
+      props: { label: 'Article actions', orientation: 'vertical' },
+      attrs: {
+        role: 'presentation',
+        'aria-label': 'Wrong label',
+        'data-orientation': 'horizontal',
+        class: 'consumer-group',
+        'data-testid': 'actions',
+      },
+    });
+
+    expect(wrapper.attributes('role')).toBe('group');
+    expect(wrapper.attributes('aria-label')).toBe('Article actions');
+    expect(wrapper.attributes('data-orientation')).toBe('vertical');
+    expect(wrapper.attributes('data-testid')).toBe('actions');
+    expect(wrapper.classes()).toEqual(
+      expect.arrayContaining(['consumer-group', 'i9k-button-group', 'i9k-button-group--vertical']),
+    );
+  });
 });

@@ -47,6 +47,18 @@ describe('I9kInput', () => {
     expect(wrapper.text()).not.toContain('Use your work address');
   });
 
+  it.each(['grammar', 'spelling', 'false', false])(
+    'preserves explicit aria-invalid="%s" without a local or field error',
+    (ariaInvalid) => {
+      const wrapper = mount(I9kInput, {
+        props: { modelValue: '', label: 'Email' },
+        attrs: { 'aria-invalid': ariaInvalid },
+      });
+
+      expect(wrapper.get('input').attributes('aria-invalid')).toBe(String(ariaInvalid));
+    },
+  );
+
   it.each(['sm', 'md', 'lg'] as const)('renders the %s size', (size) => {
     const wrapper = mount(I9kInput, {
       props: { modelValue: '', label: 'Name', uiSize: size },

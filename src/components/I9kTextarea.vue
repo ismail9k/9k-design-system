@@ -3,6 +3,7 @@ import { computed, onScopeDispose, useAttrs, useId } from 'vue';
 
 import {
   hasI9kBooleanAttr,
+  i9kAriaInvalidAttr,
   i9kStringAttr,
   mergeI9kIds,
   omitI9kAttrs,
@@ -39,7 +40,9 @@ const resolvedSize = computed(() => props.uiSize ?? field?.size.value ?? 'md');
 const describedBy = computed(() =>
   mergeI9kIds(i9kStringAttr(attrs['aria-describedby']), field?.describedBy.value),
 );
-const invalid = computed(() => Boolean(field?.invalid.value) || attrs['aria-invalid'] === 'true');
+const invalid = computed(() =>
+  field?.invalid.value ? 'true' : i9kAriaInvalidAttr(attrs['aria-invalid']),
+);
 const required = computed(
   () => Boolean(field?.required.value) || hasI9kBooleanAttr(attrs.required),
 );
@@ -71,7 +74,7 @@ if (isDevelopment) {
     :data-resize="props.resize"
     :value="props.modelValue"
     :required="required"
-    :aria-invalid="invalid ? 'true' : undefined"
+    :aria-invalid="invalid"
     :aria-describedby="describedBy"
     @input="$emit('update:modelValue', ($event.target as HTMLTextAreaElement).value)"
   />

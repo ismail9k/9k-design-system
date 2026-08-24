@@ -1,6 +1,6 @@
 import { renderToString } from '@vue/server-renderer';
 import { createSSRApp } from 'vue';
-import { describe, expect, it } from 'vitest';
+import { describe, expect, it, vi } from 'vitest';
 
 import {
   I9kButtonGroup,
@@ -42,5 +42,19 @@ describe('native action and form SSR', () => {
     expect(html).toContain('i9k-textarea--md');
     expect(html).toContain('i9k-select--md');
     expect(html).toContain('i9k-radio-group--md');
+  });
+
+  it('renders I9kIconButton when the Node process global is unavailable', async () => {
+    vi.stubGlobal('process', undefined);
+
+    try {
+      const html = await renderToString(
+        createSSRApp(I9kIconButton, { icon: 'home', label: 'Home' }),
+      );
+
+      expect(html).toContain('aria-label="Home"');
+    } finally {
+      vi.unstubAllGlobals();
+    }
   });
 });

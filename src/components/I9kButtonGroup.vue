@@ -1,5 +1,10 @@
 <script setup lang="ts">
+import { computed, useAttrs } from 'vue';
+
+import { omitI9kAttrs } from '../composables/i9kField';
 import type { I9kComponentSize } from '../types/components';
+
+defineOptions({ inheritAttrs: false });
 
 withDefaults(
   defineProps<{
@@ -13,15 +18,25 @@ withDefaults(
     label: undefined,
   },
 );
+
+const attrs = useAttrs();
+const rootAttrs = computed(() =>
+  omitI9kAttrs(attrs, ['aria-label', 'class', 'data-orientation', 'role']),
+);
 </script>
 
 <template>
   <div
-    v-bind="$attrs"
+    v-bind="rootAttrs"
     role="group"
     :aria-label="label || undefined"
     :data-orientation="orientation"
-    :class="['i9k-button-group', `i9k-button-group--${orientation}`, `i9k-button-group--${size}`]"
+    :class="[
+      attrs.class,
+      'i9k-button-group',
+      `i9k-button-group--${orientation}`,
+      `i9k-button-group--${size}`,
+    ]"
   >
     <slot />
   </div>

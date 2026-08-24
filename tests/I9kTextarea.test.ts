@@ -37,6 +37,18 @@ describe('I9kTextarea', () => {
     expect(textarea.classes()).toContain('i9k-textarea--lg');
   });
 
+  it.each(['grammar', 'spelling', 'false', false])(
+    'preserves explicit aria-invalid="%s" without a field error',
+    (ariaInvalid) => {
+      const wrapper = mount(I9kTextarea, {
+        props: { modelValue: '' },
+        attrs: { 'aria-label': 'Details', 'aria-invalid': ariaInvalid },
+      });
+
+      expect(wrapper.get('textarea').attributes('aria-invalid')).toBe(String(ariaInvalid));
+    },
+  );
+
   it.each(['sm', 'md', 'lg'] as const)('renders the %s UI size', (uiSize) => {
     const wrapper = mount(I9kTextarea, {
       props: { modelValue: '', uiSize },

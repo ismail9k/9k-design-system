@@ -1,6 +1,29 @@
 import type { Meta, StoryObj } from '@storybook/vue3-vite';
+import { defineComponent, h, type PropType } from 'vue';
 
 import I9kIconButton from '../src/components/I9kIconButton.vue';
+
+const RouterLinkDemo = defineComponent({
+  inheritAttrs: false,
+  props: {
+    to: {
+      type: [String, Object] as PropType<string | Record<string, unknown>>,
+      required: true,
+    },
+  },
+  setup(props, { attrs, slots }) {
+    return () =>
+      h(
+        'a',
+        {
+          ...attrs,
+          href: typeof props.to === 'string' ? `#${props.to}` : '#router-object-destination',
+          'data-router-link': '',
+        },
+        slots.default?.(),
+      );
+  },
+});
 
 const meta = {
   title: 'Components/I9kIconButton',
@@ -42,6 +65,15 @@ export const Disabled: Story = {
 
 export const AsLink: Story = {
   args: { icon: 'github', label: 'GitHub', href: 'https://github.com/ismail9k' },
+};
+
+export const AsRouterLink: Story = {
+  render: () => ({
+    components: { I9kIconButton },
+    setup: () => ({ RouterLinkDemo }),
+    template:
+      '<I9kIconButton icon="home" label="Router home" to="/home" :link-component="RouterLinkDemo" />',
+  }),
 };
 
 export const RightToLeft: Story = {

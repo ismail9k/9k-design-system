@@ -1,5 +1,5 @@
 import { mount } from '@vue/test-utils';
-import { describe, expect, it } from 'vitest';
+import { describe, expect, expectTypeOf, it } from 'vitest';
 
 import I9kRadioGroup from '../src/components/I9kRadioGroup.vue';
 
@@ -9,6 +9,8 @@ const options = [
   { label: 'Advisory', value: 'advisory', disabled: true },
 ] as const;
 
+type RadioGroupProps = InstanceType<typeof I9kRadioGroup>['$props'];
+
 describe('I9kRadioGroup', () => {
   it('renders a native named fieldset and emits selection', async () => {
     const wrapper = mount(I9kRadioGroup, {
@@ -17,6 +19,8 @@ describe('I9kRadioGroup', () => {
     const radios = wrapper.findAll('input[type="radio"]');
 
     expect(wrapper.get('fieldset').get('legend').text()).toBe('Choose a service');
+    expect(wrapper.get('fieldset').classes()).toContain('i9k-radio-group--default');
+    expectTypeOf<RadioGroupProps['variant']>().toEqualTypeOf<'default' | 'card' | undefined>();
     expect(radios.map((radio) => radio.attributes('name'))).toEqual([
       'service',
       'service',
@@ -87,4 +91,44 @@ describe('I9kRadioGroup', () => {
         .every((radio) => radio.attributes('required') !== undefined),
     ).toBe(true);
   });
+
+  it('forces error ARIA and merges consumer descriptions without losing other attrs', () => {
+    const wrapper = mount(I9kRadioGroup, {
+      props: { modelValue: '', options, legend: 'Service', error: 'Choose one' },
+      attrs: {
+        'aria-invalid': 'spelling',
+        'aria-describedby': 'consumer-note',
+        class: 'consumer-group',
+        'data-testid': 'service-group',
+      },
+    });
+    const fieldset = wrapper.get('fieldset');
+
+    expect(fieldset.attributes('aria-invalid')).toBe('true');
+    expect(fieldset.attributes('aria-describedby')?.split(' ')).toEqual([
+      'consumer-note',
+      wrapper.get('[role="alert"]').attributes('id'),
+    ]);
+    expect(fieldset.attributes('data-testid')).toBe('service-group');
+    expect(fieldset.classes()).toEqual(
+      expect.arrayContaining(['consumer-group', 'i9k-radio-group']),
+    );
+  });
+
+  it.each(['grammar', 'spelling', 'false', false])(
+    'preserves explicit aria-invalid="%s" without a component error',
+    (ariaInvalid) => {
+      const wrapper = mount(I9kRadioGroup, {
+        props: { modelValue: '', options, legend: 'Service', hint: 'Choose one' },
+        attrs: { 'aria-invalid': ariaInvalid, 'aria-describedby': 'consumer-note' },
+      });
+      const fieldset = wrapper.get('fieldset');
+
+      expect(fieldset.attributes('aria-invalid')).toBe(String(ariaInvalid));
+      expect(fieldset.attributes('aria-describedby')?.split(' ')).toEqual([
+        'consumer-note',
+        wrapper.get('.i9k-radio-group__hint').attributes('id'),
+      ]);
+    },
+  );
 });

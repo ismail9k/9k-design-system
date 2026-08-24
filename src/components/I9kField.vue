@@ -45,6 +45,7 @@ const describedBy = computed(() =>
 const invalid = computed(() => Boolean(props.error));
 const required = computed(() => props.required);
 const size = computed(() => props.size);
+const isDevelopment = Boolean((import.meta as ImportMeta & { env?: { DEV?: boolean } }).env?.DEV);
 
 function hasLabelContent(nodes: VNode[]): boolean {
   return nodes.some((node) => {
@@ -67,7 +68,7 @@ function hasLabelContent(nodes: VNode[]): boolean {
 function registerControl() {
   registeredControls.value += 1;
 
-  if (registeredControls.value > 1) {
+  if (isDevelopment && registeredControls.value > 1) {
     console.warn('I9kField expects exactly one registered control.');
   }
 
@@ -85,13 +86,15 @@ provideI9kField({
   registerControl,
 });
 
-onMounted(() => {
-  const hasLabel = slots.label ? hasLabelContent(slots.label()) : Boolean(props.label.trim());
+if (isDevelopment) {
+  onMounted(() => {
+    const hasLabel = slots.label ? hasLabelContent(slots.label()) : Boolean(props.label.trim());
 
-  if (!hasLabel) {
-    console.warn('I9kField requires label content.');
-  }
-});
+    if (!hasLabel) {
+      console.warn('I9kField requires label content.');
+    }
+  });
+}
 </script>
 
 <template>

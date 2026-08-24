@@ -122,7 +122,7 @@ migration. Replacing router integration is outside this migration's scope.
 | `I9kInput`        | Yes: `I9kField` composition and native attribute forwarding  | `.field*` remains for standalone and website form compatibility       |
 | `I9kTextarea`     | Yes: `I9kField` composition, native attributes, and sizes    | `.field*` remains until the website form batch migrates               |
 | `I9kSelect`       | Yes: single-select composition, native attributes, and sizes | `.field*` remains until the website form batch migrates               |
-| `I9kRadioGroup`   | Yes: native and card variants with accessible group state    | Website intent selection remains unchanged until Batch 3              |
+| `I9kRadioGroup`   | Yes: default and card variants with accessible group state   | Website intent selection remains unchanged until Batch 3              |
 
 These form foundations are package-ready only. Batch 3 remains unexecuted: website source and the
 `.field*` compatibility CSS are unchanged.

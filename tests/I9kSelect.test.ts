@@ -53,6 +53,30 @@ describe('I9kSelect', () => {
     expect(select.classes()).toContain('i9k-select--sm');
   });
 
+  it.each(['grammar', 'spelling', 'false', false])(
+    'preserves explicit aria-invalid="%s" without a field error',
+    (ariaInvalid) => {
+      const wrapper = mount(I9kSelect, {
+        props: { modelValue: '' },
+        attrs: { 'aria-label': 'Service', 'aria-invalid': ariaInvalid },
+      });
+
+      expect(wrapper.get('select').attributes('aria-invalid')).toBe(String(ariaInvalid));
+    },
+  );
+
+  it('forces aria-invalid true when the enclosing field has an error', () => {
+    const wrapper = mount(I9kField, {
+      props: { label: 'Service', error: 'Choose one' },
+      slots: {
+        default: () =>
+          h(I9kSelect, { modelValue: '', 'aria-invalid': 'grammar' }, () => h('option')),
+      },
+    });
+
+    expect(wrapper.get('select').attributes('aria-invalid')).toBe('true');
+  });
+
   it.each(['sm', 'md', 'lg'] as const)('renders the %s UI size', (uiSize) => {
     const wrapper = mount(I9kSelect, {
       props: { modelValue: '', uiSize },

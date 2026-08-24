@@ -18,7 +18,7 @@ const meta = {
   args: { modelValue: 'audit', options, legend: 'Choose a service' },
   argTypes: {
     size: { control: 'select', options: ['sm', 'md', 'lg'] },
-    variant: { control: 'select', options: ['native', 'card'] },
+    variant: { control: 'select', options: ['default', 'card'] },
     orientation: { control: 'select', options: ['vertical', 'horizontal'] },
   },
 } satisfies Meta<typeof I9kRadioGroup>;

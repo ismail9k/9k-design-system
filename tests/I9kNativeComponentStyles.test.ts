@@ -41,6 +41,12 @@ function hasDeclaration(rule: Rule, property: string, value: string) {
   );
 }
 
+function hasHalfOpacity(rule: Rule) {
+  return rule.nodes.some(
+    (node) => node.type === 'decl' && node.prop === 'opacity' && Number(node.value) === 0.5,
+  );
+}
+
 describe('native component compiled styles', () => {
   it('retains RadioGroup scope attributes for selected cards and reduced-motion hover', async () => {
     const stylesheet = await buildComponentStylesheet('I9kRadioGroup');
@@ -65,5 +71,39 @@ describe('native component compiled styles', () => {
       /\.i9k-radio-group__option\[data-v-[^\]]+\]:has\(input:checked\)/,
     );
     expect(reducedMotionRule?.selector).toMatch(/\.i9k-radio-group__option\[data-v-[^\]]+\]:hover/);
+  });
+
+  it('styles disabled card groups and options without removing enabled interaction', async () => {
+    const stylesheet = await buildComponentStylesheet('I9kRadioGroup');
+    let enabledOptionRule: Rule | undefined;
+    let enabledHoverRule: Rule | undefined;
+    let disabledGroupRule: Rule | undefined;
+    let disabledOptionRule: Rule | undefined;
+
+    stylesheet.walkRules((rule) => {
+      if (
+        rule.selector.includes('--card') &&
+        rule.selector.includes('__option') &&
+        hasDeclaration(rule, 'cursor', 'pointer')
+      ) {
+        enabledOptionRule = rule;
+      }
+      if (rule.selector.includes(':not(:has(input:disabled)):hover')) enabledHoverRule = rule;
+      if (rule.selector.includes('--card') && rule.selector.includes(':disabled')) {
+        if (hasHalfOpacity(rule) && hasDeclaration(rule, 'cursor', 'not-allowed')) {
+          disabledGroupRule = rule;
+        }
+      }
+      if (rule.selector.includes(':has(input:disabled)')) {
+        if (hasHalfOpacity(rule) && hasDeclaration(rule, 'cursor', 'not-allowed')) {
+          disabledOptionRule = rule;
+        }
+      }
+    });
+
+    expect(enabledOptionRule && hasDeclaration(enabledOptionRule, 'cursor', 'pointer')).toBe(true);
+    expect(enabledHoverRule).toBeDefined();
+    expect(disabledGroupRule).toBeDefined();
+    expect(disabledOptionRule).toBeDefined();
   });
 });

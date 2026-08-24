@@ -33,6 +33,25 @@ describe('I9kIconButton', () => {
     expect(link.attributes('type')).toBeUndefined();
   });
 
+  it('owns its accessible label while preserving root type, class, and native attrs', () => {
+    const wrapper = mount(I9kIconButton, {
+      props: { icon: 'home', label: 'Go home', type: 'submit' },
+      attrs: {
+        'aria-label': '',
+        class: 'consumer-action',
+        'data-testid': 'home-action',
+      },
+    });
+    const button = wrapper.get('button');
+
+    expect(button.attributes('aria-label')).toBe('Go home');
+    expect(button.attributes('type')).toBe('submit');
+    expect(button.attributes('data-testid')).toBe('home-action');
+    expect(button.classes()).toEqual(
+      expect.arrayContaining(['consumer-action', 'i9k-icon-button', 'i9k-icon-button--secondary']),
+    );
+  });
+
   it.each(['sm', 'md', 'lg'] as const)('renders the %s size', (size) => {
     const wrapper = mount(I9kIconButton, { props: { icon: 'mail', label: 'Mail', size } });
     expect(wrapper.classes()).toContain(`i9k-icon-button--${size}`);

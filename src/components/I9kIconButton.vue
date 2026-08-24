@@ -3,7 +3,10 @@ import { computed, useAttrs } from 'vue';
 
 import type { I9kComponentSize, I9kIconButtonVariant } from '../types/components';
 import type { I9kIconName } from '../types/icons';
+import { omitI9kAttrs } from '../composables/i9kField';
 import I9kIcon from './I9kIcon.vue';
+
+defineOptions({ inheritAttrs: false });
 
 const props = withDefaults(
   defineProps<{
@@ -27,12 +30,16 @@ const props = withDefaults(
 );
 
 const attrs = useAttrs();
+const rootAttrs = computed(() =>
+  omitI9kAttrs(attrs, ['aria-label', 'class', 'href', 'to', 'type']),
+);
 const isLink = computed(() => props.to !== null || props.href !== null);
 const destination = computed(() => props.to ?? props.href ?? undefined);
 const tag = computed(() => props.linkComponent ?? (isLink.value ? 'a' : 'button'));
 const iconSize = computed(() => ({ sm: '1rem', md: '1.2rem', lg: '1.4rem' })[props.size]);
+const isDevelopment = Boolean((import.meta as ImportMeta & { env?: { DEV?: boolean } }).env?.DEV);
 
-if (process.env.NODE_ENV !== 'production' && !props.label.trim()) {
+if (isDevelopment && !props.label.trim()) {
   console.warn('I9kIconButton requires a non-empty label for its accessible name.');
 }
 </script>
@@ -40,12 +47,17 @@ if (process.env.NODE_ENV !== 'production' && !props.label.trim()) {
 <template>
   <component
     :is="tag"
-    v-bind="attrs"
+    v-bind="rootAttrs"
     :to="linkComponent && to !== null ? to : undefined"
     :href="!linkComponent && isLink ? destination : undefined"
     :type="!isLink ? type : undefined"
     :aria-label="label"
-    :class="['i9k-icon-button', `i9k-icon-button--${variant}`, `i9k-icon-button--${size}`]"
+    :class="[
+      attrs.class,
+      'i9k-icon-button',
+      `i9k-icon-button--${variant}`,
+      `i9k-icon-button--${size}`,
+    ]"
   >
     <I9kIcon :name="icon" :size="iconSize" />
   </component>
