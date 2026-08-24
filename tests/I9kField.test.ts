@@ -1,8 +1,24 @@
-import { h } from 'vue';
+import { defineComponent, h, onUnmounted } from 'vue';
 import { mount } from '@vue/test-utils';
 import { describe, expect, it, vi } from 'vitest';
 
 import I9kField from '../src/components/I9kField.vue';
+import { useI9kField } from '../src/composables/i9kField';
+
+const RegisteredControl = defineComponent({
+  setup() {
+    const field = useI9kField();
+
+    if (!field) {
+      throw new Error('I9kField context is required.');
+    }
+
+    const unregister = field.registerControl();
+    onUnmounted(unregister);
+
+    return () => h('input', { id: field.controlId.value });
+  },
+});
 
 describe('I9kField', () => {
   it('associates its label and hint with an arbitrary native control', () => {
@@ -46,9 +62,43 @@ describe('I9kField', () => {
 
   it('warns when it has no label content', () => {
     const warn = vi.spyOn(console, 'warn').mockImplementation(() => {});
-    mount(I9kField, { slots: { default: '<input />' } });
+    const wrapper = mount(I9kField, { slots: { default: '<input />' } });
 
-    expect(warn).toHaveBeenCalledWith(expect.stringContaining('label'));
-    warn.mockRestore();
+    try {
+      expect(warn).toHaveBeenCalledWith(expect.stringContaining('label'));
+    } finally {
+      wrapper.unmount();
+      warn.mockRestore();
+    }
+  });
+
+  it('warns when its label slot only contains whitespace', () => {
+    const warn = vi.spyOn(console, 'warn').mockImplementation(() => {});
+    const wrapper = mount(I9kField, {
+      props: { label: 'Fallback label' },
+      slots: { label: '  \n  ', default: () => h('input') },
+    });
+
+    try {
+      expect(warn).toHaveBeenCalledWith(expect.stringContaining('label'));
+    } finally {
+      wrapper.unmount();
+      warn.mockRestore();
+    }
+  });
+
+  it('warns when more than one library control registers', () => {
+    const warn = vi.spyOn(console, 'warn').mockImplementation(() => {});
+    const wrapper = mount(I9kField, {
+      props: { label: 'Email' },
+      slots: { default: () => [h(RegisteredControl), h(RegisteredControl)] },
+    });
+
+    try {
+      expect(warn).toHaveBeenCalledWith(expect.stringContaining('exactly one registered control'));
+    } finally {
+      wrapper.unmount();
+      warn.mockRestore();
+    }
   });
 });

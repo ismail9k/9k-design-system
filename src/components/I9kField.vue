@@ -1,5 +1,15 @@
 <script setup lang="ts">
-import { computed, onMounted, ref, useId, useSlots } from 'vue';
+import {
+  Comment,
+  computed,
+  Fragment,
+  onMounted,
+  ref,
+  Text,
+  useId,
+  useSlots,
+  type VNode,
+} from 'vue';
 
 import { provideI9kField } from '../composables/i9kField';
 import type { I9kComponentSize } from '../types/components';
@@ -36,6 +46,24 @@ const invalid = computed(() => Boolean(props.error));
 const required = computed(() => props.required);
 const size = computed(() => props.size);
 
+function hasLabelContent(nodes: VNode[]): boolean {
+  return nodes.some((node) => {
+    if (node.type === Comment) {
+      return false;
+    }
+
+    if (node.type === Text) {
+      return typeof node.children === 'string' && Boolean(node.children.trim());
+    }
+
+    if (node.type === Fragment && Array.isArray(node.children)) {
+      return hasLabelContent(node.children as VNode[]);
+    }
+
+    return true;
+  });
+}
+
 function registerControl() {
   registeredControls.value += 1;
 
@@ -58,7 +86,9 @@ provideI9kField({
 });
 
 onMounted(() => {
-  if (!props.label && !slots.label) {
+  const hasLabel = slots.label ? hasLabelContent(slots.label()) : Boolean(props.label.trim());
+
+  if (!hasLabel) {
     console.warn('I9kField requires label content.');
   }
 });
