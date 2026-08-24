@@ -112,12 +112,20 @@ migration. Replacing router integration is outside this migration's scope.
 
 ## Package Migration Status
 
-| Package component | Scoped replacement ready                      | Website compatibility still required                                  |
-| ----------------- | --------------------------------------------- | --------------------------------------------------------------------- |
-| `I9kAsciiEmoji`   | Yes: scoped size and color styles             | `.emoticon*` remains during migration                                 |
-| `I9kLinkCard`     | Yes: scoped surface, badge, and sizes         | `.surface*` and `.badge*` remain for direct website usage             |
-| `I9kProfileCard`  | Yes: scoped surface, actions, and sizes       | `.surface*` and `.cluster*` remain for direct website usage           |
-| `I9kTimelineCard` | Yes: scoped layout, sizes, and semantic slots | `.timeline*` remains until BlogCard, TalkCard, and the canary migrate |
+| Package component | Scoped replacement ready                                     | Website compatibility still required                                  |
+| ----------------- | ------------------------------------------------------------ | --------------------------------------------------------------------- |
+| `I9kAsciiEmoji`   | Yes: scoped size and color styles                            | `.emoticon*` remains during migration                                 |
+| `I9kLinkCard`     | Yes: scoped surface, badge, and sizes                        | `.surface*` and `.badge*` remain for direct website usage             |
+| `I9kProfileCard`  | Yes: scoped surface, actions, and sizes                      | `.surface*` and `.cluster*` remain for direct website usage           |
+| `I9kTimelineCard` | Yes: scoped layout, sizes, and semantic slots                | `.timeline*` remains until BlogCard, TalkCard, and the canary migrate |
+| `I9kField`        | Yes: label, hint, error, and required association            | `.field*` remains until the website form batch migrates               |
+| `I9kInput`        | Yes: `I9kField` composition and native attribute forwarding  | `.field*` remains for standalone and website form compatibility       |
+| `I9kTextarea`     | Yes: `I9kField` composition, native attributes, and sizes    | `.field*` remains until the website form batch migrates               |
+| `I9kSelect`       | Yes: single-select composition, native attributes, and sizes | `.field*` remains until the website form batch migrates               |
+| `I9kRadioGroup`   | Yes: native and card variants with accessible group state    | Website intent selection remains unchanged until Batch 3              |
+
+These form foundations are package-ready only. Batch 3 remains unexecuted: website source and the
+`.field*` compatibility CSS are unchanged.
 
 ## Direct Primitive Usage Batches
 
