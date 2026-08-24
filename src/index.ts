@@ -17,6 +17,7 @@ export { default as I9kSocialLinks } from './components/I9kSocialLinks.vue';
 export { default as I9kThemeSwitcher } from './components/I9kThemeSwitcher.vue';
 
 export { default as I9kButton } from './components/I9kButton.vue';
+export { default as I9kField } from './components/I9kField.vue';
 export { default as I9kInput } from './components/I9kInput.vue';
 export { default as I9kLinkCard } from './components/I9kLinkCard.vue';
 export { default as I9kPageHeader } from './components/I9kPageHeader.vue';
