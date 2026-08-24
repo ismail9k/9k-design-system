@@ -1,6 +1,7 @@
 import './styles/index.css';
 
-export type { I9kComponentSize, I9kTone } from './types/components';
+export type { I9kComponentSize, I9kIconButtonVariant, I9kTone } from './types/components';
+export type { I9kIconName } from './types/icons';
 
 export { default as I9kArticleHeader } from './components/I9kArticleHeader.vue';
 export { default as I9kAsciiEmoji } from './components/I9kAsciiEmoji.vue';
@@ -10,6 +11,7 @@ export { default as I9kFaqList } from './components/I9kFaqList.vue';
 export { default as I9kFooter } from './components/I9kFooter.vue';
 export { default as I9kGithubEmbed } from './components/I9kGithubEmbed.vue';
 export { default as I9kIcon } from './components/I9kIcon.vue';
+export { default as I9kIconButton } from './components/I9kIconButton.vue';
 export { default as I9kLanguageSwitcher } from './components/I9kLanguageSwitcher.vue';
 export { default as I9kNavigation } from './components/I9kNavigation.vue';
 export { default as I9kProfileCard } from './components/I9kProfileCard.vue';

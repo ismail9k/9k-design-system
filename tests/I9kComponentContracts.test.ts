@@ -8,7 +8,7 @@ const tokenSource = readFileSync(resolve('src/styles/tokens.css'), 'utf8');
 describe('shared component contracts', () => {
   it('exports the common component types', () => {
     expect(indexSource).toContain(
-      "export type { I9kComponentSize, I9kTone } from './types/components';",
+      "export type { I9kComponentSize, I9kIconButtonVariant, I9kTone } from './types/components';",
     );
   });
 
