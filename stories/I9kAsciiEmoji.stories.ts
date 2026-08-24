@@ -16,6 +16,13 @@ export default meta;
 type Story = StoryObj<typeof meta>;
 
 export const Default: Story = {};
+export const Sizes: Story = {
+  render: () => ({
+    components: { I9kAsciiEmoji },
+    template:
+      '<div style="display: inline-flex; align-items: center; gap: var(--component-gap-md)"><I9kAsciiEmoji name="^_^" size="sm" /><I9kAsciiEmoji name="^_^" size="md" /><I9kAsciiEmoji name="^_^" size="lg" /></div>',
+  }),
+};
 export const ExpressionSet: Story = {
   render: () => ({
     components: { I9kAsciiEmoji },

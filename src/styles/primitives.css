@@ -1,3 +1,5 @@
+/* Temporary website compatibility. Scoped card components own their appearance;
+   remove this block only after the website migration ledger reports zero direct .surface usage. */
 .surface {
   border: 1px solid var(--border-color);
   border-radius: var(--radius-md);
@@ -43,6 +45,9 @@
 }
 
 /* ------------------------------------------------------------------ badge */
+
+/* Temporary website compatibility. Scoped card components own their appearance;
+   remove this block only after the website migration ledger reports zero direct .badge usage. */
 
 .badge {
   display: inline-flex;
@@ -158,6 +163,8 @@
 
 /* ---------------------------------------------------------------- cluster */
 
+/* Temporary website compatibility. Scoped components own action layout;
+   remove this block only after the migration ledger reports zero direct .cluster usage. */
 .cluster {
   display: flex;
   flex-wrap: wrap;
@@ -184,6 +191,8 @@
 /* Text-native faces keep their deliberate ASCII/pixel character instead of
      being substituted with platform emoji artwork. Use AsciiEmoji for the
      supported expression set and its accessible label. */
+/* Temporary website compatibility. I9kAsciiEmoji owns its appearance in scoped SFC styles;
+   remove this block only after the migration ledger reports zero .emoticon usage. */
 .emoticon {
   display: inline-block;
   color: var(--primary-text-color);
@@ -338,11 +347,9 @@
 }
 
 /* --------------------------------------------------------------- timeline */
-/* Shared chrome for AppTimelineCard, the date-ordered row layout used by
-     BlogCard and TalkCard: a right-aligned date column, a connecting rail,
-     and a card with an optional thumbnail. Consumers render their own
-     title link, body, and thumbnail into AppTimelineCard's slots and apply
-     these classes directly, so the visual language stays in one place. */
+/* Temporary website compatibility. BlogCard.vue, TalkCard.vue, and the website design-system
+   page still render timeline* classes directly; keep this global block until those consumers
+   adopt I9kTimelineCard's semantic title, default, and thumbnail slots. */
 
 .timeline {
   position: relative;
