@@ -4,6 +4,7 @@ import { describe, expect, it } from 'vitest';
 
 const migratedComponents = [
   ['I9kButton.vue', 'i9k-button'],
+  ['I9kButtonGroup.vue', 'i9k-button-group'],
   ['I9kIconButton.vue', 'i9k-icon-button'],
   ['I9kField.vue', 'i9k-field'],
   ['I9kInput.vue', 'i9k-input'],
