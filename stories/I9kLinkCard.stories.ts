@@ -30,5 +30,13 @@ export const Sizes: Story = {
   }),
 };
 export const RightToLeft: Story = {
-  decorators: [(story) => ({ components: { story }, template: '<div dir="rtl"><story /></div>' })],
+  args: {
+    name: 'aidoodles.app',
+    description: 'حوّل رسومات طفلك إلى لوحات مذهلة بالذكاء الاصطناعي خلال ثوانٍ.',
+    badge: 'منتج',
+    arrow: true,
+  },
+  decorators: [
+    (story) => ({ components: { story }, template: '<div dir="rtl" lang="ar"><story /></div>' }),
+  ],
 };

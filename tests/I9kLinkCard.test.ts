@@ -41,6 +41,25 @@ describe('I9kLinkCard', () => {
     expect(wrapper.classes()).toContain(`i9k-link-card--${size}`);
   });
 
+  it('groups the badge and the arrow in one corner row so they cannot overlap', () => {
+    const wrapper = mount(I9kLinkCard, {
+      props: { ...requiredProps, badge: 'Product', arrow: true },
+    });
+
+    const meta = wrapper.get('.i9k-link-card__meta');
+
+    expect(meta.classes()).toContain('link-card-meta');
+    expect(meta.find('.i9k-link-card__badge').exists()).toBe(true);
+    expect(meta.find('.i9k-link-card__arrow').exists()).toBe(true);
+    expect(wrapper.findAll('.i9k-link-card__arrow')).toHaveLength(1);
+  });
+
+  it('omits the corner row when there is neither a badge nor an arrow', () => {
+    const wrapper = mount(I9kLinkCard, { props: requiredProps });
+
+    expect(wrapper.find('.i9k-link-card__meta').exists()).toBe(false);
+  });
+
   it('renders a scoped compatibility badge', () => {
     const wrapper = mount(I9kLinkCard, {
       props: { ...requiredProps, badge: 'Library' },

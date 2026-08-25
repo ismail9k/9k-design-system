@@ -97,11 +97,29 @@ describe('scoped existing component compiled styles', () => {
       }
     });
 
-    const rtlRule = findRule(stylesheet, 'transform', 'translate(-1px,-1px)', '[dir=rtl]');
+    const rtlRule = findRule(
+      stylesheet,
+      'transform',
+      'translate(-1px,-1px)scaleX(-1)',
+      '[dir=rtl]',
+    );
     const rtlSelector = rtlRule?.selector;
     const reducedArrowSelector = reducedMotionRule?.selector
       .split(',')
       .find((selector) => selector.includes('.link-card-arrow'));
+    const restMirrorRule = orderedRules.find(
+      (rule) =>
+        !isReducedMotionRule(rule) &&
+        rule.selector.includes('[dir=rtl]') &&
+        !rule.selector.includes(':hover') &&
+        hasDeclaration(rule, 'transform', 'scaleX(-1)'),
+    );
+    const reducedMirrorRule = orderedRules.find(
+      (rule) =>
+        isReducedMotionRule(rule) &&
+        rule.selector.includes('[dir=rtl]') &&
+        hasDeclaration(rule, 'transform', 'scaleX(-1)'),
+    );
 
     expect(rtlSelector).toMatch(
       /\.link-card:hover \.link-card-arrow\[data-v-[^\]]+\]:where\(\[dir=rtl\] \*\)$/,
@@ -109,6 +127,16 @@ describe('scoped existing component compiled styles', () => {
     expect(reducedArrowSelector).toBe(rtlSelector?.replace(':where([dir=rtl] *)', ''));
     expect(orderedRules.indexOf(reducedMotionRule!)).toBeGreaterThan(
       orderedRules.indexOf(rtlRule!),
+    );
+
+    // The glyph is mirrored with scaleX, so reduced motion must drop the hover nudge
+    // without also un-mirroring the arrow.
+    expect(restMirrorRule?.selector).toMatch(
+      /^\.link-card-arrow\[data-v-[^\]]+\]:where\(\[dir=rtl\] \*\)$/,
+    );
+    expect(reducedMirrorRule?.selector).toBe(rtlSelector);
+    expect(orderedRules.indexOf(reducedMirrorRule!)).toBeGreaterThan(
+      orderedRules.indexOf(reducedMotionRule!),
     );
   });
 

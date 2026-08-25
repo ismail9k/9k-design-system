@@ -27,9 +27,14 @@ defineEmits<{ click: [event: MouseEvent] }>();
     rel="noopener"
     @click="$emit('click', $event)"
   >
-    <span v-if="badge" class="badge badge--solid link-card-badge i9k-link-card__badge">{{
-      badge
-    }}</span>
+    <div v-if="badge || arrow" class="link-card-meta i9k-link-card__meta">
+      <span v-if="badge" class="badge badge--solid link-card-badge i9k-link-card__badge">{{
+        badge
+      }}</span>
+      <span v-if="arrow" class="link-card-arrow i9k-link-card__arrow" aria-hidden="true">{{
+        arrowLabel
+      }}</span>
+    </div>
     <div v-if="showImage && image" class="link-card-image i9k-link-card__image">
       <img :src="image" :alt="name" width="60" height="60" loading="lazy" />
     </div>
@@ -37,9 +42,6 @@ defineEmits<{ click: [event: MouseEvent] }>();
       <h3 class="link-card-name i9k-link-card__name">{{ name }}</h3>
       <p class="link-card-description i9k-link-card__description">{{ description }}</p>
     </div>
-    <span v-if="arrow" class="link-card-arrow i9k-link-card__arrow" aria-hidden="true">{{
-      arrowLabel
-    }}</span>
   </a>
 </template>
 
@@ -95,12 +97,15 @@ defineEmits<{ click: [event: MouseEvent] }>();
   transform: translate(1px, -1px);
 }
 .link-card:hover .link-card-arrow:where([dir='rtl'] *) {
-  transform: translate(-1px, -1px);
+  transform: translate(-1px, -1px) scaleX(-1);
 }
-.link-card-badge {
+.link-card-meta {
   position: absolute;
   top: var(--spacing-6);
   inset-inline-end: var(--spacing-6);
+  display: flex;
+  align-items: center;
+  gap: var(--spacing-5);
 }
 .i9k-link-card__badge {
   display: inline-flex;
@@ -142,11 +147,13 @@ defineEmits<{ click: [event: MouseEvent] }>();
   line-height: 1.55;
 }
 .link-card-arrow {
-  position: absolute;
-  top: var(--spacing-8);
-  inset-inline-end: var(--spacing-8);
+  flex: none;
+  line-height: 1;
   opacity: 0.3;
   transition: var(--transition);
+}
+.link-card-arrow:where([dir='rtl'] *) {
+  transform: scaleX(-1);
 }
 
 @media (prefers-reduced-motion: reduce) {
@@ -159,6 +166,10 @@ defineEmits<{ click: [event: MouseEvent] }>();
   .i9k-link-card:hover,
   .link-card:hover .link-card-arrow {
     transform: none;
+  }
+
+  .link-card:hover .link-card-arrow:where([dir='rtl'] *) {
+    transform: scaleX(-1);
   }
 }
 </style>
