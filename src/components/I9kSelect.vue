@@ -1,5 +1,15 @@
 <script setup lang="ts">
-import { computed, onScopeDispose, useAttrs, useId } from 'vue';
+import {
+  cloneVNode,
+  computed,
+  Fragment,
+  isVNode,
+  onScopeDispose,
+  useAttrs,
+  useId,
+  useSlots,
+} from 'vue';
+import type { VNode, VNodeNormalizedChildren } from 'vue';
 
 import {
   hasI9kBooleanAttr,
@@ -18,9 +28,10 @@ const props = defineProps<{
   uiSize?: I9kComponentSize;
 }>();
 
-defineEmits<{ 'update:modelValue': [value: string] }>();
+const emit = defineEmits<{ 'update:modelValue': [value: string] }>();
 
 const attrs = useAttrs();
+const slots = useSlots();
 const field = useI9kField();
 const localId = useId();
 const unregister = field?.registerControl();
@@ -31,6 +42,41 @@ if (unregister) {
 
 const resolvedId = computed(() => field?.controlId.value ?? i9kStringAttr(attrs.id) ?? localId);
 const resolvedSize = computed(() => props.uiSize ?? field?.size.value ?? 'md');
+const selectedValue = computed({
+  get: () => props.modelValue,
+  set: (value: string) => emit('update:modelValue', value),
+});
+
+function optionText(children: VNodeNormalizedChildren): string {
+  if (typeof children === 'string') return children;
+  if (!Array.isArray(children)) return '';
+
+  return children
+    .map((child) => {
+      if (typeof child === 'string') return child;
+      return isVNode(child) ? optionText(child.children) : '';
+    })
+    .join('');
+}
+
+function selectMatchingOption(vnode: VNode): VNode {
+  if (vnode.type === 'option') {
+    const optionValue = vnode.props?.value ?? optionText(vnode.children);
+    return cloneVNode(vnode, { selected: String(optionValue) === props.modelValue });
+  }
+
+  if ((vnode.type === Fragment || vnode.type === 'optgroup') && Array.isArray(vnode.children)) {
+    const clone = cloneVNode(vnode);
+    clone.children = vnode.children.map((child) =>
+      isVNode(child) ? selectMatchingOption(child) : child,
+    );
+    return clone;
+  }
+
+  return vnode;
+}
+
+const I9kSelectOptions = () => (slots.default?.() ?? []).map(selectMatchingOption);
 const describedBy = computed(() =>
   mergeI9kIds(i9kStringAttr(attrs['aria-describedby']), field?.describedBy.value),
 );
@@ -73,14 +119,13 @@ if (isDevelopment) {
   <select
     v-bind="nativeAttrs"
     :id="resolvedId"
+    v-model="selectedValue"
     :class="['i9k-select', `i9k-select--${resolvedSize}`]"
-    :value="props.modelValue"
     :required="required"
     :aria-invalid="invalid"
     :aria-describedby="describedBy"
-    @change="$emit('update:modelValue', ($event.target as HTMLSelectElement).value)"
   >
-    <slot />
+    <I9kSelectOptions />
   </select>
 </template>
 

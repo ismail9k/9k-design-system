@@ -1,5 +1,5 @@
 import { renderToString } from '@vue/server-renderer';
-import { createSSRApp } from 'vue';
+import { createSSRApp, h } from 'vue';
 import { describe, expect, it, vi } from 'vitest';
 
 import {
@@ -56,5 +56,19 @@ describe('native action and form SSR', () => {
     } finally {
       vi.unstubAllGlobals();
     }
+  });
+
+  it('marks the non-first I9kSelect model option as selected during SSR', async () => {
+    const html = await renderToString(
+      createSSRApp({
+        render: () =>
+          h(I9kSelect, { modelValue: 'audit', 'aria-label': 'Service' }, () => [
+            h('option', { value: '' }, 'Choose'),
+            h('option', { value: 'audit' }, 'Audit'),
+          ]),
+      }),
+    );
+
+    expect(html).toContain('<option value="audit" selected>Audit</option>');
   });
 });

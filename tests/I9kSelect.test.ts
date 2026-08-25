@@ -25,6 +25,17 @@ describe('I9kSelect', () => {
     expect(wrapper.emitted('update:modelValue')).toEqual([['audit']]);
   });
 
+  it('selects a non-first initial model value after slotted options render', () => {
+    const wrapper = mount(I9kSelect, {
+      props: { modelValue: 'audit' },
+      attrs: { 'aria-label': 'Service' },
+      slots: { default: '<option value="">Choose</option><option value="audit">Audit</option>' },
+    });
+
+    expect(wrapper.get('select').element.value).toBe('audit');
+    expect(wrapper.findAll('option')[1].element.selected).toBe(true);
+  });
+
   it('renders option groups from its default slot', () => {
     const wrapper = mount(I9kSelect, {
       props: { modelValue: '' },
