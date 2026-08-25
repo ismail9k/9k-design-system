@@ -1,7 +1,8 @@
 <script setup lang="ts">
 import icons from '../icons/paths.json';
+import type { I9kIconName } from '../types/icons';
 
-export type I9kIconName = keyof typeof icons;
+export type { I9kIconName } from '../types/icons';
 type IconDefinition = string | { viewBox: string; path: string };
 
 const props = withDefaults(

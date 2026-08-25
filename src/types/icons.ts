@@ -1,0 +1,22 @@
+export const I9K_ICON_NAMES = [
+  'facebook',
+  'twitter',
+  'medium',
+  'linkedin',
+  'behance',
+  'github',
+  'menu',
+  'mail',
+  'dev',
+  'phone',
+  'landMark',
+  'home',
+  'instagram',
+  'youtube',
+  'tiktok',
+  'x',
+  '9klabs',
+  'linktree',
+] as const;
+
+export type I9kIconName = (typeof I9K_ICON_NAMES)[number];
