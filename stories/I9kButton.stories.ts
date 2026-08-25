@@ -41,6 +41,10 @@ export const States: Story = {
 };
 
 export const Sizes: Story = {
+  args: {
+    variant: 'link',
+  },
+
   render: () => ({
     components: { I9kButton },
     template:
