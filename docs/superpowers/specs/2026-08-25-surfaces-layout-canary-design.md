@@ -5,8 +5,8 @@
 ## Goal
 
 Add the six scoped components required to replace the live website's direct surface, badge, grid,
-cluster, stat, and lede primitives, then migrate only the `/design-system` reference page as the
-first website canary.
+cluster, stat, and lede primitives, plus the page-container component needed by current consumers.
+Then migrate only the `/design-system` reference page as the first website canary.
 
 The package slice adds:
 
@@ -16,6 +16,7 @@ The package slice adds:
 - `I9kCluster`
 - `I9kStat`
 - `I9kText`
+- `I9kPageContainer`
 
 `I9kStack` and the rest of the broader surfaces and layout inventory remain outside this slice
 because they do not block the canary migration.
@@ -24,7 +25,7 @@ because they do not block the canary migration.
 
 ### Included
 
-- Typed public APIs and exports for the six new components.
+- Typed public APIs and exports for the seven new components.
 - `sm`, `md`, and `lg` presentation for every component, defaulting to `md`.
 - Vue SFC `<style scoped>` ownership with `i9k-`-prefixed classes.
 - Medium defaults that preserve the current legacy primitive appearance.
@@ -34,6 +35,7 @@ because they do not block the canary migration.
   verification.
 - Migration of primitive specimens on `ismail9k.com/pages/design-system.vue` to the new package
   components.
+- A live `I9kPageContainer` specimen without replacing the website layout wrappers before Batch 4.
 - English/Arabic, light/dark, mobile/desktop, SSR/static-output, and reduced-motion checks for the
   canary.
 - Migration-ledger updates that record the package readiness and Batch 0 result.
@@ -43,6 +45,7 @@ because they do not block the canary migration.
 - `I9kCard`, `I9kStack`, `I9kSeparator`, or `I9kCollapsible`.
 - Remaining native form controls or interaction-heavy components.
 - Public-route migration beyond `/design-system` and `/ar/design-system`.
+- Changes to the `9k.school` consumer.
 - `I9kPagination` and the timeline migration in Batch 2.
 - Removal or renaming of legacy selectors or deprecated button variants.
 - Changes to the current token values or cascade-layer order.
@@ -61,20 +64,21 @@ because they do not block the canary migration.
 
 ## Shared Contracts
 
-All six components consume `I9kComponentSize` from `src/types/components.ts`. Each defaults to
+All seven components consume `I9kComponentSize` from `src/types/components.ts`. Each defaults to
 `size="md"`, renders an `i9k-<component>` root class and an `i9k-<component>--<size>` modifier,
 and declares component-local custom properties on its root class.
 
 The components accept an `as` prop whose default matches the common semantic use:
 
-| Component    | Default element | Supported `as` purpose                               |
-| ------------ | --------------- | ---------------------------------------------------- |
-| `I9kPanel`   | `div`           | `section`, `article`, `aside`, or consumer component |
-| `I9kBadge`   | `span`          | Inline semantic element or consumer component        |
-| `I9kGrid`    | `div`           | `ul`, `ol`, `section`, or consumer component         |
-| `I9kCluster` | `div`           | `nav`, `ul`, or consumer component                   |
-| `I9kStat`    | `div`           | `li`, `article`, or consumer component               |
-| `I9kText`    | `p`             | Another text-appropriate element or component        |
+| Component          | Default element | Supported `as` purpose                               |
+| ------------------ | --------------- | ---------------------------------------------------- |
+| `I9kPanel`         | `div`           | `section`, `article`, `aside`, or consumer component |
+| `I9kBadge`         | `span`          | Inline semantic element or consumer component        |
+| `I9kGrid`          | `div`           | `ul`, `ol`, `section`, or consumer component         |
+| `I9kCluster`       | `div`           | `nav`, `ul`, or consumer component                   |
+| `I9kStat`          | `div`           | `li`, `article`, or consumer component               |
+| `I9kText`          | `p`             | Another text-appropriate element or component        |
+| `I9kPageContainer` | `div`           | Page-level semantic wrapper or consumer component    |
 
 The prop is typed as `string | Component`, following the existing Vue package boundary. The
 library does not validate HTML nesting chosen by the consumer.
@@ -180,11 +184,29 @@ The default variant is `body`. `lede` preserves the current 62-character maximum
 color, bottom margin, medium font size, and line height. Size changes the font scale and spacing;
 it does not change the semantic element selected with `as`.
 
+### `I9kPageContainer`
+
+```ts
+interface I9kPageContainerProps {
+  as?: string | Component;
+  size?: I9kComponentSize;
+}
+```
+
+The component preserves the current website container contract: a centered 1000px maximum width,
+full available width, flex-column content flow, vertically centered content, and
+`min-height: calc(100vh - 250px)`. Desktop inline gutters are `var(--spacing-8)` for small,
+`var(--spacing-13)` for medium, and `var(--spacing-18)` for large. Medium therefore keeps the
+current `2rem` value. At 768px and below, every size uses the current `var(--spacing-8)` (`1rem`)
+safe gutter. These values flow through component-local custom properties. The component does not
+render `main` by default because the live layouts already provide that landmark and a later
+migration must not create nested main elements.
+
 ## Styling and Compatibility
 
 Every component has one `<style scoped>` block. The new SFCs do not emit `.surface`, `.badge`,
-`.grid`, `.cluster`, `.stat`, or `.lede` classes and do not rely on declarations in
-`src/styles/primitives.css`.
+`.grid`, `.cluster`, `.stat`, `.lede`, or `.container` classes and do not rely on declarations in
+`src/styles/primitives.css` or the website's `assets/css/base.css`.
 
 `src/styles/primitives.css` remains intact during this slice. Its selectors continue serving all
 unmigrated website routes. The stylesheet comments may be updated to name the new scoped owners,
@@ -204,21 +226,22 @@ Each component receives a focused behavior test covering:
 - modifier classes;
 - component-specific props and slots;
 - omitted optional Stat regions;
+- PageContainer width, gutter modifier, minimum-height, and default `div` semantics;
 - the Grid responsive contract and Badge tag decoration through compiled-style safeguards.
 
-`tests/I9kScopedStyles.test.ts` adds all six prefixes. `tests/I9kComponentContracts.test.ts`
+`tests/I9kScopedStyles.test.ts` adds all seven prefixes. `tests/I9kComponentContracts.test.ts`
 asserts the public exports and public component-specific types. Compiled CSS tests verify the
 responsive grid selector, dark tag selector, and reduced-motion rules where source assertions are
 insufficient.
 
 Matching Storybook entries show all sizes and variants. An integrated surfaces-and-layout story
-shows nested panels, grids, clusters, badges, stats, and text under LTR and RTL containers without
-legacy classes.
+shows nested panels, grids, clusters, badges, stats, and text under LTR and RTL page containers
+without legacy classes.
 
 ## Website Canary Migration
 
 Only the primitive specimen section of `../ismail9k.com/pages/design-system.vue` is migrated in
-Batch 0. The page imports the six public components and replaces:
+Batch 0. The page imports the seven public components and replaces or documents:
 
 - surface examples with default, feature, and flat `I9kPanel` examples;
 - badge spans with the three `I9kBadge` variants;
@@ -226,6 +249,8 @@ Batch 0. The page imports the six public components and replaces:
 - stat markup with `I9kStat`;
 - clusters with `I9kCluster`;
 - lede paragraphs with `I9kText variant="lede"`.
+- the package page-container contract with a bounded `I9kPageContainer` specimen that does not
+  replace or nest the active layout container.
 
 Token specimens on the same page may use `I9kGrid` where they currently demonstrate layout, but
 unrelated legacy examples and public routes remain untouched. Code snippets and explanatory copy
@@ -235,6 +260,8 @@ contract.
 
 `components/ds/DsSpecimen.vue` changes only if its canary controls require a public size or variant
 adjustment. `assets/css/app.css` retains the package stylesheet and compatibility cascade.
+`layouts/default.vue` and `layouts/clean.vue` retain their current `.container` wrappers until the
+shared-layout migration in Batch 4, so adding the component does not broaden Batch 0 to every route.
 
 ## Verification
 
