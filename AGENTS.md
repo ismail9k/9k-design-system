@@ -1,8 +1,87 @@
-# Repository Guidelines
+# AGENTS.md
+
+Canonical instruction file for this repository, shared by all coding agents
+(Claude Code, Codex, Cursor, and others). Claude Code reaches it through the
+`@AGENTS.md` import in `CLAUDE.md`. Repository guidance belongs here — not in
+`CLAUDE.md`, which is only a pointer.
 
 ## Project Structure & Module Organization
 
 This package provides Vue 3 design-system components and shared CSS. Component source lives in `src/components/`; public exports are collected in `src/index.ts`. Keep design tokens and reusable primitives in `src/styles/`, icon data in `src/icons/`, and other static files in `src/assets/`. Storybook examples belong in `stories/`, with configuration under `.storybook/`. Vitest unit tests live in `tests/`. `dist/` and `storybook-static/` are generated outputs—do not edit or commit them.
+
+## Architecture
+
+### Two style systems, one package
+
+The package ships **one global stylesheet** (`src/styles/index.css`, exported as
+`@ismail9k/9k-design-system/style.css`) and **per-component scoped CSS** compiled into the SFCs.
+The split is deliberate and load-bearing:
+
+- The global stylesheet supplies fonts, design tokens, theme application, branded element
+  defaults, accessibility utilities, and temporary website-compatibility selectors. It is the only
+  CSS a consumer imports.
+- Every visual component owns its own appearance in `<style scoped>` and must not rely on global
+  classes for its look. `tests/I9kScopedStyles.test.ts` enforces this for migrated components.
+
+### Cascade layers
+
+`src/styles/index.css` declares the full cascade order up front and imports each file into its
+layer:
+
+```
+normalize, fonts, tokens, theme, base, primitives, utilities
+```
+
+Put new CSS in the layer that matches its job — `tokens.css` holds definitions only and must never
+produce visual output; `base.css` holds branded element defaults; `primitives.css` holds the
+legacy global classes being migrated away; `utilities.css` holds helpers such as `.sr-only`.
+`tests/normalizeStyles.test.ts` builds the real stylesheet with Vite and asserts both the layer
+order and which layer specific rules land in, so moving a rule between files is a test-visible
+change.
+
+### Token flow into components
+
+Brand tokens live in `:root` in `tokens.css`. Scoped components do not consume raw brand values
+for sizing directly — they declare component-local custom properties on their root class and
+redefine those per size modifier. `I9kButton` is the reference implementation:
+
+```css
+.i9k-button      { --i9k-button-height: var(--control-height-md); ... }
+.i9k-button--sm  { --i9k-button-height: var(--control-height-sm); ... }
+```
+
+The shared scale is `--control-height-*`, `--control-font-size-*`, and `--component-gap-*` for
+`sm`/`md`/`lg`; `tests/I9kComponentContracts.test.ts` pins their values. Sizes and tones are typed
+once in `src/types/components.ts` (`I9kComponentSize`, `I9kTone`) and re-exported from
+`src/index.ts` — use those types rather than redeclaring string unions per component.
+
+### Theming, RTL, and language
+
+Theme is a class on `<html>` (`dark` / `light`), applied through `--theme-*` tokens in
+`theme.css`; components reach dark mode from scoped CSS via `:global(.dark ...)`. Arabic
+typography is selected automatically by `:lang(ar)`, with `.i9k-arabic` / `.i9k-arabic-display`
+as manual escape hatches. Visual changes need light/dark and LTR/RTL checks.
+
+### Website migration in progress
+
+`docs/migrations/ismail9k-com-component-library.md` is the source of truth for the ongoing
+migration of the live Nuxt site at `../ismail9k.com` (consumed via a `file:` dependency). Its
+invariants govern this repo: the package lands a replacement before the website drops the old
+contract, and **no legacy selector or prop may be removed until its ledger row is complete and
+repository search shows zero live usage**. This is why components emit legacy classes alongside
+`i9k-` ones (`I9kButton` renders both `btn btn--primary` and `i9k-button i9k-button--primary`) and
+why `primitives.css` still carries `.surface`, `.badge`, `.grid` and friends. Design specs and
+plans behind this work live in `docs/superpowers/`.
+
+### Component conventions worth knowing
+
+- `I9kButton` renders `<button>`, `<a>`, or a caller-supplied component: pass `to`/`href` for a
+  link, and `link-component="RouterLink"` in Vue Router apps.
+- `I9kInput` names its visual scale prop `uiSize`, not `size`, so the native HTML `size` attribute
+  stays available.
+- `I9kIcon` renders from the local `src/icons/paths.json` set; entries are either a path string or
+  `{ viewBox, path }`. It is `aria-hidden` unless given a `title` or `desc`. Add icons to that JSON
+  rather than inlining SVG in components.
 
 ## Build, Test, and Development Commands
 
@@ -15,6 +94,8 @@ This package provides Vue 3 design-system components and shared CSS. Component s
 - `npm run typecheck`: type-check the library, Storybook, and unit tests.
 - `npm run build`: create the ESM library and declarations in `dist/`.
 - `npm run check`: run the complete test, formatting, lint, type, library, and Storybook build pipeline.
+- `npx vitest run tests/I9kButton.test.ts`: run a single test file.
+- `npx vitest run -t 'renders an anchor'`: run tests matching a name across the suite.
 
 ## Coding Style & Naming Conventions
 
@@ -23,6 +104,13 @@ Use TypeScript and Vue Single-File Components where practical. Prettier enforces
 ## Testing Guidelines
 
 Write tests with Vitest and mount Vue components with Vue Test Utils in the configured jsdom environment. Assert public rendering and interaction behavior rather than implementation details. Add focused cases for new variants, state changes, events, and accessibility contracts. Keep each test independent and use explicit imports from `vitest`. No coverage threshold is configured; cover changed behavior and run `npm run check` before opening a pull request.
+
+Some suites are not ordinary component tests and are slower because they invoke a real Vite build to
+inspect emitted CSS with PostCSS: `normalizeStyles.test.ts` (global cascade layers) and
+`I9kExistingComponentStyles.test.ts` (per-component scoped output). `I9kComponentContracts.test.ts`
+and `I9kScopedStyles.test.ts` assert on source text to pin the public export list, shared token
+values, and the scoped-style rule. Expect these to fail when you move CSS between files or rename a
+token, and update them deliberately rather than loosening the assertion.
 
 ## Commit & Pull Request Guidelines
 
