@@ -49,6 +49,7 @@
     "@vitejs/plugin-vue": "latest",
     "@vue/server-renderer": "^3.5.41",
     "@vue/test-utils": "^2.4.11",
+    "dom-accessibility-api": "^0.6.3",
     "eslint": "^10.8.1",
     "eslint-config-prettier": "^10.1.8",
     "eslint-plugin-vue": "^10.10.0",

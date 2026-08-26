@@ -17,6 +17,20 @@ const phase3AExports = [
   "export { default as I9kTextarea } from './components/I9kTextarea.vue';",
 ] as const;
 
+const surfaceLayoutExports = [
+  "export type { I9kBadgeVariant } from './types/components';",
+  "export type { I9kGridColumns } from './types/components';",
+  "export type { I9kPanelVariant } from './types/components';",
+  "export type { I9kTextVariant } from './types/components';",
+  "export { default as I9kBadge } from './components/I9kBadge.vue';",
+  "export { default as I9kCluster } from './components/I9kCluster.vue';",
+  "export { default as I9kGrid } from './components/I9kGrid.vue';",
+  "export { default as I9kPageContainer } from './components/I9kPageContainer.vue';",
+  "export { default as I9kPanel } from './components/I9kPanel.vue';",
+  "export { default as I9kStat } from './components/I9kStat.vue';",
+  "export { default as I9kText } from './components/I9kText.vue';",
+] as const;
+
 describe('shared component contracts', () => {
   it('exports the common component types', () => {
     expect(indexSource).toContain(
@@ -25,6 +39,10 @@ describe('shared component contracts', () => {
   });
 
   it.each(phase3AExports)('exports %s', (statement) => {
+    expect(indexSource).toContain(statement);
+  });
+
+  it.each(surfaceLayoutExports)('exports %s', (statement) => {
     expect(indexSource).toContain(statement);
   });
 

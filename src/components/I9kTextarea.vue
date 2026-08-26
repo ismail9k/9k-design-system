@@ -21,7 +21,7 @@ const props = withDefaults(
     uiSize?: I9kComponentSize;
     resize?: I9kTextareaResize;
   }>(),
-  { resize: 'vertical' },
+  { uiSize: undefined, resize: 'vertical' },
 );
 
 defineEmits<{ 'update:modelValue': [value: string] }>();

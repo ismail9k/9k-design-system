@@ -56,6 +56,7 @@ changes.
 | `.grid--tight`, `.grid--loose`                            | `I9kGrid size="sm"` or `size="lg"`                          | Express gap through the common size scale.                                                     |
 | `.cluster` and `.cluster--tight`                          | `I9kCluster size="md"` or `size="sm"`                       | Preserve wrapping and center alignment.                                                        |
 | `.lede`                                                   | `I9kText variant="lede"`                                    | Preserve maximum line length, muted color, type size, and line height.                         |
+| Site-owned `.container`                                   | `I9kPageContainer`                                          | Preserve the centered 1000px width, minimum height, and responsive page gutters.               |
 | `.field*`                                                 | `I9kField` plus the matching input component                | Preserve native names, autocomplete, validation messages, and Turnstile focus behavior.        |
 | `.timeline__title`, `.timeline__link`, `.timeline__thumb` | Scoped `I9kTimelineCard` title/default/thumbnail slots      | Remove consumer knowledge of timeline internals while preserving tracking and link attributes. |
 | `.btn` overrides through `:deep()`                        | Public `I9kButton` size and variant props                   | Eliminate styling based on private descendant classes.                                         |
@@ -112,17 +113,24 @@ migration. Replacing router integration is outside this migration's scope.
 
 ## Package Migration Status
 
-| Package component | Scoped replacement ready                                     | Website compatibility still required                                  |
-| ----------------- | ------------------------------------------------------------ | --------------------------------------------------------------------- |
-| `I9kAsciiEmoji`   | Yes: scoped size and color styles                            | `.emoticon*` remains during migration                                 |
-| `I9kLinkCard`     | Yes: scoped surface, badge, and sizes                        | `.surface*` and `.badge*` remain for direct website usage             |
-| `I9kProfileCard`  | Yes: scoped surface, actions, and sizes                      | `.surface*` and `.cluster*` remain for direct website usage           |
-| `I9kTimelineCard` | Yes: scoped layout, sizes, and semantic slots                | `.timeline*` remains until BlogCard, TalkCard, and the canary migrate |
-| `I9kField`        | Yes: label, hint, error, and required association            | `.field*` remains until the website form batch migrates               |
-| `I9kInput`        | Yes: `I9kField` composition and native attribute forwarding  | `.field*` remains for standalone and website form compatibility       |
-| `I9kTextarea`     | Yes: `I9kField` composition, native attributes, and sizes    | `.field*` remains until the website form batch migrates               |
-| `I9kSelect`       | Yes: single-select composition, native attributes, and sizes | `.field*` remains until the website form batch migrates               |
-| `I9kRadioGroup`   | Yes: default and card variants with accessible group state   | Website intent selection remains unchanged until Batch 3              |
+| Package component  | Scoped replacement ready                                     | Website compatibility still required                                  |
+| ------------------ | ------------------------------------------------------------ | --------------------------------------------------------------------- |
+| `I9kAsciiEmoji`    | Yes: scoped size and color styles                            | `.emoticon*` remains during migration                                 |
+| `I9kLinkCard`      | Yes: scoped surface, badge, and sizes                        | `.surface*` and `.badge*` remain for direct website usage             |
+| `I9kProfileCard`   | Yes: scoped surface, actions, and sizes                      | `.surface*` and `.cluster*` remain for direct website usage           |
+| `I9kTimelineCard`  | Yes: scoped layout, sizes, and semantic slots                | `.timeline*` remains until BlogCard, TalkCard, and the canary migrate |
+| `I9kField`         | Yes: label, hint, error, and required association            | `.field*` remains until the website form batch migrates               |
+| `I9kInput`         | Yes: `I9kField` composition and native attribute forwarding  | `.field*` remains for standalone and website form compatibility       |
+| `I9kTextarea`      | Yes: `I9kField` composition, native attributes, and sizes    | `.field*` remains until the website form batch migrates               |
+| `I9kSelect`        | Yes: single-select composition, native attributes, and sizes | `.field*` remains until the website form batch migrates               |
+| `I9kRadioGroup`    | Yes: default and card variants with accessible group state   | Website intent selection remains unchanged until Batch 3              |
+| `I9kPanel`         | Yes: default, feature, and flat scoped surfaces              | `.surface*` remains until Batches 0-1 migrate direct usage            |
+| `I9kBadge`         | Yes: solid, outline, and tag variants                        | `.badge*` remains until Batches 0-2 migrate direct usage              |
+| `I9kGrid`          | Yes: responsive fixed and auto columns                       | `.grid*` remains until Batches 0-2 migrate direct usage               |
+| `I9kCluster`       | Yes: wrapping layout with shared sizes                       | `.cluster*` remains until Batches 0-4 migrate direct usage            |
+| `I9kStat`          | Yes: typed props and rich named slots                        | `.stat*` remains until Batches 0-1 migrate direct usage               |
+| `I9kText`          | Yes: body and lede scoped typography                         | `.lede` remains until Batches 0-1 migrate direct usage                |
+| `I9kPageContainer` | Yes: centered page width and responsive gutters              | Site `.container` remains until shared layouts migrate in Batch 4     |
 
 These form foundations are package-ready only. Batch 3 remains unexecuted: website source and the
 `.field*` compatibility CSS are unchanged.
@@ -149,8 +157,10 @@ Actions:
 2. Add component specimens for all three sizes and relevant states.
 3. Replace primitive-class specimens with real `I9kPanel`, `I9kBadge`, `I9kGrid`, `I9kCluster`,
    `I9kStat`, and `I9kText` examples.
-4. Keep temporary compatibility CSS enabled for public routes.
-5. Generate the site and verify that `/design-system` is present in static output.
+4. Add a bounded `I9kPageContainer` specimen without replacing the live layout wrapper.
+5. Keep temporary compatibility CSS enabled for public routes.
+6. Generate the site and verify that `/design-system` and `/ar/design-system` are present in static
+   output.
 
 ### Batch 1: Cards, surfaces, and layout
 

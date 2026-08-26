@@ -28,15 +28,22 @@ The package is framework-agnostic within Vue 3. `I9kButton` uses a normal anchor
 
 - `I9kButton`
 - `I9kButtonGroup`
+- `I9kBadge`
+- `I9kCluster`
 - `I9kField`
+- `I9kGrid`
 - `I9kIconButton`
 - `I9kInput`
 - `I9kLinkCard`
+- `I9kPageContainer`
 - `I9kPageHeader`
+- `I9kPanel`
 - `I9kRadioGroup`
 - `I9kSectionHeading`
 - `I9kSelect`
+- `I9kStat`
 - `I9kTextarea`
+- `I9kText`
 - `I9kTimelineCard`
 - `I9kArticleHeader`
 - `I9kAsciiEmoji`
@@ -73,11 +80,50 @@ Component appearance is scoped to each Vue SFC. The global stylesheet supplies f
 tokens, themes, element defaults, accessibility utilities, and temporary compatibility styles
 for the current `ismail9k.com` migration.
 
-Legacy classes remain emitted during the website compatibility window. New consumers should treat
-`i9k-` classes and component props/slots as the supported contract.
+Existing migrated components may still emit legacy classes during the website compatibility
+window. New surface and layout components emit only `i9k-` classes; all consumers should treat
+component props, slots, and `i9k-` classes as the supported contract.
 
 `I9kInput` uses `uiSize` for its visual scale so the native HTML `size` attribute remains available
 for character-based input widths.
+
+## Surfaces, layout, and content
+
+Surface and layout components accept an `as` prop when the rendered element needs stronger
+semantics. Layout components style only their own layout and do not change their children.
+
+```vue
+<script setup lang="ts">
+import {
+  I9kBadge,
+  I9kCluster,
+  I9kGrid,
+  I9kPageContainer,
+  I9kPanel,
+  I9kStat,
+  I9kText,
+} from '@ismail9k/9k-design-system';
+</script>
+
+<template>
+  <I9kPageContainer>
+    <I9kText variant="lede">A clear introduction with a deliberate reading measure.</I9kText>
+
+    <I9kGrid :columns="3">
+      <I9kPanel v-for="index in 3" :key="index" as="article">
+        <I9kCluster size="sm">
+          <I9kBadge variant="tag">Vue</I9kBadge>
+        </I9kCluster>
+        <I9kStat value="480k+" label="monthly downloads" />
+      </I9kPanel>
+    </I9kGrid>
+  </I9kPageContainer>
+</template>
+```
+
+`I9kPageContainer` renders a `div` by default to avoid creating nested page landmarks. Its medium
+size preserves the branded 1000px page width and responsive desktop/mobile gutters; choose a
+semantic root with `as` when the surrounding layout does not already provide one.
 
 ## Native actions and form fields
 
