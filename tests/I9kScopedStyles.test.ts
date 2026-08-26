@@ -16,6 +16,13 @@ const migratedComponents = [
   ['I9kLinkCard.vue', 'i9k-link-card'],
   ['I9kProfileCard.vue', 'i9k-profile-card'],
   ['I9kTimelineCard.vue', 'i9k-timeline-card'],
+  ['I9kBadge.vue', 'i9k-badge'],
+  ['I9kCluster.vue', 'i9k-cluster'],
+  ['I9kGrid.vue', 'i9k-grid'],
+  ['I9kPageContainer.vue', 'i9k-page-container'],
+  ['I9kPanel.vue', 'i9k-panel'],
+  ['I9kStat.vue', 'i9k-stat'],
+  ['I9kText.vue', 'i9k-text'],
 ] as const;
 
 describe('migrated component styles', () => {

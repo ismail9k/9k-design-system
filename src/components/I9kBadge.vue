@@ -98,7 +98,7 @@ withDefaults(
   opacity: 0.6;
 }
 
-:global(.dark) .i9k-badge--tag {
+:global(.dark .i9k-badge--tag) {
   border-color: var(--white-color-alpha-15);
   background: var(--white-color-alpha-05);
 }
