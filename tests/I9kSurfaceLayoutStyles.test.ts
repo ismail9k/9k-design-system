@@ -48,11 +48,7 @@ function isMediaRule(rule: Rule, condition: string) {
     params.includes(normalizedCondition) ||
     (normalizedCondition === 'max-width:768px' && params.includes('width<=768px'));
 
-  return (
-    rule.parent?.type === 'atrule' &&
-    rule.parent.name === 'media' &&
-    matchesCondition
-  );
+  return rule.parent?.type === 'atrule' && rule.parent.name === 'media' && matchesCondition;
 }
 
 describe('surface and layout compiled styles', () => {
@@ -92,8 +88,9 @@ describe('surface and layout compiled styles', () => {
     expect(tagBeforeRule?.selector).toMatch(/\.i9k-badge--tag\[data-v-[^\]]+\]:before/);
     expect(tagBeforeRule && hasDeclaration(tagBeforeRule, 'margin-inline-end', '2px')).toBe(true);
     expect(darkTagRule?.selector).toMatch(/\.dark \.i9k-badge--tag/);
-    expect(darkTagRule && hasDeclaration(darkTagRule, 'background', 'var(--white-color-alpha-05)'))
-      .toBe(true);
+    expect(
+      darkTagRule && hasDeclaration(darkTagRule, 'background', 'var(--white-color-alpha-05)'),
+    ).toBe(true);
   });
 
   it('removes Panel transitions for reduced motion', async () => {
@@ -111,6 +108,18 @@ describe('surface and layout compiled styles', () => {
     });
 
     expect(reducedMotionRule?.selector).toMatch(/\.i9k-panel\[data-v-[^\]]+\]/);
+  });
+
+  it('removes the flat Panel border instead of reserving transparent space', async () => {
+    const stylesheet = await buildComponentStylesheet('I9kPanel');
+    let flatRule: Rule | undefined;
+
+    stylesheet.walkRules((rule) => {
+      if (rule.selector.includes('.i9k-panel--flat')) flatRule = rule;
+    });
+
+    expect(flatRule?.selector).toMatch(/\.i9k-panel--flat\[data-v-[^\]]+\]/);
+    expect(flatRule && hasDeclaration(flatRule, 'border', 'none')).toBe(true);
   });
 
   it('pins PageContainer to the safe mobile gutter', async () => {

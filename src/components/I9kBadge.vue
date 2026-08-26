@@ -18,10 +18,7 @@ withDefaults(
 </script>
 
 <template>
-  <component
-    :is="as"
-    :class="['i9k-badge', `i9k-badge--${variant}`, `i9k-badge--${size}`]"
-  >
+  <component :is="as" :class="['i9k-badge', `i9k-badge--${variant}`, `i9k-badge--${size}`]">
     <slot />
   </component>
 </template>

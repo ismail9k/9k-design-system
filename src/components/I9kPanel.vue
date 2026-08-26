@@ -18,10 +18,7 @@ withDefaults(
 </script>
 
 <template>
-  <component
-    :is="as"
-    :class="['i9k-panel', `i9k-panel--${variant}`, `i9k-panel--${size}`]"
-  >
+  <component :is="as" :class="['i9k-panel', `i9k-panel--${variant}`, `i9k-panel--${size}`]">
     <slot />
   </component>
 </template>
@@ -60,7 +57,7 @@ withDefaults(
 }
 
 .i9k-panel--flat {
-  border-color: transparent;
+  border: none;
   background: none;
   backdrop-filter: none;
 }

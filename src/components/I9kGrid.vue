@@ -18,10 +18,7 @@ withDefaults(
 </script>
 
 <template>
-  <component
-    :is="as"
-    :class="['i9k-grid', `i9k-grid--columns-${columns}`, `i9k-grid--${size}`]"
-  >
+  <component :is="as" :class="['i9k-grid', `i9k-grid--columns-${columns}`, `i9k-grid--${size}`]">
     <slot />
   </component>
 </template>
