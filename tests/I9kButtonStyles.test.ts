@@ -66,4 +66,35 @@ describe('I9kButton compiled styles', () => {
       /\.dark\[data-v-[^\]]+\]/,
     );
   });
+
+  it('uses the on-accent foreground when a primary button adopts the accent background', async () => {
+    const stylesheet = await buildButtonStylesheet();
+    let primaryHoverRule: Rule | undefined;
+
+    stylesheet.walkRules((rule) => {
+      if (
+        rule.selector.includes('.i9k-button--primary') &&
+        rule.selector.includes(':hover') &&
+        rule.nodes.some(
+          (node) =>
+            node.type === 'decl' &&
+            node.prop === 'background' &&
+            node.value === 'var(--accent-color)',
+        )
+      ) {
+        primaryHoverRule = rule;
+      }
+    });
+
+    expect(primaryHoverRule).toBeDefined();
+    expect(primaryHoverRule?.nodes).toEqual(
+      expect.arrayContaining([
+        expect.objectContaining({
+          type: 'decl',
+          prop: 'color',
+          value: 'var(--on-accent-color)',
+        }),
+      ]),
+    );
+  });
 });

@@ -112,6 +112,7 @@ const tag = computed(() => props.linkComponent ?? (isLink.value ? 'a' : 'button'
 
 .i9k-button--primary:hover {
   background: var(--accent-color);
+  color: var(--on-accent-color);
   transform: translateY(-1px);
 }
 

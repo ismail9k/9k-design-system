@@ -5,6 +5,33 @@ import { afterEach, beforeEach, describe, expect, it } from 'vitest';
 const themeStyles = readFileSync(resolve('src/styles/theme.css'), 'utf8');
 const tokenStyles = readFileSync(resolve('src/styles/tokens.css'), 'utf8');
 
+function hslLightnessToRgb(lightness: number) {
+  const channel = lightness / 100;
+  return [channel, channel, channel] as const;
+}
+
+function relativeLuminance(rgb: readonly number[]) {
+  return rgb
+    .map((channel) =>
+      channel <= 0.04045
+        ? channel / 12.92
+        : ((channel + 0.055) / 1.055) ** 2.4,
+    )
+    .reduce(
+      (sum, channel, index) => sum + channel * [0.2126, 0.7152, 0.0722][index]!,
+      0,
+    );
+}
+
+function contrastRatio(first: readonly number[], second: readonly number[]) {
+  const firstLuminance = relativeLuminance(first);
+  const secondLuminance = relativeLuminance(second);
+  return (
+    (Math.max(firstLuminance, secondLuminance) + 0.05) /
+    (Math.min(firstLuminance, secondLuminance) + 0.05)
+  );
+}
+
 describe('theme styles', () => {
   beforeEach(() => {
     const style = document.createElement('style');
@@ -42,6 +69,17 @@ describe('theme styles', () => {
     expect(getComputedStyle(document.documentElement).backgroundColor).toBe(
       'var(--theme-bg-color)',
     );
+  });
+
+  it('keeps light-theme muted text at WCAG AA contrast', () => {
+    document.documentElement.classList.add('light');
+    const mutedToken = getComputedStyle(document.documentElement)
+      .getPropertyValue('--text-color-light')
+      .trim();
+    const lightness = Number(mutedToken.match(/hsl\(0 0% (\d+)%\)/)?.[1]);
+
+    expect(lightness).toBeGreaterThan(0);
+    expect(contrastRatio(hslLightnessToRgb(lightness), [1, 1, 1])).toBeGreaterThanOrEqual(4.5);
   });
 
   it('uses the dark color scheme for native controls', () => {
