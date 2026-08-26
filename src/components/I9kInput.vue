@@ -26,7 +26,14 @@ const props = withDefaults(
     required?: boolean;
     uiSize?: I9kComponentSize;
   }>(),
-  { type: 'text', error: null, hint: undefined, required: false },
+  {
+    label: undefined,
+    type: 'text',
+    error: null,
+    hint: undefined,
+    required: false,
+    uiSize: undefined,
+  },
 );
 
 defineEmits<{ 'update:modelValue': [value: string] }>();

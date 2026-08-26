@@ -6,7 +6,7 @@ import tseslint from 'typescript-eslint';
 
 export default tseslint.config(
   {
-    ignores: ['dist/', 'node_modules/', 'storybook-static/'],
+    ignores: ['.playwright-mcp/', '.worktrees/', 'dist/', 'node_modules/', 'storybook-static/'],
   },
   js.configs.recommended,
   ...vue.configs['flat/recommended'],
@@ -31,6 +31,12 @@ export default tseslint.config(
     files: ['**/*.{ts,vue}'],
     rules: {
       'no-undef': 'off',
+    },
+  },
+  {
+    files: ['tests/**/*.ts'],
+    rules: {
+      'vue/one-component-per-file': 'off',
     },
   },
   prettier,

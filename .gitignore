@@ -4,3 +4,4 @@ storybook-static/
 .worktrees/
 *.tgz
 .DS_Store
+.playwright-mcp/
