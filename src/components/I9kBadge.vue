@@ -19,6 +19,7 @@ withDefaults(
 
 <template>
   <component :is="as" :class="['i9k-badge', `i9k-badge--${variant}`, `i9k-badge--${size}`]">
+    <span v-if="variant === 'tag'" class="i9k-badge__decoration" aria-hidden="true">#</span>
     <slot />
   </component>
 </template>
@@ -37,7 +38,7 @@ withDefaults(
   font-size: var(--i9k-badge-font-size);
   font-weight: 600;
   letter-spacing: 0.4px;
-  line-height: 1.2;
+  line-height: 1.5;
   text-transform: uppercase;
   white-space: nowrap;
   transition: var(--transition);
@@ -89,9 +90,8 @@ withDefaults(
   --i9k-badge-font-size: 0.75rem;
 }
 
-.i9k-badge--tag::before {
-  content: '#';
-  margin-inline-end: 2px;
+.i9k-badge__decoration {
+  margin-inline-end: var(--spacing-1);
   opacity: 0.6;
 }
 

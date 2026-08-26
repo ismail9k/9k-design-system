@@ -1,4 +1,5 @@
 import { mount } from '@vue/test-utils';
+import { computeAccessibleName } from 'dom-accessibility-api';
 import { describe, expect, it } from 'vitest';
 
 import I9kBadge from '../src/components/I9kBadge.vue';
@@ -27,13 +28,16 @@ describe('I9kBadge', () => {
     expect(wrapper.classes()).toContain(`i9k-badge--${size}`);
   });
 
-  it('keeps the decorative tag hash out of text content', () => {
+  it('keeps the decorative tag hash out of the accessible name', () => {
     const wrapper = mount(I9kBadge, {
-      props: { variant: 'tag' },
+      props: { as: 'button', variant: 'tag' },
       slots: { default: 'AI' },
     });
 
-    expect(wrapper.text()).toBe('AI');
+    const decoration = wrapper.get('[aria-hidden="true"]');
+
+    expect(decoration.text()).toBe('#');
+    expect(computeAccessibleName(wrapper.element)).toBe('AI');
   });
 
   it('renders the selected root and forwards attributes', () => {

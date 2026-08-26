@@ -71,25 +71,62 @@ describe('surface and layout compiled styles', () => {
     expect(mobileRule && hasDeclaration(mobileRule, 'grid-template-columns', '1fr')).toBe(true);
   });
 
-  it('keeps the tag hash logical and its dark override scoped', async () => {
+  it('keeps the tag decoration logical and its dark override scoped', async () => {
     const stylesheet = await buildComponentStylesheet('I9kBadge');
-    let tagBeforeRule: Rule | undefined;
+    let tagDecorationRule: Rule | undefined;
     let darkTagRule: Rule | undefined;
 
     stylesheet.walkRules((rule) => {
-      if (rule.selector.includes('.i9k-badge--tag') && rule.selector.includes(':before')) {
-        tagBeforeRule = rule;
+      if (rule.selector.includes('.i9k-badge__decoration')) {
+        tagDecorationRule = rule;
       }
       if (rule.selector.includes('.dark') && rule.selector.includes('.i9k-badge--tag')) {
         darkTagRule = rule;
       }
     });
 
-    expect(tagBeforeRule?.selector).toMatch(/\.i9k-badge--tag\[data-v-[^\]]+\]:before/);
-    expect(tagBeforeRule && hasDeclaration(tagBeforeRule, 'margin-inline-end', '2px')).toBe(true);
+    expect(tagDecorationRule?.selector).toMatch(/\.i9k-badge__decoration\[data-v-[^\]]+\]/);
+    expect(
+      tagDecorationRule &&
+        hasDeclaration(tagDecorationRule, 'margin-inline-end', 'var(--spacing-1)'),
+    ).toBe(true);
     expect(darkTagRule?.selector).toMatch(/\.dark \.i9k-badge--tag/);
     expect(
       darkTagRule && hasDeclaration(darkTagRule, 'background', 'var(--white-color-alpha-05)'),
+    ).toBe(true);
+  });
+
+  it('preserves the legacy medium badge line height', async () => {
+    const stylesheet = await buildComponentStylesheet('I9kBadge');
+    let badgeRule: Rule | undefined;
+
+    stylesheet.walkRules((rule) => {
+      if (
+        /^\.i9k-badge\[data-v-[^\]]+\]$/.test(rule.selector) &&
+        hasDeclaration(rule, 'line-height', '1.5')
+      ) {
+        badgeRule = rule;
+      }
+    });
+
+    expect(badgeRule && hasDeclaration(badgeRule, 'line-height', '1.5')).toBe(true);
+  });
+
+  it('connects body text sizes to the shared typography tokens', async () => {
+    const stylesheet = await buildComponentStylesheet('I9kText');
+    let textRule: Rule | undefined;
+    let smallTextRule: Rule | undefined;
+
+    stylesheet.walkRules((rule) => {
+      if (/^\.i9k-text\[data-v-[^\]]+\]$/.test(rule.selector)) textRule = rule;
+      if (/^\.i9k-text--sm\[data-v-[^\]]+\]$/.test(rule.selector)) smallTextRule = rule;
+    });
+
+    expect(textRule && hasDeclaration(textRule, '--i9k-text-font-size', 'var(--text-size-2)')).toBe(
+      true,
+    );
+    expect(
+      smallTextRule && hasDeclaration(smallTextRule, '--i9k-text-font-size', 'var(--text-size-1)'),
     ).toBe(true);
   });
 

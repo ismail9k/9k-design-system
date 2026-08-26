@@ -25,7 +25,7 @@ withDefaults(
 
 <style scoped>
 .i9k-text {
-  --i9k-text-font-size: 1rem;
+  --i9k-text-font-size: var(--text-size-2);
   --i9k-text-line-height: 1.6;
 
   font-size: var(--i9k-text-font-size);
@@ -33,7 +33,7 @@ withDefaults(
 }
 
 .i9k-text--sm {
-  --i9k-text-font-size: 0.875rem;
+  --i9k-text-font-size: var(--text-size-1);
   --i9k-text-line-height: 1.5;
 }
 
