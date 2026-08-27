@@ -83,3 +83,29 @@ describe('showcase prop extraction', () => {
     expect(silent).toEqual([]);
   });
 });
+
+describe('showcase emit and slot extraction', () => {
+  it('reads a model emit with its payload tuple', () => {
+    expect(component('I9kInput').emits).toEqual([
+      { name: 'update:modelValue', payload: '[value: string]' },
+    ]);
+  });
+
+  it('reads an emit whose payload references a component-local interface', () => {
+    expect(component('I9kNavigation').emits).toEqual([
+      { name: 'navigate', payload: '[link: I9kNavigationLink, event: MouseEvent]' },
+    ]);
+  });
+
+  it('reads named slots in template order', () => {
+    expect(component('I9kNavigation').slots).toEqual(['brand', 'actions']);
+  });
+
+  it('reports an unnamed slot as default', () => {
+    expect(component('I9kGrid').slots).toEqual(['default']);
+  });
+
+  it('reports no slots for a component that renders none', () => {
+    expect(component('I9kInput').slots).toEqual([]);
+  });
+});

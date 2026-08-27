@@ -1,12 +1,13 @@
 import { readFileSync } from 'node:fs';
 import { basename } from 'node:path';
 
+import type { TemplateChildNode, RootNode, ElementNode } from '@vue/compiler-core';
 import ts from 'typescript';
 import { parse as parseSfc } from 'vue/compiler-sfc';
 
 import type { AliasEntry } from './aliases';
 import { collectAliases, resolveTypeText, sharedTypeAliases } from './aliases';
-import type { ExtractedComponent, ExtractedProp } from './types';
+import type { ExtractedComponent, ExtractedEmit, ExtractedProp } from './types';
 
 /** Finds the first call to `name` anywhere in the script setup block. */
 const findCall = (sourceFile: ts.SourceFile, name: string): ts.CallExpression | null => {
@@ -93,6 +94,41 @@ const readRuntimeProps = (argument: ts.Expression, sourceFile: ts.SourceFile): E
   return props;
 };
 
+const readEmits = (
+  sourceFile: ts.SourceFile,
+  aliases: Map<string, AliasEntry>,
+  record: (names: string[]) => void,
+): ExtractedEmit[] => {
+  const emitsType = findCall(sourceFile, 'defineEmits')?.typeArguments?.[0];
+  if (!emitsType || !ts.isTypeLiteralNode(emitsType)) return [];
+
+  return emitsType.members.flatMap((member) => {
+    if (!ts.isPropertySignature(member) || !member.type) return [];
+    const resolved = resolveTypeText(member.type.getText(sourceFile), aliases);
+    record(resolved.referenced);
+    return [{ name: propertyName(member, sourceFile), payload: resolved.text }];
+  });
+};
+
+const readSlots = (root: RootNode | undefined): string[] => {
+  if (!root) return [];
+  const names: string[] = [];
+
+  const visit = (node: TemplateChildNode) => {
+    if (node.type !== 1) return;
+    const element = node as ElementNode;
+    if (element.tag === 'slot') {
+      const nameProp = element.props.find((prop) => prop.type === 6 && prop.name === 'name');
+      const value = nameProp && nameProp.type === 6 ? nameProp.value?.content : undefined;
+      names.push(value ?? 'default');
+    }
+    element.children.forEach(visit);
+  };
+
+  root.children.forEach(visit);
+  return names;
+};
+
 export const extractComponent = (filePath: string): ExtractedComponent => {
   const source = readFileSync(filePath, 'utf8');
   const { descriptor } = parseSfc(source, { filename: filePath });
@@ -137,8 +173,8 @@ export const extractComponent = (filePath: string): ExtractedComponent => {
   return {
     name: basename(filePath, '.vue'),
     props,
-    emits: [],
-    slots: [],
+    emits: readEmits(sourceFile, aliases, record),
+    slots: readSlots(descriptor.template?.ast),
     referencedTypes,
   };
 };
