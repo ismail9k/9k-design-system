@@ -41,8 +41,57 @@ const readDefaults = (sourceFile: ts.SourceFile): Map<string, string> => {
   return defaults;
 };
 
-const propertyName = (node: ts.PropertySignature, sourceFile: ts.SourceFile): string =>
-  ts.isStringLiteral(node.name) ? node.name.text : node.name.getText(sourceFile);
+const propertyName = (
+  node: ts.PropertySignature | ts.PropertyAssignment,
+  sourceFile: ts.SourceFile,
+): string => (ts.isStringLiteral(node.name) ? node.name.text : node.name.getText(sourceFile));
+
+/** Maps a runtime constructor identifier (`Boolean`, `String`, …) to its TS type name. */
+const RUNTIME_TYPE_NAMES: Record<string, string> = {
+  Boolean: 'boolean',
+  String: 'string',
+  Number: 'number',
+};
+
+const runtimeTypeName = (node: ts.Expression, sourceFile: ts.SourceFile): string => {
+  const text = node.getText(sourceFile);
+  return RUNTIME_TYPE_NAMES[text] ?? text;
+};
+
+/** Reads props declared with the runtime `defineProps({ … })` object form. */
+const readRuntimeProps = (argument: ts.Expression, sourceFile: ts.SourceFile): ExtractedProp[] => {
+  if (!ts.isObjectLiteralExpression(argument)) return [];
+
+  const props: ExtractedProp[] = [];
+  for (const property of argument.properties) {
+    if (!ts.isPropertyAssignment(property)) continue;
+    const name = propertyName(property, sourceFile);
+    const initializer = property.initializer;
+
+    if (!ts.isObjectLiteralExpression(initializer)) {
+      props.push({
+        name,
+        type: runtimeTypeName(initializer, sourceFile),
+        required: false,
+        default: null,
+      });
+      continue;
+    }
+
+    let type = 'unknown';
+    let required = false;
+    let defaultValue: string | null = null;
+    for (const member of initializer.properties) {
+      if (!ts.isPropertyAssignment(member)) continue;
+      const key = propertyName(member, sourceFile);
+      if (key === 'type') type = runtimeTypeName(member.initializer, sourceFile);
+      if (key === 'required') required = member.initializer.kind === ts.SyntaxKind.TrueKeyword;
+      if (key === 'default') defaultValue = member.initializer.getText(sourceFile);
+    }
+    props.push({ name, type, required, default: defaultValue });
+  }
+  return props;
+};
 
 export const extractComponent = (filePath: string): ExtractedComponent => {
   const source = readFileSync(filePath, 'utf8');
@@ -63,9 +112,10 @@ export const extractComponent = (filePath: string): ExtractedComponent => {
     }
   };
 
-  const props: ExtractedProp[] = [];
+  let props: ExtractedProp[] = [];
   const defaults = readDefaults(sourceFile);
-  const propsType = findCall(sourceFile, 'defineProps')?.typeArguments?.[0];
+  const definePropsCall = findCall(sourceFile, 'defineProps');
+  const propsType = definePropsCall?.typeArguments?.[0];
 
   if (propsType && ts.isTypeLiteralNode(propsType)) {
     for (const member of propsType.members) {
@@ -80,6 +130,8 @@ export const extractComponent = (filePath: string): ExtractedComponent => {
         default: defaults.get(name) ?? null,
       });
     }
+  } else if (definePropsCall && !propsType && definePropsCall.arguments[0]) {
+    props = readRuntimeProps(definePropsCall.arguments[0], sourceFile);
   }
 
   return {

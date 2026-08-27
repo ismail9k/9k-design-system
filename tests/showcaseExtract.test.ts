@@ -1,4 +1,5 @@
-import { resolve } from 'node:path';
+import { readFileSync, readdirSync } from 'node:fs';
+import { join, resolve } from 'node:path';
 
 import { describe, expect, it } from 'vitest';
 
@@ -59,5 +60,26 @@ describe('showcase prop extraction', () => {
     const links = extracted.props.find((prop) => prop.name === 'links');
     expect(links?.type).toBe('I9kNavigationLink[]');
     expect(extracted.referencedTypes.I9kNavigationLink).toContain('label: string');
+  });
+
+  it('reads props declared with the runtime defineProps form', () => {
+    expect(component('I9kBrandWordmark').props).toEqual([
+      { name: 'compact', type: 'boolean', required: false, default: 'false' },
+      { name: 'full', type: 'string', required: false, default: "'Ismail9k'" },
+      { name: 'short', type: 'string', required: false, default: "'9k'" },
+    ]);
+  });
+
+  it('reports no props for a component that declares none', () => {
+    expect(component('I9kBlurredCircles').props).toEqual([]);
+  });
+
+  it('never returns an empty prop list for a component that calls defineProps', () => {
+    const dir = resolve('src/components');
+    const silent = readdirSync(dir)
+      .filter((file) => file.endsWith('.vue'))
+      .filter((file) => readFileSync(join(dir, file), 'utf8').includes('defineProps'))
+      .filter((file) => extractComponent(join(dir, file)).props.length === 0);
+    expect(silent).toEqual([]);
   });
 });
