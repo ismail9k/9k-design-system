@@ -5,3 +5,5 @@ storybook-static/
 *.tgz
 .DS_Store
 .playwright-mcp/
+showcase-dist/
+showcase/.ssr/

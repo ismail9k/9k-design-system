@@ -6,7 +6,14 @@ import tseslint from 'typescript-eslint';
 
 export default tseslint.config(
   {
-    ignores: ['.playwright-mcp/', '.worktrees/', 'dist/', 'node_modules/', 'storybook-static/'],
+    ignores: [
+      '.playwright-mcp/',
+      '.worktrees/',
+      'dist/',
+      'node_modules/',
+      'showcase-dist/',
+      'storybook-static/',
+    ],
   },
   js.configs.recommended,
   ...vue.configs['flat/recommended'],
