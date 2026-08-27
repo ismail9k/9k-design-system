@@ -31,6 +31,19 @@ describe('I9kRadioGroup', () => {
     expect(wrapper.emitted('update:modelValue')).toEqual([['build']]);
   });
 
+  it('renders a decorative mark beside every native radio', () => {
+    const wrapper = mount(I9kRadioGroup, {
+      props: { modelValue: 'audit', options, legend: 'Service', orientation: 'horizontal' },
+    });
+    const radios = wrapper.findAll('.i9k-radio-group__input');
+    const marks = wrapper.findAll('.i9k-radio-group__mark');
+
+    expect(radios).toHaveLength(options.length);
+    expect(marks).toHaveLength(options.length);
+    expect(marks.every((mark) => mark.attributes('aria-hidden') === 'true')).toBe(true);
+    expect(radios[0].element.nextElementSibling).toBe(marks[0].element);
+  });
+
   it('associates option descriptions and group errors', () => {
     const wrapper = mount(I9kRadioGroup, {
       props: { modelValue: '', options, legend: 'Service', error: 'Choose one' },

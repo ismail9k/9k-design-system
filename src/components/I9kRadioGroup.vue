@@ -79,6 +79,7 @@ const fieldsetAttrs = computed(() =>
       <label v-for="(option, index) in props.options" :key="index" class="i9k-radio-group__option">
         <input
           :id="`${groupId}-option-${index}`"
+          class="i9k-radio-group__input"
           type="radio"
           :name="resolvedName"
           :value="option.value"
@@ -93,6 +94,7 @@ const fieldsetAttrs = computed(() =>
           "
           @change="$emit('update:modelValue', option.value)"
         />
+        <span class="i9k-radio-group__mark" aria-hidden="true" />
         <span class="i9k-radio-group__copy">
           <span class="i9k-radio-group__label">{{ option.label }}</span>
           <span
@@ -119,6 +121,8 @@ const fieldsetAttrs = computed(() =>
   --i9k-radio-gap: var(--component-gap-md);
   --i9k-radio-padding: var(--spacing-8);
   --i9k-radio-font-size: var(--control-font-size-md);
+  --i9k-radio-mark-size: 1.35rem;
+  --i9k-radio-line-height: 1.5;
 
   min-inline-size: 0;
   margin: 0;
@@ -130,12 +134,14 @@ const fieldsetAttrs = computed(() =>
   --i9k-radio-gap: var(--component-gap-sm);
   --i9k-radio-padding: var(--spacing-6);
   --i9k-radio-font-size: var(--control-font-size-sm);
+  --i9k-radio-mark-size: 1.15rem;
 }
 
 .i9k-radio-group--lg {
   --i9k-radio-gap: var(--component-gap-lg);
   --i9k-radio-padding: var(--spacing-11);
   --i9k-radio-font-size: var(--control-font-size-lg);
+  --i9k-radio-mark-size: 1.55rem;
 }
 
 .i9k-radio-group__legend {
@@ -154,18 +160,74 @@ const fieldsetAttrs = computed(() =>
 
 .i9k-radio-group--horizontal .i9k-radio-group__options {
   flex-flow: row wrap;
+  column-gap: var(--spacing-13);
+  row-gap: var(--spacing-8);
 }
 
-.i9k-radio-group__option {
-  display: flex;
+.i9k-radio-group--default .i9k-radio-group__option {
+  position: relative;
+  display: grid;
+  grid-template-columns: var(--i9k-radio-mark-size) minmax(0, 1fr);
   gap: var(--spacing-5);
-  align-items: flex-start;
+  align-items: start;
+  cursor: pointer;
+}
+
+.i9k-radio-group__input {
+  position: absolute;
+  width: 1px;
+  height: 1px;
+  opacity: 0;
+}
+
+.i9k-radio-group__mark {
+  display: grid;
+  width: var(--i9k-radio-mark-size);
+  height: var(--i9k-radio-mark-size);
+  margin-block-start: calc(
+    (var(--i9k-radio-font-size) * var(--i9k-radio-line-height) - var(--i9k-radio-mark-size)) / 2
+  );
+  place-items: center;
+  border: 1px solid var(--border-color);
+  border-radius: var(--radius-circle);
+  transition: var(--transition);
+}
+
+.i9k-radio-group__mark::after {
+  width: 42%;
+  aspect-ratio: 1;
+  border-radius: var(--radius-circle);
+  background: var(--dark-color);
+  content: '';
+  transform: scale(0);
+  transition: var(--transition);
+}
+
+.i9k-radio-group__input:checked + .i9k-radio-group__mark {
+  border-color: var(--primary-text-color);
+  background: var(--primary-text-color);
+}
+
+.i9k-radio-group__input:checked + .i9k-radio-group__mark::after {
+  transform: scale(1);
+}
+
+.i9k-radio-group__input:focus-visible + .i9k-radio-group__mark {
+  outline: 3px solid var(--accent-color);
+  outline-offset: 3px;
+}
+
+.i9k-radio-group--default .i9k-radio-group__option:has(.i9k-radio-group__input:disabled) {
+  cursor: not-allowed;
+  opacity: 0.5;
 }
 
 .i9k-radio-group__copy {
   display: flex;
+  min-width: 0;
   flex-direction: column;
   font-size: var(--i9k-radio-font-size);
+  line-height: var(--i9k-radio-line-height);
 }
 
 .i9k-radio-group__description,
@@ -185,7 +247,10 @@ const fieldsetAttrs = computed(() =>
 
 .i9k-radio-group--card .i9k-radio-group__option {
   position: relative;
+  display: flex;
   min-height: 7rem;
+  gap: var(--spacing-5);
+  align-items: flex-start;
   padding: var(--i9k-radio-padding);
   border: 1px solid var(--border-color);
   border-radius: var(--radius-lg);
@@ -231,6 +296,10 @@ const fieldsetAttrs = computed(() =>
   opacity: 0;
 }
 
+.i9k-radio-group--card .i9k-radio-group__mark {
+  display: none;
+}
+
 @media (max-width: 640px) {
   .i9k-radio-group--card .i9k-radio-group__options {
     grid-template-columns: 1fr;
@@ -238,6 +307,8 @@ const fieldsetAttrs = computed(() =>
 }
 
 @media (prefers-reduced-motion: reduce) {
+  .i9k-radio-group__mark,
+  .i9k-radio-group__mark::after,
   .i9k-radio-group--card .i9k-radio-group__option {
     transition: none;
   }

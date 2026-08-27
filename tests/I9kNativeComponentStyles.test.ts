@@ -47,7 +47,44 @@ function hasHalfOpacity(rule: Rule) {
   );
 }
 
+function findRule(stylesheet: Root, property: string, value: string, selectorPart: string) {
+  let match: Rule | undefined;
+
+  stylesheet.walkRules((rule) => {
+    if (rule.selector.includes(selectorPart) && hasDeclaration(rule, property, value)) {
+      match = rule;
+    }
+  });
+
+  return match;
+}
+
 describe('native component compiled styles', () => {
+  it('renders a custom aligned default radio while keeping card marks hidden', async () => {
+    const stylesheet = await buildComponentStylesheet('I9kRadioGroup');
+
+    expect(
+      findRule(
+        stylesheet,
+        'grid-template-columns',
+        'var(--i9k-radio-mark-size) minmax(0, 1fr)',
+        '--default .i9k-radio-group__option',
+      ),
+    ).toBeDefined();
+    expect(
+      findRule(stylesheet, 'border-radius', 'var(--radius-circle)', '.i9k-radio-group__mark'),
+    ).toBeDefined();
+    expect(
+      findRule(
+        stylesheet,
+        'outline',
+        '3px solid var(--accent-color)',
+        ':focus-visible+.i9k-radio-group__mark',
+      ),
+    ).toBeDefined();
+    expect(findRule(stylesheet, 'display', 'none', '--card .i9k-radio-group__mark')).toBeDefined();
+  });
+
   it('retains RadioGroup scope attributes for selected cards and reduced-motion hover', async () => {
     const stylesheet = await buildComponentStylesheet('I9kRadioGroup');
     let selectedRule: Rule | undefined;
