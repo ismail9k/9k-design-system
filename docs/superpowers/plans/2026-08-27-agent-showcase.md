@@ -1364,7 +1364,11 @@ import { RULES } from './registry/rules';
 import { SECTIONS } from './registry/sections';
 
 const components = mergeRegistry(entries, extracted);
-const bySection = SECTIONS.map((section) => ({
+// 'install' and 'rules' are rendered explicitly in the template, so they must be
+// excluded here — leaving them in would emit a second element with the same id.
+const bySection = SECTIONS.filter(
+  (section) => section.id !== 'install' && section.id !== 'rules',
+).map((section) => ({
   ...section,
   components: components.filter((component) => component.section === section.id),
 }));
@@ -1419,15 +1423,13 @@ const componentCount = computed(() => components.length);
         </section>
 
         <section v-for="section in bySection" :key="section.id" :id="`section-${section.id}`">
-          <template v-if="section.id !== 'install' && section.id !== 'rules'">
-            <h2>{{ section.title }}</h2>
-            <ShowcaseTokens v-if="section.id === 'tokens'" />
-            <ShowcaseSpecimen
-              v-for="component in section.components"
-              :key="component.name"
-              :component="component"
-            />
-          </template>
+          <h2>{{ section.title }}</h2>
+          <ShowcaseTokens v-if="section.id === 'tokens'" />
+          <ShowcaseSpecimen
+            v-for="component in section.components"
+            :key="component.name"
+            :component="component"
+          />
         </section>
 
         <section id="section-rules">
@@ -1913,15 +1915,20 @@ Each of these five tasks follows the identical procedure below, differing only i
 **Procedure, for every component in the list:**
 
 - [ ] **Step 1: Read the component source** at `src/components/<Name>.vue` — script, template, and scoped styles — and its story at `stories/<Name>.stories.ts` if one exists. Stories carry working demo code you can lift.
-- [ ] **Step 2: Run the extractor** to see exactly what the props table will show, so the prompt does not contradict it:
+- [ ] **Step 2: Read the extractor output** for the component, so the prompt cannot contradict the
+  props table rendered beside it. Add this temporary test to `tests/showcaseExtract.test.ts`, run
+  it, copy the output, then delete the test before committing:
 
-```bash
-npx vitest run tests/showcaseExtract.test.ts
-node --input-type=module -e "
-import { extractComponent } from './showcase/extract/props.ts';
-console.log(JSON.stringify(extractComponent('src/components/<Name>.vue'), null, 2));
-" 2>/dev/null || echo "run this assertion through a temporary vitest test instead"
+```ts
+  it('TEMP: dump extraction', () => {
+    console.log(JSON.stringify(component('<Name>'), null, 2));
+  });
 ```
+
+Run: `npx vitest run tests/showcaseExtract.test.ts -t 'TEMP'`
+
+This goes through the existing Vitest setup rather than a bare `node -e`, so module resolution for
+`vue/compiler-sfc` and `typescript` is already handled.
 
 - [ ] **Step 3: Write `showcase/registry/<Name>.ts`** exporting `<Name>Entry: ShowcaseEntry`, in the shape of `I9kInput.ts`. The prompt must:
   - open with one sentence saying when to reach for the component;
