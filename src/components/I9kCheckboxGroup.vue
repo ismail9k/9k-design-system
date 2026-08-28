@@ -152,6 +152,7 @@ function updateOption(value: string, checked: boolean) {
 
 .i9k-checkbox-group__legend {
   margin-block-end: var(--spacing-8);
+  font-size: 1.08rem;
   font-weight: 700;
 }
 
@@ -183,6 +184,7 @@ function updateOption(value: string, checked: boolean) {
   grid-template-columns: var(--i9k-checkbox-mark-size) minmax(0, 1fr);
   gap: var(--spacing-6);
   align-items: start;
+  padding: var(--spacing-7) 0;
   cursor: pointer;
 }
 

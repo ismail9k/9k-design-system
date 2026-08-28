@@ -60,6 +60,33 @@ function findRule(stylesheet: Root, property: string, value: string, selectorPar
 }
 
 describe('native component compiled styles', () => {
+  it('preserves the school checkbox spacing, selected fill, and focus treatment', async () => {
+    const stylesheet = await buildComponentStylesheet('I9kCheckboxGroup');
+
+    expect(
+      findRule(stylesheet, 'padding', 'var(--spacing-7) 0', '.i9k-checkbox-group__option'),
+    ).toBeDefined();
+    expect(
+      findRule(stylesheet, 'font-size', '1.08rem', '.i9k-checkbox-group__legend'),
+    ).toBeDefined();
+    expect(
+      findRule(
+        stylesheet,
+        'background',
+        'var(--primary-text-color)',
+        ':checked+.i9k-checkbox-group__mark',
+      ),
+    ).toBeDefined();
+    expect(
+      findRule(
+        stylesheet,
+        'outline',
+        '3px solid var(--accent-color)',
+        ':focus-visible+.i9k-checkbox-group__mark',
+      ),
+    ).toBeDefined();
+  });
+
   it('renders a custom aligned default radio while keeping card marks hidden', async () => {
     const stylesheet = await buildComponentStylesheet('I9kRadioGroup');
 
