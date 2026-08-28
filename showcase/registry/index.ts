@@ -1,10 +1,23 @@
+import { I9kArticleHeaderEntry } from './I9kArticleHeader';
+import { I9kAsciiEmojiEntry } from './I9kAsciiEmoji';
+import { I9kBadgeEntry } from './I9kBadge';
 import { I9kButtonEntry } from './I9kButton';
 import { I9kClusterEntry } from './I9kCluster';
+import { I9kFaqListEntry } from './I9kFaqList';
+import { I9kGithubEmbedEntry } from './I9kGithubEmbed';
 import { I9kGridEntry } from './I9kGrid';
+import { I9kIconEntry } from './I9kIcon';
 import { I9kInputEntry } from './I9kInput';
+import { I9kLinkCardEntry } from './I9kLinkCard';
 import { I9kNavigationEntry } from './I9kNavigation';
 import { I9kPageContainerEntry } from './I9kPageContainer';
+import { I9kPageHeaderEntry } from './I9kPageHeader';
 import { I9kPanelEntry } from './I9kPanel';
+import { I9kProfileCardEntry } from './I9kProfileCard';
+import { I9kSectionHeadingEntry } from './I9kSectionHeading';
+import { I9kStatEntry } from './I9kStat';
+import { I9kTextEntry } from './I9kText';
+import { I9kTimelineCardEntry } from './I9kTimelineCard';
 import type { ShowcaseEntry } from './types';
 
 export const entries: ShowcaseEntry[] = [
@@ -12,6 +25,19 @@ export const entries: ShowcaseEntry[] = [
   I9kPageContainerEntry,
   I9kClusterEntry,
   I9kPanelEntry,
+  I9kTextEntry,
+  I9kSectionHeadingEntry,
+  I9kPageHeaderEntry,
+  I9kArticleHeaderEntry,
+  I9kBadgeEntry,
+  I9kStatEntry,
+  I9kLinkCardEntry,
+  I9kTimelineCardEntry,
+  I9kProfileCardEntry,
+  I9kFaqListEntry,
+  I9kGithubEmbedEntry,
+  I9kIconEntry,
+  I9kAsciiEmojiEntry,
   I9kInputEntry,
   I9kButtonEntry,
   I9kNavigationEntry,
