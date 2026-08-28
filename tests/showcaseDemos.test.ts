@@ -1,0 +1,64 @@
+import { resolve } from 'node:path';
+
+import { mount } from '@vue/test-utils';
+import { describe, expect, it } from 'vitest';
+
+import { extractComponent } from '../showcase/extract/props';
+import { compileDemo } from '../showcase/components/compileDemo';
+import { entries } from '../showcase/registry';
+import { mergeRegistry } from '../showcase/registry/merge';
+
+const components = mergeRegistry(
+  entries,
+  entries.map((entry) => extractComponent(resolve(`src/components/${entry.name}.vue`))),
+);
+
+describe('showcase demo compilation', () => {
+  it('renders a demo from its own code string', () => {
+    const wrapper = mount(compileDemo({ label: 'x', code: '<I9kBadge>Live</I9kBadge>' }));
+    expect(wrapper.text()).toContain('Live');
+    expect(wrapper.find('.i9k-badge').exists()).toBe(true);
+  });
+
+  it('binds a demo state object so v-model code renders', () => {
+    const wrapper = mount(
+      compileDemo({
+        label: 'x',
+        code: '<I9kInput v-model="email" label="Email" />',
+        state: { email: 'a@b.c' },
+      }),
+    );
+    expect(wrapper.find('input').element.value).toBe('a@b.c');
+  });
+
+  it('renders a multi-root demo without warning', () => {
+    const wrapper = mount(
+      compileDemo({ label: 'x', code: '<I9kBadge>One</I9kBadge><I9kBadge>Two</I9kBadge>' }),
+    );
+    expect(wrapper.text()).toContain('One');
+    expect(wrapper.text()).toContain('Two');
+  });
+
+  it('every registered demo compiles and mounts without throwing', () => {
+    for (const component of components) {
+      for (const demo of component.demos) {
+        expect(() => mount(compileDemo(demo)), `${component.name} / ${demo.label}`).not.toThrow();
+      }
+    }
+  });
+
+  it('every demo referencing a binding declares state for it', () => {
+    const missing: string[] = [];
+    for (const component of components) {
+      for (const demo of component.demos) {
+        const bindings = [...demo.code.matchAll(/v-model="(\w+)"/g)].map((match) => match[1]);
+        for (const binding of bindings) {
+          if (!demo.state || !(binding in demo.state)) {
+            missing.push(`${component.name} / ${demo.label} / ${binding}`);
+          }
+        }
+      }
+    }
+    expect(missing).toEqual([]);
+  });
+});

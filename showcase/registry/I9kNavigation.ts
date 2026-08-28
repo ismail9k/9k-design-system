@@ -57,6 +57,12 @@ Usage:
     <strong v-else>A</strong>
   </template>
 </I9kNavigation>`,
+      state: {
+        links: [
+          { id: 'docs', label: 'Docs', href: '/docs' },
+          { id: 'pricing', label: 'Pricing', href: '/pricing' },
+        ],
+      },
     },
   ],
 };

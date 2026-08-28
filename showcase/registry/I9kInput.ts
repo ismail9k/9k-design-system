@@ -34,11 +34,13 @@ Usage:
       code: `<I9kInput v-model="a" ui-size="sm" label="Small" />
 <I9kInput v-model="b" ui-size="md" label="Medium" />
 <I9kInput v-model="c" ui-size="lg" label="Large" />`,
+      state: { a: '', b: '', c: '' },
     },
     {
       label: 'Hint and error',
       code: `<I9kInput v-model="email" label="Email" hint="We never share it." />
 <I9kInput v-model="email" label="Email" error="That address is not valid." />`,
+      state: { email: '' },
     },
   ],
 };

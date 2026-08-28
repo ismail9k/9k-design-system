@@ -1,9 +1,18 @@
 <script setup lang="ts">
+import { computed } from 'vue';
+
+import { compileDemo } from './compileDemo';
 import ShowcasePromptBlock from './ShowcasePromptBlock.vue';
 import ShowcasePropsTable from './ShowcasePropsTable.vue';
 import type { ShowcaseComponent } from '../registry/types';
 
-defineProps<{ component: ShowcaseComponent }>();
+const props = defineProps<{ component: ShowcaseComponent }>();
+
+// Compile once per demo rather than on every render, so a re-render from either
+// toggle does not recompile every template on the page.
+const stagedDemos = computed(() =>
+  props.component.demos.map((demo) => ({ demo, stage: compileDemo(demo) })),
+);
 </script>
 
 <template>
@@ -11,10 +20,14 @@ defineProps<{ component: ShowcaseComponent }>();
     <h3 :id="component.name">{{ component.name }}</h3>
     <p class="showcase-specimen__summary">{{ component.summary }}</p>
 
-    <section v-for="demo in component.demos" :key="demo.label" class="showcase-specimen__demo">
+    <section
+      v-for="{ demo, stage } in stagedDemos"
+      :key="demo.label"
+      class="showcase-specimen__demo"
+    >
       <h4>{{ demo.label }}</h4>
-      <div v-if="demo.render" class="showcase-specimen__stage">
-        <component :is="demo.render" />
+      <div class="showcase-specimen__stage">
+        <component :is="stage" />
       </div>
       <pre class="showcase-specimen__code"><code>{{ demo.code }}</code></pre>
     </section>

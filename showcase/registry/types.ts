@@ -15,9 +15,11 @@ export type SectionId =
 
 export interface ShowcaseDemo {
   label: string;
-  /** Source shown to the reader and copied by the copy button. */
+  /** Shown to the reader AND compiled to produce the live render — they cannot drift. */
   code: string;
-  /** Rendered live. Omit for a code-only demo. */
+  /** Reactive scope for the compiled code, for demos using v-model or bound expressions. */
+  state?: Record<string, unknown>;
+  /** Escape hatch for a demo the template compiler cannot express. Prefer `code`. */
   render?: Component;
 }
 
