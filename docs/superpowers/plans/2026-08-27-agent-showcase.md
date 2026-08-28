@@ -26,36 +26,36 @@
 
 **Created:**
 
-| Path | Responsibility |
-|---|---|
-| `showcase/extract/types.ts` | Shared types for extractor output |
-| `showcase/extract/props.ts` | Parse one SFC → props, defaults, emits, slots, referenced types |
-| `showcase/extract/aliases.ts` | Build the alias map from `src/types/*.ts` and resolve alias names |
-| `showcase/registry/types.ts` | `ShowcaseEntry`, `SectionId`, `ShowcaseComponent` |
-| `showcase/registry/rules.ts` | The single source of the agent rules list |
-| `showcase/registry/sections.ts` | Ordered section ids and their display titles |
-| `showcase/registry/<Component>.ts` | One hand-authored entry per exported component |
-| `showcase/registry/index.ts` | Collects entries in section order |
-| `showcase/registry/merge.ts` | Merge registry entries with extractor output |
-| `showcase/manifest.ts` | Build the `components.json` object and the `llms.txt` string |
-| `showcase/vite-plugin-data.ts` | Serves `virtual:showcase-data` from the extractor |
-| `showcase/vite.config.ts` | Showcase-only Vite config (root, outDir, plugin) |
-| `showcase/env.d.ts` | Module declaration for `virtual:showcase-data` |
-| `showcase/index.html` | Page shell |
-| `showcase/main.ts` | Client entry; hydrates |
-| `showcase/entry-server.ts` | SSR entry; exports `render()` and `manifest()` |
-| `showcase/prerender.mjs` | Post-build: inject HTML, write `components.json` and `llms.txt` |
-| `showcase/ShowcaseApp.vue` | Page shell: header, rail, sections |
-| `showcase/components/ShowcaseSpecimen.vue` | Demo + code + props table + gotchas + prompt |
-| `showcase/components/ShowcasePropsTable.vue` | Props / emits / slots tables |
-| `showcase/components/ShowcasePromptBlock.vue` | Visible prompt text + copy button |
-| `showcase/components/ShowcaseRail.vue` | Sticky section rail |
-| `showcase/components/ShowcaseTokens.vue` | Token specimens for the Tokens section |
-| `tests/showcaseExtract.test.ts` | Extractor correctness against known components |
-| `tests/showcaseRegistry.test.ts` | Registry completeness against `src/index.ts` |
-| `tests/showcaseManifest.test.ts` | Manifest shape and prompt/summary presence |
-| `wrangler.jsonc` | Cloudflare Pages output dir |
-| `.github/workflows/showcase.yml` | Build and deploy on push to `main` |
+| Path                                          | Responsibility                                                    |
+| --------------------------------------------- | ----------------------------------------------------------------- |
+| `showcase/extract/types.ts`                   | Shared types for extractor output                                 |
+| `showcase/extract/props.ts`                   | Parse one SFC → props, defaults, emits, slots, referenced types   |
+| `showcase/extract/aliases.ts`                 | Build the alias map from `src/types/*.ts` and resolve alias names |
+| `showcase/registry/types.ts`                  | `ShowcaseEntry`, `SectionId`, `ShowcaseComponent`                 |
+| `showcase/registry/rules.ts`                  | The single source of the agent rules list                         |
+| `showcase/registry/sections.ts`               | Ordered section ids and their display titles                      |
+| `showcase/registry/<Component>.ts`            | One hand-authored entry per exported component                    |
+| `showcase/registry/index.ts`                  | Collects entries in section order                                 |
+| `showcase/registry/merge.ts`                  | Merge registry entries with extractor output                      |
+| `showcase/manifest.ts`                        | Build the `components.json` object and the `llms.txt` string      |
+| `showcase/vite-plugin-data.ts`                | Serves `virtual:showcase-data` from the extractor                 |
+| `showcase/vite.config.ts`                     | Showcase-only Vite config (root, outDir, plugin)                  |
+| `showcase/env.d.ts`                           | Module declaration for `virtual:showcase-data`                    |
+| `showcase/index.html`                         | Page shell                                                        |
+| `showcase/main.ts`                            | Client entry; hydrates                                            |
+| `showcase/entry-server.ts`                    | SSR entry; exports `render()` and `manifest()`                    |
+| `showcase/prerender.mjs`                      | Post-build: inject HTML, write `components.json` and `llms.txt`   |
+| `showcase/ShowcaseApp.vue`                    | Page shell: header, rail, sections                                |
+| `showcase/components/ShowcaseSpecimen.vue`    | Demo + code + props table + gotchas + prompt                      |
+| `showcase/components/ShowcasePropsTable.vue`  | Props / emits / slots tables                                      |
+| `showcase/components/ShowcasePromptBlock.vue` | Visible prompt text + copy button                                 |
+| `showcase/components/ShowcaseRail.vue`        | Sticky section rail                                               |
+| `showcase/components/ShowcaseTokens.vue`      | Token specimens for the Tokens section                            |
+| `tests/showcaseExtract.test.ts`               | Extractor correctness against known components                    |
+| `tests/showcaseRegistry.test.ts`              | Registry completeness against `src/index.ts`                      |
+| `tests/showcaseManifest.test.ts`              | Manifest shape and prompt/summary presence                        |
+| `wrangler.jsonc`                              | Cloudflare Pages output dir                                       |
+| `.github/workflows/showcase.yml`              | Build and deploy on push to `main`                                |
 
 **Modified:** `package.json` (scripts), `.gitignore`, `eslint.config.js` (ignores), `tsconfig.test.json` (include showcase), `AGENTS.md` (document the showcase).
 
@@ -64,12 +64,14 @@
 ### Task 1: Extractor — props, defaults, and alias resolution
 
 **Files:**
+
 - Create: `showcase/extract/types.ts`
 - Create: `showcase/extract/aliases.ts`
 - Create: `showcase/extract/props.ts`
 - Test: `tests/showcaseExtract.test.ts`
 
 **Interfaces:**
+
 - Consumes: nothing.
 - Produces: `extractComponent(filePath: string): ExtractedComponent` from `showcase/extract/props.ts`. `ExtractedComponent` is `{ name: string; props: ExtractedProp[]; emits: ExtractedEmit[]; slots: string[]; referencedTypes: Record<string, string> }`. `ExtractedProp` is `{ name: string; type: string; required: boolean; default: string | null }`. `ExtractedEmit` is `{ name: string; payload: string }`. Task 2 fills `emits` and `slots`; this task leaves them as empty arrays.
 
@@ -125,9 +127,7 @@ describe('showcase prop extraction', () => {
 
   it('resolves an alias declared inside the component', () => {
     const variant = component('I9kButton').props.find((prop) => prop.name === 'variant');
-    expect(variant?.type).toBe(
-      "'default' | 'primary' | 'link' | 'filter' | 'pagination' | 'page'",
-    );
+    expect(variant?.type).toBe("'default' | 'primary' | 'link' | 'filter' | 'pagination' | 'page'");
   });
 
   it('resolves a union mixing numeric and string literals', () => {
@@ -289,7 +289,11 @@ const findCall = (sourceFile: ts.SourceFile, name: string): ts.CallExpression | 
   let found: ts.CallExpression | null = null;
   const visit = (node: ts.Node) => {
     if (found) return;
-    if (ts.isCallExpression(node) && ts.isIdentifier(node.expression) && node.expression.text === name) {
+    if (
+      ts.isCallExpression(node) &&
+      ts.isIdentifier(node.expression) &&
+      node.expression.text === name
+    ) {
       found = node;
       return;
     }
@@ -383,10 +387,12 @@ git commit -m "feat: extract component props from SFC source for the showcase"
 ### Task 2: Extractor — emits and slots
 
 **Files:**
+
 - Modify: `showcase/extract/props.ts`
 - Test: `tests/showcaseExtract.test.ts` (append a second `describe`)
 
 **Interfaces:**
+
 - Consumes: `extractComponent`, `ExtractedComponent`, `resolveTypeText` from Task 1.
 - Produces: the same `extractComponent`, now populating `emits: ExtractedEmit[]` and `slots: string[]`.
 
@@ -478,13 +484,13 @@ const readSlots = (root: RootNode | undefined): string[] => {
 Then replace the return statement of `extractComponent` with:
 
 ```ts
-  return {
-    name: basename(filePath, '.vue'),
-    props,
-    emits: readEmits(sourceFile, aliases, record),
-    slots: readSlots(descriptor.template?.ast),
-    referencedTypes,
-  };
+return {
+  name: basename(filePath, '.vue'),
+  props,
+  emits: readEmits(sourceFile, aliases, record),
+  slots: readSlots(descriptor.template?.ast),
+  referencedTypes,
+};
 ```
 
 `@vue/compiler-core` is a transitive dependency of `vue`; these are type-only imports, erased at build time, so no runtime dependency is added.
@@ -508,12 +514,14 @@ git commit -m "feat: extract component emits and slots for the showcase"
 ### Task 3: Registry types, rules, sections, and the four exemplar entries
 
 **Files:**
+
 - Create: `showcase/registry/types.ts`, `showcase/registry/rules.ts`, `showcase/registry/sections.ts`, `showcase/registry/merge.ts`, `showcase/registry/index.ts`
 - Create: `showcase/registry/I9kButton.ts`, `showcase/registry/I9kInput.ts`, `showcase/registry/I9kGrid.ts`, `showcase/registry/I9kNavigation.ts`
 - Modify: `tsconfig.test.json`
 - Test: `tests/showcaseRegistry.test.ts`
 
 **Interfaces:**
+
 - Consumes: `ExtractedComponent` from Task 1.
 - Produces: `entries: ShowcaseEntry[]` from `showcase/registry/index.ts`; `mergeRegistry(entries: ShowcaseEntry[], extracted: ExtractedComponent[]): ShowcaseComponent[]` from `showcase/registry/merge.ts`; `RULES: string[]` from `showcase/registry/rules.ts`; `SECTIONS: { id: SectionId; title: string }[]` from `showcase/registry/sections.ts`. Tasks 4, 5, and 8–12 all build on these.
 
@@ -535,9 +543,7 @@ import { mergeRegistry } from '../showcase/registry/merge';
 import { SECTIONS } from '../showcase/registry/sections';
 
 const exportedNames = [
-  ...readFileSync(resolve('src/index.ts'), 'utf8').matchAll(
-    /export \{ default as (I9k\w+) \}/g,
-  ),
+  ...readFileSync(resolve('src/index.ts'), 'utf8').matchAll(/export \{ default as (I9k\w+) \}/g),
 ].map((match) => match[1]);
 
 const sectionIds = new Set(SECTIONS.map((section) => section.id));
@@ -809,11 +815,13 @@ git commit -m "feat: add showcase registry types, agent rules, and four exemplar
 ### Task 4: Showcase app shell and specimen components
 
 **Files:**
+
 - Create: `showcase/vite-plugin-data.ts`, `showcase/vite.config.ts`, `showcase/env.d.ts`, `showcase/index.html`, `showcase/main.ts`, `showcase/ShowcaseApp.vue`
 - Create: `showcase/components/ShowcaseSpecimen.vue`, `showcase/components/ShowcasePropsTable.vue`, `showcase/components/ShowcasePromptBlock.vue`, `showcase/components/ShowcaseRail.vue`, `showcase/components/ShowcaseTokens.vue`
 - Modify: `package.json`, `.gitignore`, `eslint.config.js`
 
 **Interfaces:**
+
 - Consumes: `entries`, `mergeRegistry`, `SECTIONS`, `RULES` from Task 3; `ExtractedComponent` from Task 1.
 - Produces: the virtual module `virtual:showcase-data` exporting `extracted: ExtractedComponent[]`; a dev server on `npm run showcase`. Task 5 imports `ShowcaseApp.vue` from its SSR entry.
 
@@ -1000,7 +1008,11 @@ defineProps<{ propRows: ExtractedProp[]; emitRows: ExtractedEmit[]; slotNames: s
           Props
         </caption>
         <thead>
-          <tr><th>Prop</th><th>Type</th><th>Default</th></tr>
+          <tr>
+            <th>Prop</th>
+            <th>Type</th>
+            <th>Default</th>
+          </tr>
         </thead>
         <tbody>
           <tr v-for="prop in propRows" :key="prop.name">
@@ -1008,7 +1020,9 @@ defineProps<{ propRows: ExtractedProp[]; emitRows: ExtractedEmit[]; slotNames: s
               <code>{{ prop.name }}</code>
               <span v-if="prop.required" class="showcase-api__required" title="Required">*</span>
             </td>
-            <td><code>{{ prop.type }}</code></td>
+            <td>
+              <code>{{ prop.type }}</code>
+            </td>
             <td>
               <code v-if="prop.default">{{ prop.default }}</code>
               <span v-else>&mdash;</span>
@@ -1024,12 +1038,19 @@ defineProps<{ propRows: ExtractedProp[]; emitRows: ExtractedEmit[]; slotNames: s
           Emits
         </caption>
         <thead>
-          <tr><th>Event</th><th>Payload</th></tr>
+          <tr>
+            <th>Event</th>
+            <th>Payload</th>
+          </tr>
         </thead>
         <tbody>
           <tr v-for="emit in emitRows" :key="emit.name">
-            <td><code>{{ emit.name }}</code></td>
-            <td><code>{{ emit.payload }}</code></td>
+            <td>
+              <code>{{ emit.name }}</code>
+            </td>
+            <td>
+              <code>{{ emit.payload }}</code>
+            </td>
           </tr>
         </tbody>
       </table>
@@ -1298,7 +1319,9 @@ const radiusTokens = ['--radius-sm', '--radius-md', '--radius-lg', '--radius-pil
         modifier, drawing from this shared scale rather than from raw brand values.
       </p>
       <ul class="showcase-tokens__list">
-        <li v-for="token in controlTokens" :key="token"><code>{{ token }}</code></li>
+        <li v-for="token in controlTokens" :key="token">
+          <code>{{ token }}</code>
+        </li>
       </ul>
     </section>
   </div>
@@ -1396,10 +1419,10 @@ const componentCount = computed(() => components.length);
     <header class="showcase__header">
       <h1>9k Design System</h1>
       <p>
-        Every one of the {{ componentCount }} components in
-        <code>@ismail9k/9k-design-system</code>, with props read from source, live demos, and a
-        copy-paste prompt per component. Machine-readable at
-        <a href="/components.json">/components.json</a> and <a href="/llms.txt">/llms.txt</a>.
+        Every one of the {{ componentCount }} components in <code>@ismail9k/9k-design-system</code>,
+        with props read from source, live demos, and a copy-paste prompt per component.
+        Machine-readable at <a href="/components.json">/components.json</a> and
+        <a href="/llms.txt">/llms.txt</a>.
       </p>
       <div class="showcase__toggles">
         <button type="button" @click="toggleTheme">Theme: {{ theme }}</button>
@@ -1531,11 +1554,13 @@ git commit -m "feat: add showcase app shell, specimens, and virtual data module"
 ### Task 5: Prerender build, components.json, and llms.txt
 
 **Files:**
+
 - Create: `showcase/manifest.ts`, `showcase/entry-server.ts`, `showcase/prerender.mjs`
 - Modify: `package.json`
 - Test: `tests/showcaseManifest.test.ts`
 
 **Interfaces:**
+
 - Consumes: `entries`, `mergeRegistry`, `RULES` from Task 3; `ShowcaseApp.vue` from Task 4.
 - Produces: `buildManifest(components: ShowcaseComponent[], version: string): Manifest` and `buildLlmsTxt(manifest: Manifest): string` from `showcase/manifest.ts`; `npm run build:showcase` emitting `showcase-dist/index.html`, `showcase-dist/components.json`, and `showcase-dist/llms.txt`.
 
@@ -1779,10 +1804,12 @@ git commit -m "feat: prerender the showcase and emit components.json and llms.tx
 ### Task 6: Cloudflare Pages deployment
 
 **Files:**
+
 - Create: `wrangler.jsonc`, `.github/workflows/showcase.yml`
 - Modify: `AGENTS.md`
 
 **Interfaces:**
+
 - Consumes: `npm run build:showcase` from Task 5.
 - Produces: nothing later tasks depend on.
 
@@ -1797,7 +1824,7 @@ Create `wrangler.jsonc`:
   "name": "9k-design-system",
   "compatibility_date": "2026-08-27",
   // The showcase is a fully static prerender. `npm run build:showcase` writes here.
-  "pages_build_output_dir": "./showcase-dist"
+  "pages_build_output_dir": "./showcase-dist",
 }
 ```
 
@@ -1904,11 +1931,13 @@ git commit -m "docs: revise showcase agent prompts after review"
 Each of these five tasks follows the identical procedure below, differing only in the component list. They are separate tasks so a reviewer can accept one section and reject another.
 
 **Files, for each task:**
+
 - Create: `showcase/registry/<Component>.ts`, one per component in that task's list
 - Modify: `showcase/registry/index.ts`
 - Test: `tests/showcaseRegistry.test.ts` (no edit; the existing `it.each` picks up new entries automatically)
 
 **Interfaces:**
+
 - Consumes: `ShowcaseEntry` from `showcase/registry/types.ts` (Task 3), and the corrected exemplar style from Task 7.
 - Produces: additional members of `entries` in `showcase/registry/index.ts`.
 
@@ -1916,13 +1945,13 @@ Each of these five tasks follows the identical procedure below, differing only i
 
 - [ ] **Step 1: Read the component source** at `src/components/<Name>.vue` — script, template, and scoped styles — and its story at `stories/<Name>.stories.ts` if one exists. Stories carry working demo code you can lift.
 - [ ] **Step 2: Read the extractor output** for the component, so the prompt cannot contradict the
-  props table rendered beside it. Add this temporary test to `tests/showcaseExtract.test.ts`, run
-  it, copy the output, then delete the test before committing:
+      props table rendered beside it. Add this temporary test to `tests/showcaseExtract.test.ts`, run
+      it, copy the output, then delete the test before committing:
 
 ```ts
-  it('TEMP: dump extraction', () => {
-    console.log(JSON.stringify(component('<Name>'), null, 2));
-  });
+it('TEMP: dump extraction', () => {
+  console.log(JSON.stringify(component('<Name>'), null, 2));
+});
 ```
 
 Run: `npx vitest run tests/showcaseExtract.test.ts -t 'TEMP'`
@@ -1959,9 +1988,11 @@ After Task 12, `entries` contains 33 members: 4 (Task 3) + 3 + 13 + 4 + 3 + 6.
 ### Task 13: Enforce full coverage
 
 **Files:**
+
 - Modify: `tests/showcaseRegistry.test.ts`
 
 **Interfaces:**
+
 - Consumes: the complete `entries` array from Tasks 3 and 8–12.
 - Produces: the guarantee that a new export without a registry entry fails the suite.
 
@@ -1970,11 +2001,11 @@ After Task 12, `entries` contains 33 members: 4 (Task 3) + 3 + 13 + 4 + 3 + 6.
 Add this to the `describe('showcase registry')` block in `tests/showcaseRegistry.test.ts`:
 
 ```ts
-  it('documents every component exported from src/index.ts', () => {
-    const documented = new Set(entries.map((entry) => entry.name));
-    const missing = exportedNames.filter((name) => !documented.has(name));
-    expect(missing).toEqual([]);
-  });
+it('documents every component exported from src/index.ts', () => {
+  const documented = new Set(entries.map((entry) => entry.name));
+  const missing = exportedNames.filter((name) => !documented.has(name));
+  expect(missing).toEqual([]);
+});
 ```
 
 - [ ] **Step 2: Run the test**

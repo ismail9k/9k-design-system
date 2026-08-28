@@ -84,7 +84,7 @@ known to render server-side.
 Every component in `src/components/` uses the same shape:
 
 ```ts
-withDefaults(defineProps<{ /* type literal */ }>(), { /* defaults */ });
+withDefaults(defineProps<{/* type literal */}>(), {/* defaults */});
 ```
 
 `showcase/extract/props.ts` parses each SFC's `<script setup lang="ts">` block with the TypeScript
@@ -107,11 +107,11 @@ One file per component under `showcase/registry/`, exporting an entry of this sh
 
 ```ts
 export interface ShowcaseEntry {
-  name: string;                 // must match an export from src/index.ts
+  name: string; // must match an export from src/index.ts
   section: SectionId;
-  summary: string;              // one or two sentences
-  agentPrompt: string;          // self-contained, copy-paste ready
-  gotchas: string[];            // non-obvious constraints; may be empty
+  summary: string; // one or two sentences
+  agentPrompt: string; // self-contained, copy-paste ready
+  gotchas: string[]; // non-obvious constraints; may be empty
   demos: { label: string; code: string; component?: Component }[];
 }
 ```
@@ -175,7 +175,14 @@ Emitted by `build.ts` from the same registry and extractor output, served at the
       "name": "I9kInput",
       "section": "Forms",
       "summary": "…",
-      "props": [{ "name": "uiSize", "type": "'sm' | 'md' | 'lg'", "default": "undefined", "required": false }],
+      "props": [
+        {
+          "name": "uiSize",
+          "type": "'sm' | 'md' | 'lg'",
+          "default": "undefined",
+          "required": false
+        }
+      ],
       "emits": [{ "name": "update:modelValue", "payload": "[value: string]" }],
       "slots": ["default"],
       "gotchas": ["…"],
