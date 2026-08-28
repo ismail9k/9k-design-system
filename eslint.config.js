@@ -12,6 +12,7 @@ export default tseslint.config(
       'dist/',
       'node_modules/',
       'showcase-dist/',
+      'showcase/.ssr/',
       'storybook-static/',
     ],
   },
@@ -22,6 +23,15 @@ export default tseslint.config(
     files: ['**/*.ts'],
     languageOptions: {
       parser: tseslint.parser,
+    },
+  },
+  {
+    // prerender.mjs is the only plain-JS source in the repo; it runs in Node after the
+    // Vite builds, so it needs Node globals. Every other file here is TypeScript, where
+    // no-undef is switched off below.
+    files: ['**/*.mjs'],
+    languageOptions: {
+      globals: { console: 'readonly', process: 'readonly' },
     },
   },
   {
