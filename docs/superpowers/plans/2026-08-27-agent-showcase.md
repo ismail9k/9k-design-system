@@ -1926,6 +1926,219 @@ git commit -m "docs: revise showcase agent prompts after review"
 
 ---
 
+### Task 7A: Live demo rendering
+
+**Files:**
+
+- Modify: `showcase/registry/types.ts`
+- Modify: `showcase/components/ShowcaseSpecimen.vue`
+- Modify: `showcase/vite.config.ts`
+- Modify: `showcase/main.ts`, `showcase/entry-server.ts`
+- Modify: `showcase/registry/I9kInput.ts`, `showcase/registry/I9kGrid.ts`, `showcase/registry/I9kButton.ts`, `showcase/registry/I9kNavigation.ts`
+- Test: `tests/showcaseDemos.test.ts`
+
+**Interfaces:**
+
+- Consumes: `ShowcaseDemo`, `ShowcaseComponent` from Task 3; `ShowcaseSpecimen.vue` from Task 4.
+- Produces: `ShowcaseDemo` gains an optional `state?: Record<string, unknown>`; every demo renders live. Tasks 8–12 author demos exactly as before — a `label` and a `code` string — and get a live render for free.
+
+**Why this shape.** The plan originally paired each demo with a hand-written `render` component beside its `code` string, which lets the rendered output and the shown code drift apart. Props are extracted from source precisely so the table cannot disagree with the component; the visual half deserves the same guarantee. Compiling the `code` string and rendering the result means what the reader sees IS what runs. `render?: Component` stays as an escape hatch for a demo the compiler cannot express.
+
+- [ ] **Step 1: Write the failing test**
+
+Create `tests/showcaseDemos.test.ts`:
+
+```ts
+import { resolve } from 'node:path';
+
+import { mount } from '@vue/test-utils';
+import { describe, expect, it } from 'vitest';
+
+import { extractComponent } from '../showcase/extract/props';
+import { compileDemo } from '../showcase/components/compileDemo';
+import { entries } from '../showcase/registry';
+import { mergeRegistry } from '../showcase/registry/merge';
+
+const components = mergeRegistry(
+  entries,
+  entries.map((entry) => extractComponent(resolve(`src/components/${entry.name}.vue`))),
+);
+
+describe('showcase demo compilation', () => {
+  it('renders a demo from its own code string', () => {
+    const wrapper = mount(compileDemo({ label: 'x', code: '<I9kBadge>Live</I9kBadge>' }));
+    expect(wrapper.text()).toContain('Live');
+    expect(wrapper.find('.i9k-badge').exists()).toBe(true);
+  });
+
+  it('binds a demo state object so v-model code renders', () => {
+    const wrapper = mount(
+      compileDemo({
+        label: 'x',
+        code: '<I9kInput v-model="email" label="Email" />',
+        state: { email: 'a@b.c' },
+      }),
+    );
+    expect(wrapper.find('input').element.value).toBe('a@b.c');
+  });
+
+  it('renders a multi-root demo without warning', () => {
+    const wrapper = mount(
+      compileDemo({ label: 'x', code: '<I9kBadge>One</I9kBadge><I9kBadge>Two</I9kBadge>' }),
+    );
+    expect(wrapper.text()).toContain('One');
+    expect(wrapper.text()).toContain('Two');
+  });
+
+  it('every registered demo compiles and mounts without throwing', () => {
+    for (const component of components) {
+      for (const demo of component.demos) {
+        expect(() => mount(compileDemo(demo)), `${component.name} / ${demo.label}`).not.toThrow();
+      }
+    }
+  });
+
+  it('every demo referencing a binding declares state for it', () => {
+    const missing: string[] = [];
+    for (const component of components) {
+      for (const demo of component.demos) {
+        const bindings = [...demo.code.matchAll(/v-model="(\w+)"/g)].map((match) => match[1]);
+        for (const binding of bindings) {
+          if (!demo.state || !(binding in demo.state)) {
+            missing.push(`${component.name} / ${demo.label} / ${binding}`);
+          }
+        }
+      }
+    }
+    expect(missing).toEqual([]);
+  });
+});
+```
+
+- [ ] **Step 2: Run the test to verify it fails**
+
+Run: `npx vitest run tests/showcaseDemos.test.ts`
+Expected: FAIL — cannot resolve `../showcase/components/compileDemo`.
+
+- [ ] **Step 3: Add `state` to the demo type**
+
+In `showcase/registry/types.ts`, extend `ShowcaseDemo`:
+
+```ts
+export interface ShowcaseDemo {
+  label: string;
+  /** Shown to the reader AND compiled to produce the live render — they cannot drift. */
+  code: string;
+  /** Reactive scope for the compiled code, for demos using v-model or bound expressions. */
+  state?: Record<string, unknown>;
+  /** Escape hatch for a demo the template compiler cannot express. Prefer `code`. */
+  render?: Component;
+}
+```
+
+- [ ] **Step 4: Write the demo compiler**
+
+Create `showcase/components/compileDemo.ts`:
+
+```ts
+import { defineComponent, h } from 'vue';
+import type { Component } from 'vue';
+
+import * as library from '../../src/index';
+import type { ShowcaseDemo } from '../registry/types';
+
+/** Every I9k component, keyed by name, for the compiled demo's local registry. */
+const libraryComponents = Object.fromEntries(
+  Object.entries(library).filter(([name]) => name.startsWith('I9k')),
+) as Record<string, Component>;
+
+/**
+ * Turns a demo's own code string into a renderable component. The string shown to the
+ * reader is the string that renders, so the two cannot disagree.
+ *
+ * The code may have several root elements, which a template alone cannot express, so it
+ * is wrapped in a <div> that the specimen styles as the demo stage.
+ */
+export const compileDemo = (demo: ShowcaseDemo): Component => {
+  if (demo.render) return demo.render;
+
+  const state = demo.state ?? {};
+
+  return defineComponent({
+    name: 'ShowcaseDemoStage',
+    components: libraryComponents,
+    template: `<div class="showcase-demo-stage">${demo.code}</div>`,
+    data: () => ({ ...state }),
+  });
+};
+```
+
+- [ ] **Step 5: Enable the runtime template compiler**
+
+The default `vue` entry is runtime-only and cannot compile a template string. In `showcase/vite.config.ts`, add to the config object:
+
+```ts
+  resolve: {
+    // The demo stage compiles each demo's code string at runtime, which the
+    // runtime-only build cannot do.
+    alias: { vue: 'vue/dist/vue.esm-bundler.js' },
+  },
+  ssr: {
+    // Keep the SSR build on the same aliased entry, so prerender and hydration
+    // compile demos identically.
+    noExternal: ['vue'],
+  },
+```
+
+Vitest resolves `vue` through the root `vite.config.ts`, not this one. If the tests fail to compile templates, add the same `resolve.alias` to the root `vite.config.ts` **inside its `test` block only** (`test: { alias: { … } }`), so the library build is untouched.
+
+- [ ] **Step 6: Render the compiled demo in the specimen**
+
+In `showcase/components/ShowcaseSpecimen.vue`, import `compileDemo` and replace the demo stage block so every demo renders:
+
+```vue
+<div class="showcase-specimen__stage">
+        <component :is="compileDemo(demo)" />
+      </div>
+<pre class="showcase-specimen__code"><code>{{ demo.code }}</code></pre>
+```
+
+Compile once per demo rather than on every render — derive a `computed` list of `{ demo, stage }` pairs in `<script setup>` and iterate that, so a re-render from either toggle does not recompile every template on the page.
+
+- [ ] **Step 7: Add state to the demos that need it**
+
+The four existing entries have demos using `v-model`. Add a `state` object to each such demo so its bindings resolve — for example, in `showcase/registry/I9kInput.ts`, the Sizes demo needs `state: { a: '', b: '', c: '' }` and the hint/error demo needs `state: { email: '' }`. Read each entry's demo code and add exactly the bindings it references. Do not change any `code` string, any prompt, or any summary — those were reviewed and approved.
+
+- [ ] **Step 8: Run the tests**
+
+Run: `npx vitest run tests/showcaseDemos.test.ts`
+Expected: PASS, 5 tests.
+
+Run: `npx vitest run`
+Expected: the whole suite green.
+
+- [ ] **Step 9: Verify SSR and hydration**
+
+Run: `npm run build:showcase`
+Expected: `Prerendered 4 components.` with no error.
+
+Confirm a demo's rendered markup is in the static HTML, not only added after hydration:
+
+```bash
+grep -c 'i9k-badge\|i9k-button\|i9k-grid' showcase-dist/index.html
+```
+
+Expected: non-zero. Then serve `showcase-dist/` and load it in a browser: there must be no hydration mismatch warning in the console, and the demos must be visible before JavaScript runs.
+
+- [ ] **Step 10: Commit**
+
+```bash
+git add showcase tests/showcaseDemos.test.ts
+git commit -m "feat: render every showcase demo live from its own code string"
+```
+
+---
+
 ### Tasks 8–12: Remaining registry entries, by section
 
 Each of these five tasks follows the identical procedure below, differing only in the component list. They are separate tasks so a reviewer can accept one section and reject another.
@@ -1968,7 +2181,7 @@ This goes through the existing Vitest setup rather than a bare `node -e`, so mod
   - close with one runnable usage line.
 - [ ] **Step 4: Add the import and the entry** to `showcase/registry/index.ts`, keeping `entries` in section order.
 - [ ] **Step 5: Verify:** `npx vitest run tests/showcaseRegistry.test.ts && npm run typecheck` — expected PASS, with the `it.each` block now running once per entry.
-- [ ] **Step 6: Check it renders:** `npm run showcase`, confirm each new specimen renders live in both themes and both directions.
+- [ ] **Step 6: Check it renders:** `npm run showcase`, confirm each new specimen renders live in both themes and both directions. Task 7A compiles every demo from its own `code` string, so a demo renders live with no extra work — but a demo whose code uses `v-model` or any other binding MUST declare those names in its `state` object, or `tests/showcaseDemos.test.ts` fails.
 - [ ] **Step 7: Commit:** `git commit -m "docs: add showcase entries for <section> components"`
 
 **Task 8 — Layout & surfaces** (`section: 'layout'`), 3 entries: `I9kPageContainer`, `I9kCluster`, `I9kPanel`. `I9kGrid` already exists from Task 3.
