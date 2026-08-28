@@ -4,6 +4,7 @@ import { describe, expect, it, vi } from 'vitest';
 
 import {
   I9kButtonGroup,
+  I9kCheckboxGroup,
   I9kField,
   I9kIconButton,
   I9kInput,
@@ -17,6 +18,7 @@ describe('native action and form SSR', () => {
     const app = createSSRApp({
       components: {
         I9kButtonGroup,
+        I9kCheckboxGroup,
         I9kField,
         I9kIconButton,
         I9kInput,
@@ -31,6 +33,7 @@ describe('native action and form SSR', () => {
           <I9kField label="Name"><I9kInput model-value="" /></I9kField>
           <I9kField label="Details"><I9kTextarea model-value="" /></I9kField>
           <I9kField label="Service"><I9kSelect model-value=""><option value="audit">Audit</option></I9kSelect></I9kField>
+          <I9kCheckboxGroup :model-value="['audit']" :options="options" legend="Interests" />
           <I9kRadioGroup model-value="audit" :options="options" legend="Intent" />
         </main>
       `,
@@ -41,6 +44,7 @@ describe('native action and form SSR', () => {
     expect(html).toContain('i9k-input--md');
     expect(html).toContain('i9k-textarea--md');
     expect(html).toContain('i9k-select--md');
+    expect(html).toContain('i9k-checkbox-group--md');
     expect(html).toContain('i9k-radio-group--md');
   });
 
