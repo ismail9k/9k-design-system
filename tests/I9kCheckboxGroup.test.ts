@@ -47,6 +47,24 @@ describe('I9kCheckboxGroup', () => {
     ).toBe(true);
   });
 
+  it('remains required when the model contains only an unknown value', () => {
+    const wrapper = mount(I9kCheckboxGroup, {
+      props: { modelValue: ['removed'], options, legend: 'Choose tracks', required: true },
+    });
+    const enabledInputs = wrapper.findAll('input:not(:disabled)');
+
+    expect(enabledInputs.every((input) => input.attributes('required') !== undefined)).toBe(true);
+  });
+
+  it('remains required when the model contains only a disabled option', () => {
+    const wrapper = mount(I9kCheckboxGroup, {
+      props: { modelValue: ['advisory'], options, legend: 'Choose tracks', required: true },
+    });
+    const enabledInputs = wrapper.findAll('input:not(:disabled)');
+
+    expect(enabledInputs.every((input) => input.attributes('required') !== undefined)).toBe(true);
+  });
+
   it('links descriptions and errors while forwarding consumer attrs', () => {
     const wrapper = mount(I9kCheckboxGroup, {
       props: {

@@ -52,6 +52,9 @@ const describedBy = computed(() =>
   mergeI9kIds(i9kStringAttr(attrs['aria-describedby']), groupDescriptionId.value),
 );
 const invalid = computed(() => (props.error ? 'true' : i9kAriaInvalidAttr(attrs['aria-invalid'])));
+const hasEnabledSelection = computed(() =>
+  props.options.some((option) => !option.disabled && props.modelValue.includes(option.value)),
+);
 const fieldsetAttrs = computed(() =>
   omitI9kAttrs(attrs, ['aria-describedby', 'aria-invalid', 'class']),
 );
@@ -96,7 +99,7 @@ function updateOption(value: string, checked: boolean) {
           :name="resolvedName"
           :value="option.value"
           :checked="props.modelValue.includes(option.value)"
-          :required="props.required && props.modelValue.length === 0"
+          :required="props.required && !hasEnabledSelection"
           :disabled="props.disabled || option.disabled"
           :aria-describedby="
             mergeI9kIds(
