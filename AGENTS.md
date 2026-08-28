@@ -85,6 +85,30 @@ plans behind this work live in `docs/superpowers/`.
   `{ viewBox, path }`. It is `aria-hidden` unless given a `title` or `desc`. Add icons to that JSON
   rather than inlining SVG in components.
 
+## Component showcase
+
+`showcase/` is an agent-friendly, server-rendered page that documents each public component: a
+summary, a copy-paste-ready agent prompt, gotchas, live demos, and a props/emits/slots table
+extracted from the component's own source. `npm run showcase` serves it in dev; `npm run
+build:showcase` server-renders it to static HTML in `showcase-dist/` and also emits
+`components.json` and `llms.txt` there for machine consumption. `npm run check` runs
+`build:showcase` as part of its full pipeline.
+
+The showcase is hand-authored per component, not fully automatic: every component exported from
+`src/index.ts` needs a matching entry in `showcase/registry/<Name>.ts` (summary, agent prompt,
+gotchas, demos), or `tests/showcaseRegistry.test.ts` fails. As of this writing only `I9kGrid`,
+`I9kInput`, `I9kButton`, and `I9kNavigation` have entries; the rest are still pending and will be
+added incrementally — do not assume the showcase is complete for a component just because the
+component itself exists.
+
+The showcase deploys to Cloudflare Pages via `.github/workflows/showcase.yml`, this repository's
+first CI workflow: the `build` job (test, format, lint, typecheck, library build, Storybook build,
+showcase build) runs on every push and pull request, and the `deploy` job additionally runs on
+pushes to `main` and publishes `showcase-dist/` with `wrangler.jsonc`. Deploying requires a
+Cloudflare Pages project named `9k-design-system` and two repository secrets,
+`CLOUDFLARE_API_TOKEN` and `CLOUDFLARE_ACCOUNT_ID`. Until both exist, the `deploy` job fails while
+the `build` job still passes.
+
 ## Build, Test, and Development Commands
 
 - `npm ci`: install the exact dependencies recorded in `package-lock.json`.

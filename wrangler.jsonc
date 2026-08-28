@@ -1,0 +1,6 @@
+{
+  "name": "9k-design-system",
+  "compatibility_date": "2026-08-27",
+  // The showcase is a fully static prerender. `npm run build:showcase` writes here.
+  "pages_build_output_dir": "./showcase-dist",
+}
