@@ -22,7 +22,7 @@ Behavior: renders \`display: flex; flex-wrap: wrap; align-items: center;\` with 
 IMPORTANT: items are vertically centered (\`align-items: center\`), not baseline-aligned — mixed-height items (e.g. a button next to a badge) line up on their centers, not their text baselines.
 
 Usage:
-<I9kCluster size="md"><I9kButton>Primary action</I9kButton><I9kButton variant="secondary">Secondary action</I9kButton><I9kBadge variant="outline">Status</I9kBadge></I9kCluster>`,
+<I9kCluster size="md"><I9kButton>Primary action</I9kButton><I9kButton variant="link">Secondary action</I9kButton><I9kBadge variant="outline">Status</I9kBadge></I9kCluster>`,
   gotchas: [
     '`size` sets the gap only — there is no column or breakpoint prop, wrapping is automatic flex-wrap.',
     'Items are center-aligned on the cross axis, not baseline-aligned.',
@@ -32,7 +32,7 @@ Usage:
       label: 'Default',
       code: `<I9kCluster>
   <I9kButton>Primary action</I9kButton>
-  <I9kButton variant="secondary">Secondary action</I9kButton>
+  <I9kButton variant="link">Secondary action</I9kButton>
   <I9kBadge variant="outline">Status</I9kBadge>
 </I9kCluster>`,
     },
