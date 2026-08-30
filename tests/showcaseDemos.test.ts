@@ -1,7 +1,7 @@
 import { resolve } from 'node:path';
 
 import { mount } from '@vue/test-utils';
-import { describe, expect, it } from 'vitest';
+import { beforeAll, describe, expect, it, vi } from 'vitest';
 
 import { extractComponent } from '../showcase/extract/props';
 import { compileDemo } from '../showcase/components/compileDemo';
@@ -12,6 +12,21 @@ const components = mergeRegistry(
   entries,
   entries.map((entry) => extractComponent(resolve(`src/components/${entry.name}.vue`))),
 );
+
+// jsdom has never implemented window.matchMedia. I9kBrandWordmark reads it in onMounted
+// to respect prefers-reduced-motion, so mounting its demo needs a spec-shaped stub.
+beforeAll(() => {
+  vi.stubGlobal('matchMedia', (query: string) => ({
+    matches: false,
+    media: query,
+    onchange: null,
+    addListener: () => {},
+    removeListener: () => {},
+    addEventListener: () => {},
+    removeEventListener: () => {},
+    dispatchEvent: () => false,
+  }));
+});
 
 describe('showcase demo compilation', () => {
   it('renders a demo from its own code string', () => {
