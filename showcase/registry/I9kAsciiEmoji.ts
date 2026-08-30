@@ -10,8 +10,8 @@ export const I9kAsciiEmojiEntry: ShowcaseEntry = {
 import { I9kAsciiEmoji } from '@9klabs/design';
 
 Props:
-- name: keyof typeof labels (required) — one of the seven built-in emoticon strings: '^_^', '·ᴗ·', '◡̈', '>‿<', 'x_x', 'o_o', '-_-'. This is a closed set; there is no way to render a custom emoticon string.
-- label?: string | null (default null) — overrides the automatic aria-label; when omitted, a matching label is used ('^_^' → "happy", '·ᴗ·' → "gentle smile", '◡̈' → "smiling", '>‿<' → "joyful", 'x_x' → "exhausted", 'o_o' → "surprised", '-_-' → "unimpressed").
+- name: keyof typeof labels (required) — the internal label map is typed as \`Record<string, string>\`, so this declared type widens to plain \`string\` at compile time; TypeScript accepts any string here, not just the seven below. The seven strings with a built-in label are '^_^', '·ᴗ·', '◡̈', '>‿<', 'x_x', 'o_o', '-_-'.
+- label?: string | null (default null) — overrides the automatic aria-label; when omitted, a matching label is used for the seven known strings ('^_^' → "happy", '·ᴗ·' → "gentle smile", '◡̈' → "smiling", '>‿<' → "joyful", 'x_x' → "exhausted", 'o_o' → "surprised", '-_-' → "unimpressed").
 - size?: 'sm' | 'md' | 'lg' (default 'md')
 - color?: 'primary' | 'accent' | 'muted' | 'current' (default 'primary')
 
@@ -19,15 +19,15 @@ Emits: none.
 
 Slots: none — the emoticon text comes only from \`name\`.
 
-Behavior: always renders with role="img" and an aria-label (from \`label\` or the built-in mapping) — never aria-hidden, since the ASCII characters alone are not meaningful to a screen reader.
+Behavior: always renders role="img". An aria-label is present when \`label\` is passed, or when \`name\` is one of the seven known strings; otherwise no aria-label is rendered at all.
 
-IMPORTANT: \`name\` only accepts the seven exact emoticon strings above — passing any other string is a type error and has no matching entry in the internal label map.
+IMPORTANT: pass one of the seven known strings, or pass \`label\` explicitly. TypeScript does not restrict \`name\` to a closed set — any string compiles — but an unrecognized \`name\` has no entry in the internal label map, so the element ends up with role="img" and no aria-label, breaking the accessibility contract this component exists to provide.
 
 Usage:
 <I9kAsciiEmoji name="^_^" size="lg" color="accent" />`,
   gotchas: [
-    '`name` only accepts the seven built-in emoticon strings — there is no way to render an arbitrary custom emoticon.',
-    'Always exposed to assistive tech via role="img" and an aria-label — pass `label` to override the automatic one if the default wording does not fit the context.',
+    'TypeScript does not enforce a closed set for `name`: the label map is typed as `Record<string, string>`, so `keyof typeof labels` widens to plain `string` and any value compiles.',
+    'Passing a `name` outside the seven known strings without also passing `label` renders `role="img"` with no `aria-label` at all — always pass `label` explicitly for anything but the seven known strings.',
   ],
   demos: [
     {

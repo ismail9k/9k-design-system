@@ -62,6 +62,29 @@ describe('showcase demo compilation', () => {
     }
   });
 
+  it('every registered demo mounts without a Vue warning', () => {
+    // Vue only reports unresolved components, missing props, etc. via console.warn — it never
+    // throws, and production builds strip these warnings entirely — so `not.toThrow()` above
+    // cannot catch a demo that references a component or prop that no longer resolves.
+    const warnSpy = vi.spyOn(console, 'warn').mockImplementation(() => {});
+    try {
+      for (const component of components) {
+        for (const demo of component.demos) {
+          warnSpy.mockClear();
+          mount(compileDemo(demo));
+          expect(
+            warnSpy.mock.calls,
+            `${component.name} / ${demo.label} logged a Vue warning: ${warnSpy.mock.calls
+              .map((call) => call.join(' '))
+              .join('\n')}`,
+          ).toEqual([]);
+        }
+      }
+    } finally {
+      warnSpy.mockRestore();
+    }
+  });
+
   it('every demo referencing a binding declares state for it', () => {
     const missing: string[] = [];
     for (const component of components) {

@@ -108,4 +108,13 @@ describe('showcase emit and slot extraction', () => {
   it('reports no slots for a component that renders none', () => {
     expect(component('I9kInput').slots).toEqual([]);
   });
+
+  it('never returns an empty emits list for a component that calls defineEmits', () => {
+    const dir = resolve('src/components');
+    const silent = readdirSync(dir)
+      .filter((file) => file.endsWith('.vue'))
+      .filter((file) => readFileSync(join(dir, file), 'utf8').includes('defineEmits'))
+      .filter((file) => extractComponent(join(dir, file)).emits.length === 0);
+    expect(silent).toEqual([]);
+  });
 });

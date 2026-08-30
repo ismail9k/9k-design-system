@@ -76,6 +76,16 @@ const stagedDemos = computed(() =>
   border-radius: var(--radius-md);
 }
 
+/*
+ * The demo stage is compiled at runtime by compileDemo() and carries no scope id, so a
+ * plain scoped rule can't reach it — :deep() is required. Some demos (e.g. I9kPageContainer's
+ * "Sizes") lay out content wider than the stage; contain that overflow here instead of letting
+ * it widen the whole page.
+ */
+.showcase-specimen__stage :deep(.showcase-demo-stage) {
+  overflow-x: auto;
+}
+
 .showcase-specimen__code {
   margin: var(--spacing-4) 0 0;
   padding: var(--spacing-6);

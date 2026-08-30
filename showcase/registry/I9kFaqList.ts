@@ -8,8 +8,9 @@ export const I9kFaqListEntry: ShowcaseEntry = {
   agentPrompt: `Use I9kFaqList from @9klabs/design to render a list of collapsible FAQ entries.
 
 import { I9kFaqList } from '@9klabs/design';
-// Item shape (exported as I9kFaqItem):
-// { question: string; answer: string }
+// Item shape: { question: string; answer: string }
+// This type (I9kFaqItem) is not exported from the package; inline the object shape or declare
+// your own local type.
 
 Props:
 - items: I9kFaqItem[] (required) — each item renders as a native <details>/<summary> pair; each item's \`question\` is used as its Vue :key, so keep questions unique within one list.

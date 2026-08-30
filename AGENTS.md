@@ -96,10 +96,11 @@ build:showcase` server-renders it to static HTML in `showcase-dist/` and also em
 
 The showcase is hand-authored per component, not fully automatic: every component exported from
 `src/index.ts` needs a matching entry in `showcase/registry/<Name>.ts` (summary, agent prompt,
-gotchas, demos), or `tests/showcaseRegistry.test.ts` fails. As of this writing only `I9kGrid`,
-`I9kInput`, `I9kButton`, and `I9kNavigation` have entries; the rest are still pending and will be
-added incrementally — do not assume the showcase is complete for a component just because the
-component itself exists.
+gotchas, demos), and `tests/showcaseRegistry.test.ts` enforces this — it fails whenever an exported
+component has no registry entry. Adding a component to `src/index.ts` therefore always requires
+adding its showcase entry in the same change; do not assume the showcase covers a component just
+because the component itself exists — check the registry, or run the test, rather than trusting a
+list here that would go stale.
 
 The showcase deploys to Cloudflare Pages via `.github/workflows/showcase.yml`, this repository's
 first CI workflow: the `build` job (test, format, lint, typecheck, library build, Storybook build,

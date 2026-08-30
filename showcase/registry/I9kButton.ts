@@ -47,7 +47,7 @@ Usage:
     {
       label: 'As a link',
       code: `<I9kButton href="https://example.com" variant="primary">Visit site</I9kButton>
-<I9kButton to="/pricing" link-component="RouterLink">See pricing</I9kButton>`,
+<I9kButton href="https://example.com" variant="link">Learn more</I9kButton>`,
     },
   ],
 };
