@@ -2230,6 +2230,25 @@ Expected: PASS. If it fails, the assertion names exactly which components are un
 
 Temporarily comment out one entry in `showcase/registry/index.ts` and rerun the test. Expected: FAIL naming that component. Restore the entry and rerun. Expected: PASS. A guard that never fails is not a guard.
 
+- [ ] **Step 3B: Add a fabricated-API guard**
+
+Task 8 shipped a prompt telling agents to write `<I9kButton variant="secondary">`, a variant that
+does not exist. Review caught it, but nothing in the suite would have. Prompts and demo code are
+hand-written prose, so unlike the props table they can name API that isn't there — and that is the
+worst defect this page can produce, because an agent pastes it and gets silently broken code.
+
+Add to `tests/showcaseRegistry.test.ts` a test that scans every registry entry for
+`<I9kFoo attr="value">` usages across the whole file (prompt text and demo code alike) and asserts:
+
+- every `I9k*` component named is a real file in `src/components/`;
+- every value given to an enum-ish prop (`variant`, `size`, `tone`, `ui-size`, `columns`, `type`,
+  `as`) appears as a string literal in that component's own `<script setup>` or in
+  `src/types/components.ts`;
+- every `name` passed to `I9kIcon` is a key in `src/icons/paths.json`.
+
+Prove the guard bites: temporarily change one entry's `variant` to a nonsense value, confirm the
+test fails and names it, then restore.
+
 - [ ] **Step 4: Run the full pipeline**
 
 Run: `npm run check`
