@@ -4,6 +4,7 @@ import { I9kBadgeEntry } from './I9kBadge';
 import { I9kButtonEntry } from './I9kButton';
 import { I9kClusterEntry } from './I9kCluster';
 import { I9kFaqListEntry } from './I9kFaqList';
+import { I9kFieldEntry } from './I9kField';
 import { I9kGithubEmbedEntry } from './I9kGithubEmbed';
 import { I9kGridEntry } from './I9kGrid';
 import { I9kIconEntry } from './I9kIcon';
@@ -14,9 +15,12 @@ import { I9kPageContainerEntry } from './I9kPageContainer';
 import { I9kPageHeaderEntry } from './I9kPageHeader';
 import { I9kPanelEntry } from './I9kPanel';
 import { I9kProfileCardEntry } from './I9kProfileCard';
+import { I9kRadioGroupEntry } from './I9kRadioGroup';
 import { I9kSectionHeadingEntry } from './I9kSectionHeading';
+import { I9kSelectEntry } from './I9kSelect';
 import { I9kStatEntry } from './I9kStat';
 import { I9kTextEntry } from './I9kText';
+import { I9kTextareaEntry } from './I9kTextarea';
 import { I9kTimelineCardEntry } from './I9kTimelineCard';
 import type { ShowcaseEntry } from './types';
 
@@ -38,7 +42,11 @@ export const entries: ShowcaseEntry[] = [
   I9kGithubEmbedEntry,
   I9kIconEntry,
   I9kAsciiEmojiEntry,
+  I9kFieldEntry,
   I9kInputEntry,
+  I9kTextareaEntry,
+  I9kSelectEntry,
+  I9kRadioGroupEntry,
   I9kButtonEntry,
   I9kNavigationEntry,
 ];
