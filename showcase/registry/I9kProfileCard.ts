@@ -5,9 +5,9 @@ export const I9kProfileCardEntry: ShowcaseEntry = {
   section: 'content',
   summary:
     'Card pairing an avatar with a name, bio, and optional action links. Use it for an author byline, a team member card, or a speaker bio.',
-  agentPrompt: `Use I9kProfileCard from @ismail9k/9k-design-system for a person's avatar, name, and bio.
+  agentPrompt: `Use I9kProfileCard from @9klabs/design for a person's avatar, name, and bio.
 
-import { I9kProfileCard } from '@ismail9k/9k-design-system';
+import { I9kProfileCard } from '@9klabs/design';
 
 Props:
 - name: string (required)

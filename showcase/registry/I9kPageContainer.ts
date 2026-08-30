@@ -5,9 +5,9 @@ export const I9kPageContainerEntry: ShowcaseEntry = {
   section: 'layout',
   summary:
     'Centered, width-capped page wrapper with a size-driven horizontal gutter. Use it once per page as the outermost content wrapper.',
-  agentPrompt: `Use I9kPageContainer from @ismail9k/9k-design-system as the outermost wrapper for a page's content.
+  agentPrompt: `Use I9kPageContainer from @9klabs/design as the outermost wrapper for a page's content.
 
-import { I9kPageContainer } from '@ismail9k/9k-design-system';
+import { I9kPageContainer } from '@9klabs/design';
 
 Props:
 - as?: string | Component (default 'div') — the rendered root tag or component.

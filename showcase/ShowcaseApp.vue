@@ -33,8 +33,8 @@ const toggleDirection = () => {
   direction.value = direction.value === 'ltr' ? 'rtl' : 'ltr';
 };
 
-const installCode = 'npm install @ismail9k/9k-design-system';
-const styleCode = "import '@ismail9k/9k-design-system/style.css';";
+const installCode = 'npm install @9klabs/design';
+const styleCode = "import '@9klabs/design/style.css';";
 const componentCount = computed(() => components.length);
 </script>
 
@@ -43,10 +43,9 @@ const componentCount = computed(() => components.length);
     <header class="showcase__header">
       <h1>9k Design System</h1>
       <p>
-        Every one of the {{ componentCount }} components in <code>@ismail9k/9k-design-system</code>,
-        with props read from source, live demos, and a copy-paste prompt per component.
-        Machine-readable at <a href="/components.json">/components.json</a> and
-        <a href="/llms.txt">/llms.txt</a>.
+        Every one of the {{ componentCount }} components in <code>@9klabs/design</code>, with props
+        read from source, live demos, and a copy-paste prompt per component. Machine-readable at
+        <a href="/components.json">/components.json</a> and <a href="/llms.txt">/llms.txt</a>.
       </p>
       <div class="showcase__toggles">
         <button type="button" @click="toggleTheme">Theme: {{ theme }}</button>

@@ -5,9 +5,9 @@ export const I9kThemeSwitcherEntry: ShowcaseEntry = {
   section: 'chrome',
   summary:
     "Controlled light/dark toggle switch. It renders and emits the toggle only — applying the theme to the page is entirely the caller's job.",
-  agentPrompt: `Use I9kThemeSwitcher from @ismail9k/9k-design-system as the visual control for a light/dark theme toggle.
+  agentPrompt: `Use I9kThemeSwitcher from @9klabs/design as the visual control for a light/dark theme toggle.
 
-import { I9kThemeSwitcher } from '@ismail9k/9k-design-system';
+import { I9kThemeSwitcher } from '@9klabs/design';
 
 Props:
 - modelValue?: boolean (default false) — true means dark mode is active; the switch is fully controlled by this prop, it holds no state of its own.

@@ -5,9 +5,9 @@ export const I9kButtonGroupEntry: ShowcaseEntry = {
   section: 'actions',
   summary:
     'Layout wrapper that spaces a row or column of buttons with a consistent gap and groups them as one control for assistive tech.',
-  agentPrompt: `Use I9kButtonGroup from @ismail9k/9k-design-system to lay out a cluster of related buttons (e.g. Save/Cancel, or a toolbar of icon buttons) with consistent spacing.
+  agentPrompt: `Use I9kButtonGroup from @9klabs/design to lay out a cluster of related buttons (e.g. Save/Cancel, or a toolbar of icon buttons) with consistent spacing.
 
-import { I9kButtonGroup } from '@ismail9k/9k-design-system';
+import { I9kButtonGroup } from '@9klabs/design';
 
 Props:
 - size?: 'sm' | 'md' | 'lg' (default 'md') — sets the gap between children only.

@@ -5,9 +5,9 @@ export const I9kInputEntry: ShowcaseEntry = {
   section: 'forms',
   summary:
     'Single-line text input with an optional label, hint, and error state. Wires its own accessible ids, and inherits size and error state from a wrapping I9kField when there is one.',
-  agentPrompt: `Use I9kInput from @ismail9k/9k-design-system for a labelled single-line text field.
+  agentPrompt: `Use I9kInput from @9klabs/design for a labelled single-line text field.
 
-import { I9kInput } from '@ismail9k/9k-design-system';
+import { I9kInput } from '@9klabs/design';
 
 Props:
 - modelValue: string (required) — the v-model target.

@@ -5,9 +5,9 @@ export const I9kPageHeaderEntry: ShowcaseEntry = {
   section: 'content',
   summary:
     'Large hero-style heading for the top of a page, with optional subtitle, description, actions, and avatar. Use it once per page, at the top.',
-  agentPrompt: `Use I9kPageHeader from @ismail9k/9k-design-system for the hero heading at the top of a page.
+  agentPrompt: `Use I9kPageHeader from @9klabs/design for the hero heading at the top of a page.
 
-import { I9kPageHeader } from '@ismail9k/9k-design-system';
+import { I9kPageHeader } from '@9klabs/design';
 
 Props:
 - title: string (required)

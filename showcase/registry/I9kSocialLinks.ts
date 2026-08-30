@@ -5,9 +5,9 @@ export const I9kSocialLinksEntry: ShowcaseEntry = {
   section: 'chrome',
   summary:
     'Row of pill-shaped social/contact links, each opening in a new tab, with an icon fallback and a customizable accessible label per item.',
-  agentPrompt: `Use I9kSocialLinks from @ismail9k/9k-design-system for a row of social or contact links (also used internally by I9kFooter).
+  agentPrompt: `Use I9kSocialLinks from @9klabs/design for a row of social or contact links (also used internally by I9kFooter).
 
-import { I9kSocialLinks } from '@ismail9k/9k-design-system';
+import { I9kSocialLinks } from '@9klabs/design';
 
 Props:
 - items: I9kSocialLink[] (required) — { name: string; url: string; label?: string; icon?: I9kIconName }. This type is not exported from the package — inline the shape or declare your own local type.

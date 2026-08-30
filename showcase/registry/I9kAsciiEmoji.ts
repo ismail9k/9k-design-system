@@ -5,9 +5,9 @@ export const I9kAsciiEmojiEntry: ShowcaseEntry = {
   section: 'content',
   summary:
     'Small text-based emoticon (e.g. "^_^") rendered in a monospace face, for a lighter-touch alternative to emoji or icon glyphs.',
-  agentPrompt: `Use I9kAsciiEmoji from @ismail9k/9k-design-system for a small ASCII-art emoticon.
+  agentPrompt: `Use I9kAsciiEmoji from @9klabs/design for a small ASCII-art emoticon.
 
-import { I9kAsciiEmoji } from '@ismail9k/9k-design-system';
+import { I9kAsciiEmoji } from '@9klabs/design';
 
 Props:
 - name: keyof typeof labels (required) — one of the seven built-in emoticon strings: '^_^', '·ᴗ·', '◡̈', '>‿<', 'x_x', 'o_o', '-_-'. This is a closed set; there is no way to render a custom emoticon string.

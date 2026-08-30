@@ -14,9 +14,9 @@ release gates.
 ## Current Integration
 
 - Website package: `../ismail9k.com/package.json`
-- Package dependency: `"@ismail9k/9k-design-system": "file:../9k-design-system"`
+- Package dependency: `"@9klabs/design": "file:../9k-design-system"`
 - Global stylesheet entry: `../ismail9k.com/assets/css/app.css`
-- Package stylesheet import: `@import '@ismail9k/9k-design-system/style.css';`
+- Package stylesheet import: `@import '@9klabs/design/style.css';`
 - Website framework: Nuxt with SSR enabled and static generation through `nuxt generate`
 - Locales: unprefixed English routes and `/ar/...` Arabic RTL routes
 - Live component reference: `/design-system`, explicitly prerendered and excluded from the

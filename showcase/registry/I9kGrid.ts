@@ -5,9 +5,9 @@ export const I9kGridEntry: ShowcaseEntry = {
   section: 'layout',
   summary:
     'CSS grid layout wrapper with a fixed 1/2/3-column or auto-filling track and a size-driven gap. Collapses to one column on narrow viewports.',
-  agentPrompt: `Use I9kGrid from @ismail9k/9k-design-system to lay out a set of cards or panels in a responsive grid.
+  agentPrompt: `Use I9kGrid from @9klabs/design to lay out a set of cards or panels in a responsive grid.
 
-import { I9kGrid } from '@ismail9k/9k-design-system';
+import { I9kGrid } from '@9klabs/design';
 
 Props:
 - as?: string | Component (default 'div') — the rendered root tag or component.

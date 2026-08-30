@@ -5,9 +5,9 @@ export const I9kClusterEntry: ShowcaseEntry = {
   section: 'layout',
   summary:
     'Flex-wrap row that keeps items center-aligned and evenly gapped, wrapping onto new lines instead of overflowing. Use it for groups of buttons, badges, or other inline controls.',
-  agentPrompt: `Use I9kCluster from @ismail9k/9k-design-system to lay out a horizontal group of items that should wrap instead of overflow.
+  agentPrompt: `Use I9kCluster from @9klabs/design to lay out a horizontal group of items that should wrap instead of overflow.
 
-import { I9kCluster } from '@ismail9k/9k-design-system';
+import { I9kCluster } from '@9klabs/design';
 
 Props:
 - as?: string | Component (default 'div') — the rendered root tag or component.

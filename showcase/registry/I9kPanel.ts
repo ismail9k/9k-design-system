@@ -5,9 +5,9 @@ export const I9kPanelEntry: ShowcaseEntry = {
   section: 'layout',
   summary:
     'Bordered, blurred glass surface for grouping content. Use it as the standard card/surface wrapper wherever content needs visual separation from the page background.',
-  agentPrompt: `Use I9kPanel from @ismail9k/9k-design-system to wrap content in a bordered surface.
+  agentPrompt: `Use I9kPanel from @9klabs/design to wrap content in a bordered surface.
 
-import { I9kPanel } from '@ismail9k/9k-design-system';
+import { I9kPanel } from '@9klabs/design';
 
 Props:
 - as?: string | Component (default 'div') — the rendered root tag or component.

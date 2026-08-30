@@ -4,7 +4,7 @@
 
 ## Goal
 
-Expand `@ismail9k/9k-design-system` into a product-ready Vue 3 component library with
+Expand `@9klabs/design` into a product-ready Vue 3 component library with
 approximately 47 general-purpose components, consistent `sm`, `md`, and `lg` sizes, scoped
 component styling, accessible interaction behavior, complete Storybook documentation, and a
 safe migration path for the existing `ismail9k.com` consumer.

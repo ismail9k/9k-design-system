@@ -568,7 +568,7 @@ describe('showcase registry', () => {
     (_name, entry) => {
       expect(entry.summary.length).toBeGreaterThan(20);
       expect(entry.agentPrompt.length).toBeGreaterThan(80);
-      expect(entry.agentPrompt).toContain('@ismail9k/9k-design-system');
+      expect(entry.agentPrompt).toContain('@9klabs/design');
       expect(entry.demos.length).toBeGreaterThan(0);
       expect(sectionIds.has(entry.section)).toBe(true);
     },
@@ -670,7 +670,7 @@ export const RULES: string[] = [
   'I9kButton renders a `<button>`, an `<a>`, or a caller-supplied component: pass `to` or `href` for a link, and `link-component="RouterLink"` in Vue Router apps.',
   'I9kIcon renders from the local `src/icons/paths.json` set. Add new icons to that file rather than inlining SVG in a component.',
   'Components emit legacy classes alongside their `i9k-` ones while the website migration is in progress. Do not remove a legacy selector or prop until its migration ledger row is complete.',
-  'Import the stylesheet once, at the application entry: `@ismail9k/9k-design-system/style.css`. It is the only CSS a consumer needs.',
+  'Import the stylesheet once, at the application entry: `@9klabs/design/style.css`. It is the only CSS a consumer needs.',
   'Any visual change needs checking in light and dark themes and in both LTR and RTL directions.',
 ];
 ```
@@ -719,9 +719,9 @@ export const I9kInputEntry: ShowcaseEntry = {
   section: 'forms',
   summary:
     'Single-line text input with an optional label, hint, and error state. Wires its own accessible ids, and inherits size and error state from a wrapping I9kField when there is one.',
-  agentPrompt: `Use I9kInput from @ismail9k/9k-design-system for a labelled single-line text field.
+  agentPrompt: `Use I9kInput from @9klabs/design for a labelled single-line text field.
 
-import { I9kInput } from '@ismail9k/9k-design-system';
+import { I9kInput } from '@9klabs/design';
 
 Props:
 - modelValue: string (required) — the v-model target.
@@ -906,7 +906,7 @@ Create `showcase/index.html`:
     <title>9k Design System</title>
     <meta
       name="description"
-      content="Every component in @ismail9k/9k-design-system, with props, live demos, and copy-paste prompts for AI agents."
+      content="Every component in @9klabs/design, with props, live demos, and copy-paste prompts for AI agents."
     />
   </head>
   <body>
@@ -1409,8 +1409,8 @@ const toggleDirection = () => {
   direction.value = direction.value === 'ltr' ? 'rtl' : 'ltr';
 };
 
-const installCode = 'npm install @ismail9k/9k-design-system';
-const styleCode = "import '@ismail9k/9k-design-system/style.css';";
+const installCode = 'npm install @9klabs/design';
+const styleCode = "import '@9klabs/design/style.css';";
 const componentCount = computed(() => components.length);
 </script>
 
@@ -1419,10 +1419,9 @@ const componentCount = computed(() => components.length);
     <header class="showcase__header">
       <h1>9k Design System</h1>
       <p>
-        Every one of the {{ componentCount }} components in <code>@ismail9k/9k-design-system</code>,
-        with props read from source, live demos, and a copy-paste prompt per component.
-        Machine-readable at <a href="/components.json">/components.json</a> and
-        <a href="/llms.txt">/llms.txt</a>.
+        Every one of the {{ componentCount }} components in <code>@9klabs/design</code>, with props
+        read from source, live demos, and a copy-paste prompt per component. Machine-readable at
+        <a href="/components.json">/components.json</a> and <a href="/llms.txt">/llms.txt</a>.
       </p>
       <div class="showcase__toggles">
         <button type="button" @click="toggleTheme">Theme: {{ theme }}</button>
@@ -1588,8 +1587,8 @@ const manifest = buildManifest(components, '1.2.3');
 
 describe('showcase manifest', () => {
   it('names the package and its stylesheet entry point', () => {
-    expect(manifest.package).toBe('@ismail9k/9k-design-system');
-    expect(manifest.styleImport).toBe('@ismail9k/9k-design-system/style.css');
+    expect(manifest.package).toBe('@9klabs/design');
+    expect(manifest.styleImport).toBe('@9klabs/design/style.css');
     expect(manifest.version).toBe('1.2.3');
   });
 
@@ -1617,7 +1616,7 @@ describe('showcase manifest', () => {
 
   it('writes an llms.txt naming the package, every rule, and every component', () => {
     const text = buildLlmsTxt(manifest);
-    expect(text).toContain('@ismail9k/9k-design-system');
+    expect(text).toContain('@9klabs/design');
     for (const rule of RULES) expect(text).toContain(rule);
     for (const component of manifest.components) expect(text).toContain(component.name);
   });
@@ -1664,9 +1663,9 @@ export interface Manifest {
 }
 
 export const buildManifest = (components: ShowcaseComponent[], version: string): Manifest => ({
-  package: '@ismail9k/9k-design-system',
+  package: '@9klabs/design',
   version,
-  styleImport: '@ismail9k/9k-design-system/style.css',
+  styleImport: '@9klabs/design/style.css',
   rules: RULES,
   components: components.map((component) => ({
     name: component.name,
@@ -2174,7 +2173,7 @@ This goes through the existing Vitest setup rather than a bare `node -e`, so mod
 
 - [ ] **Step 3: Write `showcase/registry/<Name>.ts`** exporting `<Name>Entry: ShowcaseEntry`, in the shape of `I9kInput.ts`. The prompt must:
   - open with one sentence saying when to reach for the component;
-  - show the named import from `@ismail9k/9k-design-system`;
+  - show the named import from `@9klabs/design`;
   - list every prop with its resolved type and default, matching the extractor output exactly;
   - name every emit and every slot, including slot props;
   - state each gotcha as an imperative, not an observation;

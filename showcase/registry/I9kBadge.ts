@@ -5,9 +5,9 @@ export const I9kBadgeEntry: ShowcaseEntry = {
   section: 'content',
   summary:
     'Small inline label for status, category, or tag content. Use it next to a heading or inside a card to mark a short piece of metadata.',
-  agentPrompt: `Use I9kBadge from @ismail9k/9k-design-system for a short inline label.
+  agentPrompt: `Use I9kBadge from @9klabs/design for a short inline label.
 
-import { I9kBadge } from '@ismail9k/9k-design-system';
+import { I9kBadge } from '@9klabs/design';
 
 Props:
 - as?: string | Component (default 'span') — the rendered root tag or component.

@@ -17,8 +17,8 @@ const manifest = buildManifest(components, '1.2.3');
 
 describe('showcase manifest', () => {
   it('names the package and its stylesheet entry point', () => {
-    expect(manifest.package).toBe('@ismail9k/9k-design-system');
-    expect(manifest.styleImport).toBe('@ismail9k/9k-design-system/style.css');
+    expect(manifest.package).toBe('@9klabs/design');
+    expect(manifest.styleImport).toBe('@9klabs/design/style.css');
     expect(manifest.version).toBe('1.2.3');
   });
 
@@ -46,7 +46,7 @@ describe('showcase manifest', () => {
 
   it('writes an llms.txt naming the package, every rule, and every component', () => {
     const text = buildLlmsTxt(manifest);
-    expect(text).toContain('@ismail9k/9k-design-system');
+    expect(text).toContain('@9klabs/design');
     for (const rule of RULES) expect(text).toContain(rule);
     for (const component of manifest.components) expect(text).toContain(component.name);
   });

@@ -16,7 +16,7 @@ The current projects using this design system are `9k.school` and `ismail9k.com`
 ### Two style systems, one package
 
 The package ships **one global stylesheet** (`src/styles/index.css`, exported as
-`@ismail9k/9k-design-system/style.css`) and **per-component scoped CSS** compiled into the SFCs.
+`@9klabs/design/style.css`) and **per-component scoped CSS** compiled into the SFCs.
 The split is deliberate and load-bearing:
 
 - The global stylesheet supplies fonts, design tokens, theme application, branded element

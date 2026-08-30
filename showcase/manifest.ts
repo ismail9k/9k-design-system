@@ -23,9 +23,9 @@ export interface Manifest {
 }
 
 export const buildManifest = (components: ShowcaseComponent[], version: string): Manifest => ({
-  package: '@ismail9k/9k-design-system',
+  package: '@9klabs/design',
   version,
-  styleImport: '@ismail9k/9k-design-system/style.css',
+  styleImport: '@9klabs/design/style.css',
   rules: RULES,
   components: components.map((component) => ({
     name: component.name,

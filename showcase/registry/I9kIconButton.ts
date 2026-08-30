@@ -5,9 +5,9 @@ export const I9kIconButtonEntry: ShowcaseEntry = {
   section: 'actions',
   summary:
     'Circular icon-only action trigger: renders a native button by default, or an anchor/caller-supplied component when given a destination. Its own variant set is separate from I9kButton.',
-  agentPrompt: `Use I9kIconButton from @ismail9k/9k-design-system for a compact, icon-only action (e.g. a toolbar button or a social/contact link) that needs no visible text label.
+  agentPrompt: `Use I9kIconButton from @9klabs/design for a compact, icon-only action (e.g. a toolbar button or a social/contact link) that needs no visible text label.
 
-import { I9kIconButton } from '@ismail9k/9k-design-system';
+import { I9kIconButton } from '@9klabs/design';
 
 Props:
 - icon: I9kIconName (required) — a name from src/icons/paths.json, e.g. 'mail', 'home', 'menu'.

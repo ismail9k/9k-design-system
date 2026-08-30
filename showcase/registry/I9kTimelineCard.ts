@@ -5,9 +5,9 @@ export const I9kTimelineCardEntry: ShowcaseEntry = {
   section: 'content',
   summary:
     'Dated entry in a vertical timeline/rail, with a title, body, and optional thumbnail. Use it for a chronological list of talks, posts, or events.',
-  agentPrompt: `Use I9kTimelineCard from @ismail9k/9k-design-system for one entry in a vertical, dated timeline. Stack multiple instances to build the full timeline — the rail connects visually between adjacent cards via CSS, with no wrapping list component required.
+  agentPrompt: `Use I9kTimelineCard from @9klabs/design for one entry in a vertical, dated timeline. Stack multiple instances to build the full timeline — the rail connects visually between adjacent cards via CSS, with no wrapping list component required.
 
-import { I9kTimelineCard } from '@ismail9k/9k-design-system';
+import { I9kTimelineCard } from '@9klabs/design';
 
 Props:
 - date: string | Date (required) — an ISO date string ('2026-01-25') or a Date object; formatted with Intl.DateTimeFormat as a long date (e.g. "January 25, 2026") in UTC, so a date-only string never shifts to the previous/next day from timezone drift.

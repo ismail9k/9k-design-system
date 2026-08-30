@@ -5,9 +5,9 @@ export const I9kArticleHeaderEntry: ShowcaseEntry = {
   section: 'content',
   summary:
     'Wide banner image for the top of an article, with a generated watermark fallback when there is no image. Use it once, at the top of an article body.',
-  agentPrompt: `Use I9kArticleHeader from @ismail9k/9k-design-system at the top of an article for a banner image or a branded fallback.
+  agentPrompt: `Use I9kArticleHeader from @9klabs/design at the top of an article for a banner image or a branded fallback.
 
-import { I9kArticleHeader } from '@ismail9k/9k-design-system';
+import { I9kArticleHeader } from '@9klabs/design';
 
 Props:
 - title: string (required) — used to build the image's alt text when \`imageAlt\` is not given; not rendered as visible text.

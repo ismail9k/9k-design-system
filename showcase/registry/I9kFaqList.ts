@@ -5,9 +5,9 @@ export const I9kFaqListEntry: ShowcaseEntry = {
   section: 'content',
   summary:
     'List of collapsible question/answer pairs built on native <details>/<summary>. Use it for an FAQ section without wiring any open/close state yourself.',
-  agentPrompt: `Use I9kFaqList from @ismail9k/9k-design-system to render a list of collapsible FAQ entries.
+  agentPrompt: `Use I9kFaqList from @9klabs/design to render a list of collapsible FAQ entries.
 
-import { I9kFaqList } from '@ismail9k/9k-design-system';
+import { I9kFaqList } from '@9klabs/design';
 // Item shape (exported as I9kFaqItem):
 // { question: string; answer: string }
 

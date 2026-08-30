@@ -5,9 +5,9 @@ export const I9kSelectEntry: ShowcaseEntry = {
   section: 'forms',
   summary:
     'Native single-select dropdown that auto-selects the option matching modelValue. Wires its own id and ARIA attributes standalone, and inherits id, size, and error state from a wrapping I9kField when there is one.',
-  agentPrompt: `Use I9kSelect from @ismail9k/9k-design-system for a single-choice dropdown, typically inside an I9kField.
+  agentPrompt: `Use I9kSelect from @9klabs/design for a single-choice dropdown, typically inside an I9kField.
 
-import { I9kSelect } from '@ismail9k/9k-design-system';
+import { I9kSelect } from '@9klabs/design';
 
 Props:
 - modelValue: string (required) — the v-model target, matched against each child <option>'s value (or its text content if it has no value attribute).

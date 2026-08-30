@@ -5,9 +5,9 @@ export const I9kStatEntry: ShowcaseEntry = {
   section: 'content',
   summary:
     'Value/label/source stack for a single statistic. Use it in a grid of a few key numbers, such as metrics on an about page or a pricing comparison.',
-  agentPrompt: `Use I9kStat from @ismail9k/9k-design-system to display one statistic (value, label, and optional source).
+  agentPrompt: `Use I9kStat from @9klabs/design to display one statistic (value, label, and optional source).
 
-import { I9kStat } from '@ismail9k/9k-design-system';
+import { I9kStat } from '@9klabs/design';
 
 Props:
 - as?: string | Component (default 'div') — the rendered root tag or component.

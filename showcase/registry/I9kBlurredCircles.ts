@@ -5,9 +5,9 @@ export const I9kBlurredCirclesEntry: ShowcaseEntry = {
   section: 'chrome',
   summary:
     'Decorative, non-interactive layer of four slow-drifting blurred circles, meant as an ambient page background sitting behind real content.',
-  agentPrompt: `Use I9kBlurredCircles from @ismail9k/9k-design-system as a decorative ambient background layer, mounted once near the root of a page, behind your real content.
+  agentPrompt: `Use I9kBlurredCircles from @9klabs/design as a decorative ambient background layer, mounted once near the root of a page, behind your real content.
 
-import { I9kBlurredCircles } from '@ismail9k/9k-design-system';
+import { I9kBlurredCircles } from '@9klabs/design';
 
 Props: none. Emits: none. Slots: none — it renders its own fixed set of four circles and nothing else.
 

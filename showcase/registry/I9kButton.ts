@@ -5,9 +5,9 @@ export const I9kButtonEntry: ShowcaseEntry = {
   section: 'actions',
   summary:
     'Polymorphic action trigger: renders a native button by default, an anchor when given a destination, or a caller-supplied component. Six variants cover primary actions, filters, and pagination.',
-  agentPrompt: `Use I9kButton from @ismail9k/9k-design-system for any clickable action or link styled as a button.
+  agentPrompt: `Use I9kButton from @9klabs/design for any clickable action or link styled as a button.
 
-import { I9kButton } from '@ismail9k/9k-design-system';
+import { I9kButton } from '@9klabs/design';
 
 Props:
 - to?: string | Record<string, unknown> | null (default null) — a route-like destination. Setting this makes the root render as \`<a>\` (or \`linkComponent\` if given).

@@ -5,9 +5,9 @@ export const I9kTextEntry: ShowcaseEntry = {
   section: 'content',
   summary:
     'Text primitive for body copy and intros. Use it for any paragraph-level content that should follow the design system type scale rather than reaching for a bare <p>.',
-  agentPrompt: `Use I9kText from @ismail9k/9k-design-system for paragraph-level copy.
+  agentPrompt: `Use I9kText from @9klabs/design for paragraph-level copy.
 
-import { I9kText } from '@ismail9k/9k-design-system';
+import { I9kText } from '@9klabs/design';
 
 Props:
 - as?: string | Component (default 'p') — the rendered root tag or component.

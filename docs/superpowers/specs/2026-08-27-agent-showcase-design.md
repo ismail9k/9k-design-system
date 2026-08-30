@@ -121,7 +121,7 @@ extractor at build time.
 
 `agentPrompt` is self-contained: an agent pasting it into a fresh conversation, with no other
 context, has enough to use the component correctly. Each prompt states the import from
-`@ismail9k/9k-design-system`, the props with their literal unions and defaults, any gotcha for that
+`@9klabs/design`, the props with their literal unions and defaults, any gotcha for that
 component, and one correct usage line.
 
 ## Page structure
@@ -166,9 +166,9 @@ Emitted by `build.ts` from the same registry and extractor output, served at the
 
 ```json
 {
-  "package": "@ismail9k/9k-design-system",
+  "package": "@9klabs/design",
   "version": "…",
-  "styleImport": "@ismail9k/9k-design-system/style.css",
+  "styleImport": "@9klabs/design/style.css",
   "rules": ["…"],
   "components": [
     {

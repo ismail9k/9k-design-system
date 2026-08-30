@@ -5,9 +5,9 @@ export const I9kIconEntry: ShowcaseEntry = {
   section: 'content',
   summary:
     "SVG icon rendered from the library's built-in icon set by name. Use it anywhere a small inline glyph is needed — social links, nav items, buttons.",
-  agentPrompt: `Use I9kIcon from @ismail9k/9k-design-system to render a built-in SVG icon by name.
+  agentPrompt: `Use I9kIcon from @9klabs/design to render a built-in SVG icon by name.
 
-import { I9kIcon } from '@ismail9k/9k-design-system';
+import { I9kIcon } from '@9klabs/design';
 
 Props:
 - name: I9kIconName (required) — one of the names in src/icons/paths.json: 'facebook', 'twitter', 'medium', 'linkedin', 'behance', 'github', 'menu', 'mail', 'dev', 'phone', 'landMark', 'home', 'instagram', 'youtube', 'tiktok', 'x', '9klabs', 'linktree'.

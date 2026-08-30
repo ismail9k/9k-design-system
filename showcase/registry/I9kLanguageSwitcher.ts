@@ -5,9 +5,9 @@ export const I9kLanguageSwitcherEntry: ShowcaseEntry = {
   section: 'chrome',
   summary:
     "A styled link to an alternate-language version of the current page. It is only the link's markup — it does not itself switch the page's language or navigate via JS.",
-  agentPrompt: `Use I9kLanguageSwitcher from @ismail9k/9k-design-system for a link to an alternate-language version of the current page.
+  agentPrompt: `Use I9kLanguageSwitcher from @9klabs/design for a link to an alternate-language version of the current page.
 
-import { I9kLanguageSwitcher } from '@ismail9k/9k-design-system';
+import { I9kLanguageSwitcher } from '@9klabs/design';
 
 Props:
 - label: string (required) — fallback text shown only when no default slot content is given.

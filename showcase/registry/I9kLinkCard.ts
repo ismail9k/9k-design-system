@@ -5,9 +5,9 @@ export const I9kLinkCardEntry: ShowcaseEntry = {
   section: 'content',
   summary:
     'Clickable card linking out to an external resource, with a name, description, and optional image/badge/arrow. Use it for a grid of projects, articles, or external links.',
-  agentPrompt: `Use I9kLinkCard from @ismail9k/9k-design-system for a clickable card that links to an external URL.
+  agentPrompt: `Use I9kLinkCard from @9klabs/design for a clickable card that links to an external URL.
 
-import { I9kLinkCard } from '@ismail9k/9k-design-system';
+import { I9kLinkCard } from '@9klabs/design';
 
 Props:
 - name: string (required)

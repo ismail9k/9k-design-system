@@ -5,9 +5,9 @@ export const I9kBrandWordmarkEntry: ShowcaseEntry = {
   section: 'chrome',
   summary:
     'Decorative, self-animating logotype that types itself out and swaps between a full and short form — purely visual, and carries no accessible name of its own.',
-  agentPrompt: `Use I9kBrandWordmark from @ismail9k/9k-design-system for a site's animated logotype, typically inside I9kNavigation's \`brand\` slot bound to that slot's \`compact\` prop.
+  agentPrompt: `Use I9kBrandWordmark from @9klabs/design for a site's animated logotype, typically inside I9kNavigation's \`brand\` slot bound to that slot's \`compact\` prop.
 
-import { I9kBrandWordmark } from '@ismail9k/9k-design-system';
+import { I9kBrandWordmark } from '@9klabs/design';
 
 Props (this is the one component in the package using the runtime \`defineProps({...})\` form rather than the type-generic form, but the resolved props are the same shape):
 - compact?: boolean (default false) — when true, the wordmark types itself down to \`short\`; when false, it types back up to \`full\`.

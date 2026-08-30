@@ -1,5 +1,5 @@
 {
-  "name": "@ismail9k/9k-design-system",
+  "name": "@9klabs/design",
   "version": "0.1.0",
   "description": "Reusable Vue 3 components and tokens from the Ismail9k design system.",
   "type": "module",

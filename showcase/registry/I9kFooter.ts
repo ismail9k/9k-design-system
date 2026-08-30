@@ -5,9 +5,9 @@ export const I9kFooterEntry: ShowcaseEntry = {
   section: 'chrome',
   summary:
     "A page's bottom chrome: an optional row of social links and an optional tagline, both replaceable via slots.",
-  agentPrompt: `Use I9kFooter from @ismail9k/9k-design-system as a page's <footer>, for a social-links row and a short tagline.
+  agentPrompt: `Use I9kFooter from @9klabs/design as a page's <footer>, for a social-links row and a short tagline.
 
-import { I9kFooter } from '@ismail9k/9k-design-system';
+import { I9kFooter } from '@9klabs/design';
 
 Props:
 - tagline?: string | null (default null) — plain text shown under the social links, only when the default slot is not used.

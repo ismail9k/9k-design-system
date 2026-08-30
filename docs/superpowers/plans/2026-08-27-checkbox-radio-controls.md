@@ -481,7 +481,7 @@ git commit -m "fix: refine radio control alignment"
 
 - Modify: `../9k.school/app/pages/index.vue`
 - Modify: `../9k.school/tests/nuxt/home-page.test.ts`
-- Local-only link: `../9k.school/node_modules/@ismail9k/9k-design-system`
+- Local-only link: `../9k.school/node_modules/@9klabs/design`
 
 **Interfaces:**
 

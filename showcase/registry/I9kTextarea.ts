@@ -5,9 +5,9 @@ export const I9kTextareaEntry: ShowcaseEntry = {
   section: 'forms',
   summary:
     'Multi-line text control for longer form input. Wires its own id and ARIA attributes standalone, and inherits id, size, and error state from a wrapping I9kField when there is one.',
-  agentPrompt: `Use I9kTextarea from @ismail9k/9k-design-system for multi-line text input, typically inside an I9kField.
+  agentPrompt: `Use I9kTextarea from @9klabs/design for multi-line text input, typically inside an I9kField.
 
-import { I9kTextarea } from '@ismail9k/9k-design-system';
+import { I9kTextarea } from '@9klabs/design';
 
 Props:
 - modelValue: string (required) — the v-model target.

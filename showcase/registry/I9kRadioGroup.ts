@@ -5,10 +5,10 @@ export const I9kRadioGroupEntry: ShowcaseEntry = {
   section: 'forms',
   summary:
     'Fieldset of mutually exclusive radio options, rendered as a stacked list or a card grid. Unlike I9kInput, I9kTextarea, and I9kSelect, it does not participate in the I9kField composable — it owns its own legend, hint, error, and ids entirely.',
-  agentPrompt: `Use I9kRadioGroup from @ismail9k/9k-design-system for a single choice among a small, fully visible set of options.
+  agentPrompt: `Use I9kRadioGroup from @9klabs/design for a single choice among a small, fully visible set of options.
 
-import { I9kRadioGroup } from '@ismail9k/9k-design-system';
-import type { I9kRadioOption } from '@ismail9k/9k-design-system';
+import { I9kRadioGroup } from '@9klabs/design';
+import type { I9kRadioOption } from '@9klabs/design';
 
 Props:
 - modelValue: string (required) — the v-model target, matched against each option's value.

@@ -5,9 +5,9 @@ export const I9kToastEntry: ShowcaseEntry = {
   section: 'feedback',
   summary:
     "Styled, accessible message banner for status or error text. It is only the visual/ARIA shell — placement, timing, and dismissal are the caller's responsibility.",
-  agentPrompt: `Use I9kToast from @ismail9k/9k-design-system to display a short status or error message with a live-region role wired in automatically.
+  agentPrompt: `Use I9kToast from @9klabs/design to display a short status or error message with a live-region role wired in automatically.
 
-import { I9kToast } from '@ismail9k/9k-design-system';
+import { I9kToast } from '@9klabs/design';
 
 Props:
 - variant?: 'info' | 'success' | 'error' (default 'info') — also sets the ARIA role: 'error' renders \`role="alert"\`, 'info' and 'success' render \`role="status"\`.

@@ -5,9 +5,9 @@ export const I9kNavigationEntry: ShowcaseEntry = {
   section: 'chrome',
   summary:
     'Sticky site header with a brand slot, a link list, and an actions slot. Tracks scroll position to add a background on scroll and switch the brand into a compact state.',
-  agentPrompt: `Use I9kNavigation from @ismail9k/9k-design-system for a page's top-level site header.
+  agentPrompt: `Use I9kNavigation from @9klabs/design for a page's top-level site header.
 
-import { I9kNavigation } from '@ismail9k/9k-design-system';
+import { I9kNavigation } from '@9klabs/design';
 
 Props:
 - links: I9kNavigationLink[] (required) — the nav menu. Each item is { id: string; label: string; href: string }. This type is not exported from the package; inline the object shape or declare your own local type.

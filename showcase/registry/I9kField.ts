@@ -5,9 +5,9 @@ export const I9kFieldEntry: ShowcaseEntry = {
   section: 'forms',
   summary:
     'Field wrapper that renders a label, hint, and error, and provides id/size/validity context to one nested control. It is the provider side of the field composable; I9kInput, I9kTextarea, and I9kSelect are its consumers.',
-  agentPrompt: `Use I9kField from @ismail9k/9k-design-system to wrap a single form control with a label, hint, and error.
+  agentPrompt: `Use I9kField from @9klabs/design to wrap a single form control with a label, hint, and error.
 
-import { I9kField } from '@ismail9k/9k-design-system';
+import { I9kField } from '@9klabs/design';
 
 Props:
 - label?: string (default '') — ignored if the #label slot is used instead.

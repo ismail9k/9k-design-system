@@ -5,9 +5,9 @@ export const I9kSectionHeadingEntry: ShowcaseEntry = {
   section: 'content',
   summary:
     'Heading with an optional description for introducing a section of a page. Use it above any grouped block of content — a card grid, a list, a feature set.',
-  agentPrompt: `Use I9kSectionHeading from @ismail9k/9k-design-system to introduce a page section.
+  agentPrompt: `Use I9kSectionHeading from @9klabs/design to introduce a page section.
 
-import { I9kSectionHeading } from '@ismail9k/9k-design-system';
+import { I9kSectionHeading } from '@9klabs/design';
 
 Props:
 - title: string (required)
