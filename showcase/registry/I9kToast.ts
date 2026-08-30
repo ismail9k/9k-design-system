@@ -1,0 +1,43 @@
+import type { ShowcaseEntry } from './types';
+
+export const I9kToastEntry: ShowcaseEntry = {
+  name: 'I9kToast',
+  section: 'feedback',
+  summary:
+    "Styled, accessible message banner for status or error text. It is only the visual/ARIA shell — placement, timing, and dismissal are the caller's responsibility.",
+  agentPrompt: `Use I9kToast from @ismail9k/9k-design-system to display a short status or error message with a live-region role wired in automatically.
+
+import { I9kToast } from '@ismail9k/9k-design-system';
+
+Props:
+- variant?: 'info' | 'success' | 'error' (default 'info') — also sets the ARIA role: 'error' renders \`role="alert"\`, 'info' and 'success' render \`role="status"\`.
+- size?: 'sm' | 'md' | 'lg' (default 'md')
+
+Emits: none.
+
+Slots: default — the message content.
+
+IMPORTANT: I9kToast has no dismiss button, no auto-hide timer, and no fixed/floating positioning built in. It is purely the visual banner and ARIA role — you own showing it, hiding it, stacking multiple toasts, and where on the page it sits (e.g. wrap it in your own fixed-position container to make it float).
+
+Usage:
+<I9kToast variant="success">Changes saved.</I9kToast>`,
+  gotchas: [
+    'I9kToast renders no dismiss control and sets no timer — show, hide, and stack it yourself; it is a static banner until you remove it from the DOM.',
+    '`variant="error"` renders `role="alert"` (assertive); `info` and `success` render `role="status"` (polite) — pick `error` only for genuine failures so screen readers don\'t interrupt for routine status text.',
+    'It has no positioning of its own — wrap it in a container with your own `position: fixed` styling if you want it to float above the page.',
+  ],
+  demos: [
+    {
+      label: 'Variants',
+      code: `<I9kToast variant="info">Your changes are syncing.</I9kToast>
+<I9kToast variant="success">Changes saved.</I9kToast>
+<I9kToast variant="error">Could not save changes.</I9kToast>`,
+    },
+    {
+      label: 'Sizes',
+      code: `<I9kToast size="sm">Small notification</I9kToast>
+<I9kToast size="md">Medium notification</I9kToast>
+<I9kToast size="lg">Large notification</I9kToast>`,
+    },
+  ],
+};

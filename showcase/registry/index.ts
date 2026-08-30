@@ -2,12 +2,14 @@ import { I9kArticleHeaderEntry } from './I9kArticleHeader';
 import { I9kAsciiEmojiEntry } from './I9kAsciiEmoji';
 import { I9kBadgeEntry } from './I9kBadge';
 import { I9kButtonEntry } from './I9kButton';
+import { I9kButtonGroupEntry } from './I9kButtonGroup';
 import { I9kClusterEntry } from './I9kCluster';
 import { I9kFaqListEntry } from './I9kFaqList';
 import { I9kFieldEntry } from './I9kField';
 import { I9kGithubEmbedEntry } from './I9kGithubEmbed';
 import { I9kGridEntry } from './I9kGrid';
 import { I9kIconEntry } from './I9kIcon';
+import { I9kIconButtonEntry } from './I9kIconButton';
 import { I9kInputEntry } from './I9kInput';
 import { I9kLinkCardEntry } from './I9kLinkCard';
 import { I9kNavigationEntry } from './I9kNavigation';
@@ -22,6 +24,7 @@ import { I9kStatEntry } from './I9kStat';
 import { I9kTextEntry } from './I9kText';
 import { I9kTextareaEntry } from './I9kTextarea';
 import { I9kTimelineCardEntry } from './I9kTimelineCard';
+import { I9kToastEntry } from './I9kToast';
 import type { ShowcaseEntry } from './types';
 
 export const entries: ShowcaseEntry[] = [
@@ -48,5 +51,8 @@ export const entries: ShowcaseEntry[] = [
   I9kSelectEntry,
   I9kRadioGroupEntry,
   I9kButtonEntry,
+  I9kButtonGroupEntry,
+  I9kIconButtonEntry,
+  I9kToastEntry,
   I9kNavigationEntry,
 ];
