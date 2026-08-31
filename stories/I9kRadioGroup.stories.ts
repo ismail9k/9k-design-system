@@ -103,6 +103,31 @@ export const RightToLeft: Story = {
     components: { I9kRadioGroup },
     setup: () => ({
       options: [
+        { label: 'مبرمج', value: 'programmer' },
+        { label: 'مدير مشاريع', value: 'project-manager' },
+        { label: 'مصمم', value: 'designer' },
+        { label: 'Vibe Coder', value: 'vibe-coder' },
+        { label: 'أخرى', value: 'other' },
+      ],
+    }),
+    template: `
+      <div lang="ar" dir="rtl" style="max-width: 48rem">
+        <I9kRadioGroup
+          model-value="programmer"
+          :options="options"
+          legend="ما أقرب وصف لك؟"
+          orientation="horizontal"
+        />
+      </div>
+    `,
+  }),
+};
+
+export const RightToLeftCards: Story = {
+  render: () => ({
+    components: { I9kRadioGroup },
+    setup: () => ({
+      options: [
         { label: 'تدقيق تقني', value: 'audit', description: 'مراجعة المنتج الحالي' },
         { label: 'نظام تصميم', value: 'design', description: 'بناء أساس واجهات متسق' },
       ],

@@ -5,7 +5,7 @@ export type { I9kBadgeVariant } from './types/components';
 export type { I9kGridColumns } from './types/components';
 export type { I9kPanelVariant } from './types/components';
 export type { I9kTextVariant } from './types/components';
-export type { I9kRadioOption } from './types/forms';
+export type { I9kCheckboxOption, I9kRadioOption } from './types/forms';
 export type { I9kIconName } from './types/icons';
 
 export { default as I9kArticleHeader } from './components/I9kArticleHeader.vue';
@@ -25,6 +25,7 @@ export { default as I9kThemeSwitcher } from './components/I9kThemeSwitcher.vue';
 
 export { default as I9kButton } from './components/I9kButton.vue';
 export { default as I9kButtonGroup } from './components/I9kButtonGroup.vue';
+export { default as I9kCheckboxGroup } from './components/I9kCheckboxGroup.vue';
 export { default as I9kBadge } from './components/I9kBadge.vue';
 export { default as I9kCluster } from './components/I9kCluster.vue';
 export { default as I9kField } from './components/I9kField.vue';
