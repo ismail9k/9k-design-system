@@ -1,0 +1,46 @@
+import type { ShowcaseEntry } from './types';
+
+export const I9kInputEntry: ShowcaseEntry = {
+  name: 'I9kInput',
+  section: 'forms',
+  summary:
+    'Single-line text input with an optional label, hint, and error state. Wires its own accessible ids, and inherits size and error state from a wrapping I9kField when there is one.',
+  agentPrompt: `Use I9kInput from @9klabs/design for a labelled single-line text field.
+
+import { I9kInput } from '@9klabs/design';
+
+Props:
+- modelValue: string (required) — the v-model target.
+- label?: string
+- type?: 'text' | 'email' | 'password' (default 'text')
+- error?: string | null (default null) — a non-null value renders the error state and wires aria-describedby.
+- hint?: string
+- required?: boolean (default false)
+- uiSize?: 'sm' | 'md' | 'lg' — falls back to a wrapping I9kField's size, then to 'md'.
+
+Emits: update:modelValue with the new string.
+
+IMPORTANT: the visual scale prop is \`uiSize\`, NOT \`size\`. \`size\` is left free for the native HTML attribute and is forwarded to the underlying <input>.
+
+Usage:
+<I9kInput v-model="email" label="Email" type="email" ui-size="md" hint="We never share it." />`,
+  gotchas: [
+    'The visual scale prop is `uiSize`, not `size` — `size` passes through to the native input attribute.',
+    'Inside an I9kField, omit `label`, `hint`, `error`, and `uiSize`: the field supplies them and owns the ids.',
+  ],
+  demos: [
+    {
+      label: 'Sizes',
+      code: `<I9kInput v-model="a" ui-size="sm" label="Small" />
+<I9kInput v-model="b" ui-size="md" label="Medium" />
+<I9kInput v-model="c" ui-size="lg" label="Large" />`,
+      state: { a: '', b: '', c: '' },
+    },
+    {
+      label: 'Hint and error',
+      code: `<I9kInput v-model="email" label="Email" hint="We never share it." />
+<I9kInput v-model="email" label="Email" error="That address is not valid." />`,
+      state: { email: '' },
+    },
+  ],
+};

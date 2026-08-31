@@ -1,24 +1,24 @@
-# @ismail9k/9k-design-system
+# @9klabs/design
 
 Reusable Vue 3 primitives from [ismail9k.com](https://ismail9k.com/design-system/).
 
 ## Install
 
 ```bash
-npm install @ismail9k/9k-design-system
+npm install @9klabs/design
 ```
 
 Import the shared CSS once in your application entry point:
 
 ```ts
-import '@ismail9k/9k-design-system/style.css';
+import '@9klabs/design/style.css';
 ```
 
 Then use components directly:
 
 ```vue
 <script setup lang="ts">
-import { I9kButton, I9kLinkCard, I9kPageHeader } from '@ismail9k/9k-design-system';
+import { I9kButton, I9kLinkCard, I9kPageHeader } from '@9klabs/design';
 </script>
 ```
 
@@ -57,7 +57,7 @@ The package is framework-agnostic within Vue 3. `I9kButton` uses a normal anchor
 - `I9kSocialLinks`
 - `I9kThemeSwitcher`
 - `I9kToast`
-- design tokens and primitive CSS via `@ismail9k/9k-design-system/style.css`
+- design tokens and primitive CSS via `@9klabs/design/style.css`
 
 ## Component sizes and styles
 
@@ -102,7 +102,7 @@ import {
   I9kPanel,
   I9kStat,
   I9kText,
-} from '@ismail9k/9k-design-system';
+} from '@9klabs/design';
 </script>
 
 <template>
@@ -143,7 +143,7 @@ import {
   I9kRadioGroup,
   I9kSelect,
   I9kTextarea,
-} from '@ismail9k/9k-design-system';
+} from '@9klabs/design';
 
 const email = ref('');
 const details = ref('');
@@ -198,7 +198,7 @@ contract.
 The package ships the ismail9k brand fonts through its CSS entry point, so consumers only need:
 
 ```ts
-import '@ismail9k/9k-design-system/style.css';
+import '@9klabs/design/style.css';
 ```
 
 - **English UI and display:** IBM Plex Sans, exposed as `--font-sans`.

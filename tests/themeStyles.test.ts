@@ -12,15 +12,8 @@ function hslLightnessToRgb(lightness: number) {
 
 function relativeLuminance(rgb: readonly number[]) {
   return rgb
-    .map((channel) =>
-      channel <= 0.04045
-        ? channel / 12.92
-        : ((channel + 0.055) / 1.055) ** 2.4,
-    )
-    .reduce(
-      (sum, channel, index) => sum + channel * [0.2126, 0.7152, 0.0722][index]!,
-      0,
-    );
+    .map((channel) => (channel <= 0.04045 ? channel / 12.92 : ((channel + 0.055) / 1.055) ** 2.4))
+    .reduce((sum, channel, index) => sum + channel * [0.2126, 0.7152, 0.0722][index]!, 0);
 }
 
 function contrastRatio(first: readonly number[], second: readonly number[]) {

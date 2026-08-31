@@ -16,7 +16,7 @@ The current projects using this design system are `9k.school` and `ismail9k.com`
 ### Two style systems, one package
 
 The package ships **one global stylesheet** (`src/styles/index.css`, exported as
-`@ismail9k/9k-design-system/style.css`) and **per-component scoped CSS** compiled into the SFCs.
+`@9klabs/design/style.css`) and **per-component scoped CSS** compiled into the SFCs.
 The split is deliberate and load-bearing:
 
 - The global stylesheet supplies fonts, design tokens, theme application, branded element
@@ -84,6 +84,31 @@ plans behind this work live in `docs/superpowers/`.
 - `I9kIcon` renders from the local `src/icons/paths.json` set; entries are either a path string or
   `{ viewBox, path }`. It is `aria-hidden` unless given a `title` or `desc`. Add icons to that JSON
   rather than inlining SVG in components.
+
+## Component showcase
+
+`showcase/` is an agent-friendly, server-rendered page that documents each public component: a
+summary, a copy-paste-ready agent prompt, gotchas, live demos, and a props/emits/slots table
+extracted from the component's own source. `npm run showcase` serves it in dev; `npm run
+build:showcase` server-renders it to static HTML in `showcase-dist/` and also emits
+`components.json` and `llms.txt` there for machine consumption. `npm run check` runs
+`build:showcase` as part of its full pipeline.
+
+The showcase is hand-authored per component, not fully automatic: every component exported from
+`src/index.ts` needs a matching entry in `showcase/registry/<Name>.ts` (summary, agent prompt,
+gotchas, demos), and `tests/showcaseRegistry.test.ts` enforces this — it fails whenever an exported
+component has no registry entry. Adding a component to `src/index.ts` therefore always requires
+adding its showcase entry in the same change; do not assume the showcase covers a component just
+because the component itself exists — check the registry, or run the test, rather than trusting a
+list here that would go stale.
+
+The showcase deploys to Cloudflare Pages via `.github/workflows/showcase.yml`, this repository's
+first CI workflow: the `build` job (test, format, lint, typecheck, library build, Storybook build,
+showcase build) runs on every push and pull request, and the `deploy` job additionally runs on
+pushes to `main` and publishes `showcase-dist/` with `wrangler.jsonc`. Deploying requires a
+Cloudflare Pages project named `9k-design-system` and two repository secrets,
+`CLOUDFLARE_API_TOKEN` and `CLOUDFLARE_ACCOUNT_ID`. Until both exist, the `deploy` job fails while
+the `build` job still passes.
 
 ## Build, Test, and Development Commands
 
