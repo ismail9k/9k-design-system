@@ -66,7 +66,7 @@ const stagedDemos = computed(() =>
 
 .showcase-specimen h4 {
   margin: 0 0 var(--spacing-3);
-  font-size: 0.875rem;
+  font-size: var(--text-size-1);
   color: var(--text-color-light);
 }
 

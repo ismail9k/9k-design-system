@@ -39,7 +39,7 @@ const copy = async () => {
 
 .showcase-prompt__head h4 {
   margin: 0;
-  font-size: 0.875rem;
+  font-size: var(--text-size-1);
 }
 
 .showcase-prompt__body {

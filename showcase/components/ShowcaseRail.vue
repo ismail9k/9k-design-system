@@ -29,7 +29,7 @@ ul {
 }
 
 a {
-  font-size: 0.875rem;
+  font-size: var(--text-size-1);
   color: var(--text-color-light);
   text-decoration: none;
 }

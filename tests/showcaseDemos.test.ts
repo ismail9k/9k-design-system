@@ -3,6 +3,7 @@ import { resolve } from 'node:path';
 import { mount } from '@vue/test-utils';
 import { beforeAll, describe, expect, it, vi } from 'vitest';
 
+import { I9kBadge } from '../src';
 import { extractComponent } from '../showcase/extract/props';
 import { compileDemo } from '../showcase/components/compileDemo';
 import { entries } from '../showcase/registry';
@@ -32,7 +33,7 @@ describe('showcase demo compilation', () => {
   it('renders a demo from its own code string', () => {
     const wrapper = mount(compileDemo({ label: 'x', code: '<I9kBadge>Live</I9kBadge>' }));
     expect(wrapper.text()).toContain('Live');
-    expect(wrapper.find('.i9k-badge').exists()).toBe(true);
+    expect(wrapper.findComponent(I9kBadge).exists()).toBe(true);
   });
 
   it('binds a demo state object so v-model code renders', () => {

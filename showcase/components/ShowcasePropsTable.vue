@@ -81,7 +81,7 @@ defineProps<{ propRows: ExtractedProp[]; emitRows: ExtractedEmit[]; slotNames: s
 table {
   width: 100%;
   border-collapse: collapse;
-  font-size: 0.875rem;
+  font-size: var(--text-size-1);
 }
 
 caption {
