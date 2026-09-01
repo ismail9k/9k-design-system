@@ -1,5 +1,9 @@
 <script setup lang="ts">
 import { computed } from 'vue';
+
+import type { I9kIconName } from '../types/icons';
+import I9kIcon from './I9kIcon.vue';
+
 const props = withDefaults(
   defineProps<{
     modelValue?: boolean;
@@ -11,105 +15,78 @@ const props = withDefaults(
 
 const emit = defineEmits<{ 'update:modelValue': [value: boolean] }>();
 const toggleLabel = computed(() => (props.modelValue ? props.lightLabel : props.darkLabel));
+// The glyph names the theme the button switches to, matching the label: a moon
+// while the page is light, a sun while it is dark.
+const icon = computed<I9kIconName>(() => (props.modelValue ? 'sun' : 'moon'));
 </script>
 
 <template>
   <button
-    class="theme-switcher"
+    class="theme-switcher i9k-theme-switcher"
     :class="{ 'is-dark': modelValue }"
     type="button"
     :aria-label="toggleLabel"
     :aria-pressed="modelValue"
     @click="emit('update:modelValue', !modelValue)"
   >
-    <span class="theme-switcher__thumb" aria-hidden="true">
-      <svg class="theme-switcher__icon theme-switcher__icon--sun" viewBox="0 0 20 20">
-        <circle cx="10" cy="10" r="3.25" />
-        <path
-          d="M10 1.5v2M10 16.5v2M1.5 10h2M16.5 10h2M4 4l1.4 1.4M14.6 14.6L16 16M16 4l-1.4 1.4M5.4 14.6L4 16"
-        />
-      </svg>
-      <svg class="theme-switcher__icon theme-switcher__icon--moon" viewBox="0 0 20 20">
-        <path d="M16.8 12.5A7 7 0 0 1 7.5 3.2a7 7 0 1 0 9.3 9.3Z" />
-      </svg>
-    </span>
+    <Transition name="i9k-theme-switcher-icon" mode="out-in">
+      <I9kIcon :key="icon" :name="icon" size="1.1rem" />
+    </Transition>
   </button>
 </template>
 
 <style scoped>
-.theme-switcher {
-  position: relative;
-  display: block;
-  width: 44px;
-  height: 26px;
+.i9k-theme-switcher {
+  --i9k-theme-switcher-height: var(--control-height-sm);
+
+  display: inline-flex;
+  width: var(--i9k-theme-switcher-height);
+  height: var(--i9k-theme-switcher-height);
+  align-items: center;
+  justify-content: center;
   padding: 0;
   border: 1px solid var(--border-color);
-  border-radius: var(--radius-pill);
+  border-radius: var(--radius-md);
+  appearance: none;
   background: var(--glass-bg);
-  color: var(--dark-color);
+  color: var(--theme-text-color);
   cursor: pointer;
-  transition:
-    border-color 0.2s ease,
-    background-color 0.2s ease;
+  transition: var(--transition);
 }
-.theme-switcher:hover {
-  border-color: var(--primary-text-color);
+
+.i9k-theme-switcher:hover {
+  border-color: var(--primary-color);
+  color: var(--primary-text-color);
 }
-.theme-switcher:focus-visible {
+
+.i9k-theme-switcher:focus-visible {
   outline: 2px solid var(--primary-text-color);
-  outline-offset: 3px;
+  outline-offset: 2px;
 }
-.theme-switcher__thumb {
-  position: absolute;
-  top: 2px;
-  inset-inline-start: 2px;
-  display: grid;
-  width: 20px;
-  height: 20px;
-  place-items: center;
-  border-radius: var(--radius-circle);
-  background: var(--primary-color);
-  color: var(--on-primary-color);
-  box-shadow: var(--shadow-sm);
-  transition: transform 0.25s ease;
-}
-.theme-switcher.is-dark .theme-switcher__thumb {
-  transform: translateX(18px);
-}
-[dir='rtl'] .theme-switcher.is-dark .theme-switcher__thumb {
-  transform: translateX(-18px);
-}
-.theme-switcher__icon {
-  position: absolute;
-  width: 13px;
-  height: 13px;
-  fill: none;
-  stroke: currentColor;
-  stroke-width: 1.75;
-  stroke-linecap: round;
-  stroke-linejoin: round;
+
+/* The two glyphs never coexist, so the cross-fade is a rotate-and-scale swap
+   rather than the opacity stack the sliding-thumb version used. */
+.i9k-theme-switcher-icon-enter-active,
+.i9k-theme-switcher-icon-leave-active {
   transition:
-    opacity 0.2s ease,
-    transform 0.25s ease;
+    opacity 0.15s ease,
+    transform 0.15s ease;
 }
-.theme-switcher__icon--moon {
-  fill: currentColor;
-  stroke: none;
+
+.i9k-theme-switcher-icon-enter-from {
   opacity: 0;
-  transform: rotate(-25deg) scale(0.75);
+  transform: rotate(-45deg) scale(0.7);
 }
-.theme-switcher.is-dark .theme-switcher__icon--sun {
+
+.i9k-theme-switcher-icon-leave-to {
   opacity: 0;
-  transform: rotate(45deg) scale(0.75);
+  transform: rotate(45deg) scale(0.7);
 }
-.theme-switcher.is-dark .theme-switcher__icon--moon {
-  opacity: 1;
-  transform: rotate(0) scale(1);
-}
+
 @media (prefers-reduced-motion: reduce) {
-  .theme-switcher,
-  .theme-switcher__thumb,
-  .theme-switcher__icon {
+  .i9k-theme-switcher,
+  .i9k-theme-switcher-icon-enter-active,
+  .i9k-theme-switcher-icon-leave-active {
     transition: none;
   }
 }
