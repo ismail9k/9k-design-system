@@ -13,13 +13,17 @@ const props = withDefaults(
     brandLabel?: string;
     compactAt?: number;
     expandAt?: number;
+    linkComponent?: string | object | null;
   }>(),
-  { brandHref: '/', brandLabel: 'Home', compactAt: 72, expandAt: 24 },
+  { brandHref: '/', brandLabel: 'Home', compactAt: 72, expandAt: 24, linkComponent: null },
 );
 defineEmits<{ navigate: [link: I9kNavigationLink, event: MouseEvent] }>();
 const isScrolled = ref(false);
 const isCompact = ref(false);
 const brandHref = computed(() => props.brandHref);
+// Matches I9kLanguageSwitcher: without a link component the header stays plain
+// anchors, so a router-less consumer needs no extra prop.
+const tag = computed(() => props.linkComponent ?? 'a');
 const handleScroll = () => {
   const offset = window.scrollY;
   isScrolled.value = offset > 0;
@@ -35,21 +39,28 @@ onUnmounted(() => window.removeEventListener('scroll', handleScroll));
 <template>
   <header class="navigation" :class="{ 'is-scrolled': isScrolled }">
     <nav class="navigation__inner" :aria-label="brandLabel">
-      <a class="navigation__brand" :href="brandHref" :aria-label="brandLabel"
+      <component
+        :is="tag"
+        class="navigation__brand"
+        :to="linkComponent ? brandHref : undefined"
+        :href="linkComponent ? undefined : brandHref"
+        :aria-label="brandLabel"
         ><slot name="brand" :compact="isCompact"
-      /></a>
+      /></component>
       <div class="navigation__end">
         <ul class="navigation__menu">
           <li v-for="link in links" :key="link.id">
-            <a
+            <component
+              :is="tag"
               class="navigation__link"
-              :href="link.href"
+              :to="linkComponent ? link.href : undefined"
+              :href="linkComponent ? undefined : link.href"
               @click="$emit('navigate', link, $event)"
-              >{{ link.label }}</a
+              >{{ link.label }}</component
             >
           </li>
         </ul>
-        <div class="navigation__actions"><slot name="actions" /></div>
+        <div class="navigation__actions"><slot name="actions" :compact="isCompact" /></div>
       </div>
     </nav>
   </header>
@@ -106,6 +117,14 @@ onUnmounted(() => window.removeEventListener('scroll', handleScroll));
 }
 .navigation__link:hover,
 .navigation__link:focus-visible {
+  color: var(--primary-text-color);
+}
+/* A router link marks its own active route: vue-router adds router-link-active
+   for the whole branch and aria-current="page" only on an exact match, so the
+   header highlights a section while a nested page inside it is open. Plain
+   anchors match neither and are unaffected. */
+.navigation__link.router-link-active,
+.navigation__link[aria-current='page'] {
   color: var(--primary-text-color);
 }
 @media (max-width: 768px) {
