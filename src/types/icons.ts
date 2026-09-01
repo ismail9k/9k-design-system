@@ -17,6 +17,9 @@ export const I9K_ICON_NAMES = [
   'x',
   '9klabs',
   'linktree',
+  'sun',
+  'moon',
+  'translate',
 ] as const;
 
 export type I9kIconName = (typeof I9K_ICON_NAMES)[number];
