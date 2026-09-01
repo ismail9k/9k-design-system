@@ -2,10 +2,15 @@
  * Canonical origin for the published showcase.
  *
  * `wrangler.jsonc` deploys this site to the Cloudflare Pages project
- * `9k-design-system`, whose default hostname is the one below. No custom domain
- * is configured yet — when one lands, change this constant and nothing else:
- * `sitemap.xml` is generated from it, and `tests/showcaseSitemap.test.ts` fails
- * if `showcase/public/robots.txt` still advertises a different one.
+ * `9k-design-system`, which serves it on the custom domain below rather than on
+ * its default `*.pages.dev` hostname.
+ *
+ * This is the only place the origin is written in code. Change it here and
+ * nothing else: `sitemap.xml` is generated from it, and the two static files
+ * that cannot import it are held in step by tests. `showcaseSitemap.test.ts`
+ * checks the `Sitemap:` line in `showcase/public/robots.txt`, and
+ * `showcaseLinkHeaders.test.ts` checks the `rel="canonical"` target in
+ * `showcase/public/_headers`.
  *
  * No trailing slash; every entry in SITE_PAGES supplies its own leading one.
  */

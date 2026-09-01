@@ -7,3 +7,5 @@ storybook-static/
 .playwright-mcp/
 showcase-dist/
 showcase/.ssr/
+# Local state from `wrangler pages dev`, the way to verify showcase/public/_headers.
+.wrangler/
