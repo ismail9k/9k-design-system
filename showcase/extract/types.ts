@@ -17,3 +17,27 @@ export interface ExtractedComponent {
   slots: string[];
   referencedTypes: Record<string, string>;
 }
+
+export interface ColorValue {
+  /** The declaration exactly as authored in tokens.css. */
+  value: string;
+  /** The same color normalized to space-separated `hsl()`. */
+  hsl: string;
+  /** Uppercase `#RRGGBB`, or `#RRGGBBAA` when the token carries an alpha channel. */
+  hex: string;
+}
+
+export interface BrandColorToken extends ColorValue {
+  name: string;
+}
+
+export interface ThemeColorToken {
+  name: string;
+  light: ColorValue | null;
+  dark: ColorValue | null;
+}
+
+export interface ColorTokens {
+  brand: BrandColorToken[];
+  theme: ThemeColorToken[];
+}

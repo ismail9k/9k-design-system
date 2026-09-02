@@ -4,11 +4,15 @@ import { join, resolve } from 'node:path';
 import type { Plugin } from 'vite';
 
 import { extractComponent } from './extract/props';
+import { extractColorTokens } from './extract/tokens';
 
 const VIRTUAL_ID = 'virtual:showcase-data';
 const RESOLVED_ID = '\0' + VIRTUAL_ID;
 
-export const showcaseData = (componentsDir = resolve('src/components')): Plugin => ({
+export const showcaseData = (
+  componentsDir = resolve('src/components'),
+  tokensFile = resolve('src/styles/tokens.css'),
+): Plugin => ({
   name: 'showcase-data',
   resolveId: (id) => (id === VIRTUAL_ID ? RESOLVED_ID : null),
   load(id) {
@@ -16,10 +20,15 @@ export const showcaseData = (componentsDir = resolve('src/components')): Plugin 
     const extracted = readdirSync(componentsDir)
       .filter((file) => file.endsWith('.vue'))
       .map((file) => extractComponent(join(componentsDir, file)));
-    return `export const extracted = ${JSON.stringify(extracted)};`;
+    const colorTokens = extractColorTokens(tokensFile);
+    return [
+      `export const extracted = ${JSON.stringify(extracted)};`,
+      `export const colorTokens = ${JSON.stringify(colorTokens)};`,
+    ].join('\n');
   },
   handleHotUpdate({ file, server, modules }) {
-    if (!file.endsWith('.vue') || !file.startsWith(componentsDir)) return;
+    const isSource = file.endsWith('.vue') && file.startsWith(componentsDir);
+    if (!isSource && file !== tokensFile) return;
     const mod = server.moduleGraph.getModuleById(RESOLVED_ID);
     if (!mod) return;
     server.moduleGraph.invalidateModule(mod);
