@@ -156,6 +156,30 @@ describe('normalized styles', () => {
     expect(parentLayer(screenReaderOnly)).toBe('utilities');
   });
 
+  it('ships a configurable fading-grid background utility', () => {
+    const container = findRule(stylesheet, '.i9k-fading-grid', 'isolation', 'isolate');
+    const overlay = findRuleContainingSelector(
+      stylesheet,
+      '.i9k-fading-grid:',
+      'pointer-events',
+      'none',
+    );
+    const declarations = Object.fromEntries(
+      overlay?.nodes
+        .filter((node) => node.type === 'decl')
+        .map((declaration) => [declaration.prop, declaration.value]) ?? [],
+    );
+
+    expect(parentLayer(container)).toBe('utilities');
+    expect(parentLayer(overlay)).toBe('utilities');
+    expect(overlay?.selector).toMatch(/\.i9k-fading-grid:{1,2}before/);
+    expect(declarations['background-image']).toContain('var(--i9k-fading-grid-color)');
+    expect(declarations['background-size']).toBe(
+      'var(--i9k-fading-grid-size) var(--i9k-fading-grid-size)',
+    );
+    expect(declarations['mask-image']).toContain('var(--i9k-fading-grid-fade-end)');
+  });
+
   it('keeps Arabic display typography inside the fonts layer', () => {
     const arabicDisplay = findRuleContainingSelector(
       stylesheet,

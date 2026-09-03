@@ -80,6 +80,10 @@ Component appearance is scoped to each Vue SFC. The global stylesheet supplies f
 tokens, themes, element defaults, accessibility utilities, and temporary compatibility styles
 for the current `ismail9k.com` migration.
 
+Use `.i9k-fading-grid` for a decorative grid that fades toward the bottom. Override
+`--i9k-fading-grid-color`, `--i9k-fading-grid-size`, or `--i9k-fading-grid-fade-end` on the
+container when the defaults need to match a specific surface.
+
 Existing migrated components may still emit legacy classes during the website compatibility
 window. New surface and layout components emit only `i9k-` classes; all consumers should treat
 component props, slots, and `i9k-` classes as the supported contract.
