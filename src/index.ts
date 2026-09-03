@@ -12,6 +12,7 @@ export { default as I9kArticleHeader } from './components/I9kArticleHeader.vue';
 export { default as I9kAsciiEmoji } from './components/I9kAsciiEmoji.vue';
 export { default as I9kBlurredCircles } from './components/I9kBlurredCircles.vue';
 export { default as I9kBrandWordmark } from './components/I9kBrandWordmark.vue';
+export { default as I9kCollapsible } from './components/I9kCollapsible.vue';
 export { default as I9kFaqList } from './components/I9kFaqList.vue';
 export { default as I9kFooter } from './components/I9kFooter.vue';
 export { default as I9kGithubEmbed } from './components/I9kGithubEmbed.vue';
