@@ -5,7 +5,9 @@ import { I9kBlurredCirclesEntry } from './I9kBlurredCircles';
 import { I9kBrandWordmarkEntry } from './I9kBrandWordmark';
 import { I9kButtonEntry } from './I9kButton';
 import { I9kButtonGroupEntry } from './I9kButtonGroup';
+import { I9kCheckboxGroupEntry } from './I9kCheckboxGroup';
 import { I9kClusterEntry } from './I9kCluster';
+import { I9kCollapsibleEntry } from './I9kCollapsible';
 import { I9kFaqListEntry } from './I9kFaqList';
 import { I9kFieldEntry } from './I9kField';
 import { I9kFooterEntry } from './I9kFooter';
@@ -48,11 +50,13 @@ export const entries: ShowcaseEntry[] = [
   I9kLinkCardEntry,
   I9kTimelineCardEntry,
   I9kProfileCardEntry,
+  I9kCollapsibleEntry,
   I9kFaqListEntry,
   I9kGithubEmbedEntry,
   I9kIconEntry,
   I9kAsciiEmojiEntry,
   I9kFieldEntry,
+  I9kCheckboxGroupEntry,
   I9kInputEntry,
   I9kTextareaEntry,
   I9kSelectEntry,

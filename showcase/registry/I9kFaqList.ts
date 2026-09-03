@@ -4,7 +4,7 @@ export const I9kFaqListEntry: ShowcaseEntry = {
   name: 'I9kFaqList',
   section: 'content',
   summary:
-    'List of collapsible question/answer pairs built on native <details>/<summary>. Use it for an FAQ section without wiring any open/close state yourself.',
+    'List of collapsible question/answer pairs composed from I9kCollapsible. Use it for plain-text FAQ content without wiring open/close state.',
   agentPrompt: `Use I9kFaqList from @9klabs/design to render a list of collapsible FAQ entries.
 
 import { I9kFaqList } from '@9klabs/design';
@@ -19,7 +19,7 @@ Emits: none.
 
 Slots: none — question and answer are plain text per item, not slots.
 
-Behavior: open/close state is native browser <details> behavior — no Vue state is involved, and each item opens/closes independently with no "only one open at a time" accordion behavior.
+Behavior: each item is rendered through I9kCollapsible and retains independent native <details> state. Opening one item never closes another, and no Vue state wiring is required.
 
 IMPORTANT: both \`question\` and \`answer\` render as plain text — there is no way to pass markup or links into an item; keep answers to plain sentences.
 
