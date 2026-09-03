@@ -3,6 +3,9 @@ import { resolve } from 'node:path';
 import { mount } from '@vue/test-utils';
 import { beforeAll, describe, expect, it, vi } from 'vitest';
 
+import { createSSRApp } from 'vue';
+import { renderToString } from '@vue/server-renderer';
+
 import { I9kBadge } from '../src';
 import { extractComponent } from '../showcase/extract/props';
 import { compileDemo } from '../showcase/components/compileDemo';
@@ -59,6 +62,17 @@ describe('showcase demo compilation', () => {
     for (const component of components) {
       for (const demo of component.demos) {
         expect(() => mount(compileDemo(demo)), `${component.name} / ${demo.label}`).not.toThrow();
+      }
+    }
+  });
+
+  it('every registered demo server-renders without throwing', async () => {
+    for (const component of components) {
+      for (const demo of component.demos) {
+        await expect(
+          renderToString(createSSRApp(compileDemo(demo))),
+          `${component.name} / ${demo.label}`,
+        ).resolves.toContain('showcase-demo-stage');
       }
     }
   });

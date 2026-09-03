@@ -20,8 +20,10 @@ export default defineConfig({
   },
   ssr: {
     // Keep the SSR build on the same aliased entry, so prerender and hydration
-    // compile demos identically.
-    noExternal: ['vue'],
+    // compile demos identically. The renderer and runtime packages must be
+    // bundled with it; externalizing either side creates two Vue instances and
+    // runtime-compiled slots lose their active component context during SSR.
+    noExternal: ['vue', /^@vue\//],
   },
   build: {
     outDir: resolve(showcaseDir, '../showcase-dist'),
