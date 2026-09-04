@@ -197,7 +197,7 @@ const fieldsetAttrs = computed(() =>
   width: 42%;
   aspect-ratio: 1;
   border-radius: var(--radius-circle);
-  background: var(--dark-color);
+  background: var(--on-primary-color);
   content: '';
   transform: scale(0);
   transition: var(--transition);

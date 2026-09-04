@@ -87,6 +87,12 @@ function onToggle(event: Event) {
   transition: transform 200ms cubic-bezier(0.4, 0, 0.2, 1);
 }
 
+[dir="rtl"] .i9k-collapsible__indicator::before,
+[dir="rtl"] .i9k-collapsible__indicator::after {
+  inset-inline-start: auto;
+  inset-inline-end: 50%;
+}
+
 .i9k-collapsible__indicator::after {
   transform: translate(-50%, -50%) rotate(90deg);
 }

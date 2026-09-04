@@ -221,7 +221,7 @@ function updateOption(value: string, checked: boolean) {
 .i9k-checkbox-group__input:checked + .i9k-checkbox-group__mark {
   border-color: var(--primary-text-color);
   background: var(--primary-text-color);
-  color: var(--dark-color);
+  color: var(--on-primary-color);
 }
 
 .i9k-checkbox-group__input:focus-visible + .i9k-checkbox-group__mark {
