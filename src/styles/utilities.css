@@ -1,7 +1,7 @@
 /* Shared visual utilities. */
 
 .i9k-fading-grid {
-  --i9k-fading-grid-color: var(--border-color);
+  --i9k-fading-grid-color: color-mix(in srgb, var(--border-color) 25%, transparent);
   --i9k-fading-grid-size: 5rem;
   --i9k-fading-grid-fade-end: 40%;
   position: relative;
